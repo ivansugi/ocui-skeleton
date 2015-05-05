@@ -28,6 +28,8 @@ This project is meant to be the skeletal framework in which we create future UI 
 
 ### Editor setup
 
+This varies by each Editor or IDE so you will need to find the information for your editor on your own.
+
 * Install [EditorConfig plugin](http://editorconfig.org/#download)
 * Install [JSHint plugin](http://jshint.com/install/)
 * Install JSCS editor plugin (lookup yourself)
