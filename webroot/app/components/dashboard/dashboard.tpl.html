@@ -1,0 +1,21 @@
+<section gridster="dashboard.gridOptions">
+	<ul>
+		<li gridster-item="widget" ng-repeat="widget in dashboard.widgets">
+			<div class="panel panel-default md-whiteframe-z1">
+				<div class="panel-heading cursor-move">
+					<span class="panel-title">
+						<span class="fa {{widget.icon}}"></span>
+						{{widget.title}}
+					</span>
+					<div class="pull-right">
+						<button class="btn btn-xs btn-default" ng-click="dashboard.remove(widget)"><span class="fa fa-times"></span></button>
+					</div>
+				</div>
+				<div class="panel-body">
+					Test
+				</div>
+			</div>
+		</li>
+	</ul>
+</section>
+

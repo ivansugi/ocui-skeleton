@@ -1,0 +1,50 @@
+{
+  "name": "ocui",
+  "description": "OCUI",
+  "homepage": "https://github.com/openclinica/ocui",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "^1",
+    "angular-animate": "^1",
+    "angular-aria": "^1",
+    "angular-bootstrap": "^0",
+    "angular-busy": "^4",
+    "angular-cookies": "^1",
+    "angular-gridster": "^0",
+    "angular-loader": "^1",
+    "angular-loading-bar": "^0",
+    "angular-material": "^0",
+    "angular-messages": "^1",
+    "angular-resource": "^1",
+    "angular-route": "^1",
+    "angular-sanitize": "^1",
+    "angular-strap": "^2",
+    "angular-touch": "^1",
+    "angular-ui-grid": "^3",
+    "angular-ui-router": "^0",
+    "angularjs-toaster": "^0",
+    "animate.css": "^3",
+    "async": "^0",
+    "bootstrap": "^3",
+    "bootstrap-sass-official": "^3",
+    "es6-promise": "^2",
+    "fontawesome": "^4",
+    "howler": "^1",
+    "html5-desktop-notifications": "*",
+    "json3": "^3",
+    "lodash": "^2",
+    "modernizr": "^2",
+    "moment": "^2",
+    "ngstorage": "^0",
+    "numeraljs": "^1",
+    "open-sans-fontface": "^1"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1",
+    "angular-scenario": "^1"
+  },
+  "resolutions": {
+    "angular": "^1.3"
+  }
+}

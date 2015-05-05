@@ -1,0 +1,8 @@
+{
+	"preset": "google",
+	"validateLineBreaks": "LF",
+	"validateIndentation": "\t",
+	"excludeFiles": ["node_modules/**"],
+	"maximumLineLength": 132,
+	"requireParenthesesAroundIIFE": true
+}
