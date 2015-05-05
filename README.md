@@ -12,19 +12,19 @@ This project is meant to be the skeletal framework in which we create future UI 
 
 ## Prerequisites
 
-*  Install [Node](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
-*  Install [Ruby](https://www.ruby-lang.org/en/documentation/installation/)
-   This is only needed because there are no javascript versions of a SASS linter.
-*  Upgrade NPM
-   sudo npm install -g npm
-*  Install Bower
-   sudo npm install -g bower
-*  Install Gulp
-   sudo npm install -g gulp
-*  Install scss-lint
-   sudo gem install scss-lint
-*  Install browser-sync
-   sudo npm install -g browser-sync
+* Install [Node](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
+* Install [Ruby](https://www.ruby-lang.org/en/documentation/installation/)  
+  This is only needed because there are no javascript versions of a SASS linter.
+* Upgrade NPM  
+  sudo npm install -g npm
+* Install Bower  
+  sudo npm install -g bower
+* Install Gulp  
+  sudo npm install -g gulp
+* Install scss-lint  
+  sudo gem install scss-lint
+* Install browser-sync  
+  sudo npm install -g browser-sync
 
 ### Editor setup
 
