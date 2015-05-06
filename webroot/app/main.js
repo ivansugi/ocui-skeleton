@@ -2,7 +2,7 @@
 
 angular
 	.module('app.main', [])
-	.controller('MainController', function mainController($scope, $state, $modal, $log) {
+	.controller('MainController', function mainController($state, $modal, toaster) {
 		var vm = this;
 		vm.$state = $state;
 		vm.canFullscreen = Modernizr.fullscreen;
@@ -10,7 +10,6 @@ angular
 		vm.toggleSidenav = function toggleSidenav() {
 			vm.sidenavExpanded = !vm.sidenavExpanded;
 		};
-		/* jshint maxcomplexity:20 */
 		vm.toggleFullscreen = function toggleFullscreen() {
 			if (!document.fullscreenElement &&
 					!document.mozFullScreenElement &&
@@ -45,10 +44,5 @@ angular
 				resolve: {
 				}
 			});
-		};
-	})
-	.controller('ToasterController', function toasterController(toaster) {
-		this.pop = function pop() {
-			toaster.pop('success', 'Title', 'Text');
 		};
 	});

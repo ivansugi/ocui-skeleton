@@ -32,7 +32,7 @@ angular
 		$provide.decorator('$log', function $log($delegate, logHttpService) {
 			var logError = $delegate.error;
 			$delegate.error = function error(message) {
-				//console.log(message);
+				console.log(message);
 				logHttpService.postLog(message);
 			};
 			return $delegate;

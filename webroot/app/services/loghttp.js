@@ -5,7 +5,6 @@ angular
 	.factory('logHttpService', function logHttpService($window) {
 		return {
 			postLog: function postLog(message) {
-				console.log('inside postLog');
 				var xhr = new XMLHttpRequest();
 				xhr.open('POST', '/api/clientlogger', true);
 				xhr.setRequestHeader('content-type', 'application/json;charset=utf-8');
