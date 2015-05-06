@@ -2,7 +2,7 @@
 
 angular
 	.module('app.main', [])
-	.controller('MainController', ['$state', '$modal', function AppController($scope, $state, $modal) {
+	.controller('MainController', function mainController($scope, $state, $modal, $log) {
 		var vm = this;
 		vm.$state = $state;
 		vm.canFullscreen = Modernizr.fullscreen;
@@ -46,9 +46,9 @@ angular
 				}
 			});
 		};
-	}])
-	.controller('ToasterOven', ['toaster', function(toaster) {
+	})
+	.controller('ToasterController', function toasterController(toaster) {
 		this.pop = function pop() {
-			toaster.pop('success', 'Welcome');
+			toaster.pop('success', 'Title', 'Text');
 		};
-	}]);
+	});

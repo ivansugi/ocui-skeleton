@@ -11,6 +11,7 @@ angular
 		'ui.router',
 		'ui.bootstrap.tpls',
 		'ui.bootstrap.accordion',
+		'ui.bootstrap.dropdown',
 		'ui.bootstrap.modal',
 		'ui.bootstrap.rating',
 		'ui.grid',
@@ -27,16 +28,15 @@ angular
 		'app.component.dashboard',
 		'app.component.manage'
 	])
-	.config(['$provide', '$locationProvider', '$httpProvider', '$stateProvider', '$urlRouterProvider',
-			function config($provide, $locationProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
-		$provide.decorator('$log', ['$delegate', 'logHttpService', function $log($delegate, logHttpService) {
+	.config(function config($provide, $locationProvider, $httpProvider, $stateProvider, $urlRouterProvider) {
+		$provide.decorator('$log', function $log($delegate, logHttpService) {
 			var logError = $delegate.error;
 			$delegate.error = function error(message) {
-				logError(message);
+				//console.log(message);
 				logHttpService.postLog(message);
 			};
 			return $delegate;
-		}]);
+		});
 		$locationProvider.html5Mode(true);
 		$httpProvider.interceptors.push('httpInterceptor');
 		$urlRouterProvider.otherwise('/app/dashboard');
@@ -53,4 +53,4 @@ angular
 				controller: 'ManageController',
 				controllerAs: 'manage'
 			});
-	}]);
+	});

@@ -21,6 +21,7 @@ var jshint = require('gulp-jshint');
 var jscs = require('gulp-jscs');
 var mocha = require('gulp-mocha');
 var scsslint = require('gulp-scss-lint');
+var ngAnnotate = require('gulp-ng-annotate');
 var concat = require('gulp-concat');
 var merge = require('merge-stream');
 var uglify = require('gulp-uglify');
@@ -116,6 +117,7 @@ gulp.task('js-head-min', function jsHeadMin() {
 	return gulp.src(assets.jsHead, {base: './webroot/'})
 		.pipe(sourcemaps.init())
 		.pipe(concat('head.min.js', {newLine: ';\n'}))
+		.pipe(ngAnnotate())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('../maps'))
 		.pipe(gulp.dest(processedDest));

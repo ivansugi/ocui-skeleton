@@ -2,7 +2,6 @@
 
 angular
 	.module('app.component.manage', [])
-	.controller('ManageController', [function MySettingsController() {
+	.controller('ManageController', function manageController() {
 		var vm = this;
-		vm.mysettings = {};
-	}]);
+	});

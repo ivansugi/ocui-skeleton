@@ -2,7 +2,7 @@
 
 angular
 	.module('app.service.exceptionhandler', [])
-	.factory('$exceptionHandler', ['$log', function $exceptionHandler($log) {
+	.factory('$exceptionHandler', function $exceptionHandler($log) {
 		return function exceptionHandler(exception, cause) {
 			var lines = [
 				'number Code',
@@ -24,4 +24,4 @@ angular
 			.join('') + (cause ? 'Cause: ' + cause + '\n' : '');
 			$log.error(message);
 		};
-	}]);
+	});

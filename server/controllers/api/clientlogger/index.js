@@ -12,6 +12,6 @@ module.exports = {
 		console.error(chalk.blue('Dimensions:'), req.body.width + 'x' + req.body.height);
 		console.error(chalk.red(req.body.message));
 		console.error(chalk.gray('-------------------------------------------------------------------------------'));
-		res.send(200, 'OK');
+		res.status(200).send('OK');
 	}
 };

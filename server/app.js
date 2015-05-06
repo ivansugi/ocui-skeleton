@@ -2,6 +2,7 @@
 
 var express = require('express');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser')
 var errorhandler = require('errorhandler');
 var requestLogger = require('morgan');
 var compression = require('compression');
@@ -44,7 +45,8 @@ app.use(compression({
 app.use(express.static(path.join(__dirname, '../webroot')));
 
 app.use(cookieParser(cookieSecret));
-
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(passport.initialize());
 
 if (isNotProduction) {

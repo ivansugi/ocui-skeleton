@@ -2,18 +2,18 @@
 
 angular
 	.module('app.component.dashboard', ['gridster'])
-	.controller('DashboardController', [function DashboardController() {
+	.controller('DashboardController', function dashboardController() {
 		var vm = this;
-		vm.placeholder = function(element) {
+		vm.placeholder = function placeholder(element) {
 			return element.clone().addClass('placeholder');
 		};
-		vm.hint = function(element) {
+		vm.hint = function hint(element) {
 			return element.clone().addClass('hint').height(element.height()).width(element.width());
 		};
-		vm.change = function(element) {
+		vm.change = function change(element) {
 			console.log(element);
 		};
-		vm.remove = function(widget) {
+		vm.remove = function remove(widget) {
 			vm.widgets.splice(vm.widgets.indexOf(widget), 1);
 		};
 		vm.gridOptions = {
@@ -72,4 +72,4 @@ angular
 				title: 'Study area chart'
 			}
 		];
-	}]);
+	});

@@ -317,6 +317,9 @@ body {
 						.accordion-toggle:hover {
 							background-color: $sidenav-menu-focus-background;
 						}
+						.accordion-toggle:focus {
+							outline: 0;
+						}
 					}
 				}
 				.panel-body {
