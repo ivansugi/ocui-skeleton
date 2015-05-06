@@ -31,7 +31,7 @@ This project is meant to be the skeletal framework in which we create future UI 
   ```
   sudo gem install scss-lint
   ```
-* Install [browser-sync](http://www.browsersync.io/)  
+* Install [BrowserSync](http://www.browsersync.io/)  
   ```
   sudo npm install -g browser-sync
   ```
