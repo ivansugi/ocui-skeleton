@@ -16,17 +16,27 @@ This project is meant to be the skeletal framework in which we create future UI 
 * Install [Ruby](https://www.ruby-lang.org/en/documentation/installation/)  
   This is only needed because there are no javascript versions of a SASS linter.
 * Upgrade NPM  
+  ```
   sudo npm install -g npm
+  ```
 * Install Bower  
+  ```
   sudo npm install -g bower
+  ```
 * Install Gulp  
+  ```
   sudo npm install -g gulp
+  ```
 * Install scss-lint  
+  ```
   sudo gem install scss-lint
+  ```
 * Install browser-sync  
+  ```
   sudo npm install -g browser-sync
+  ```
 
-### Editor setup
+### Recommended editor setup
 
 This varies by each Editor or IDE so you will need to find the information for your editor on your own.
 
@@ -49,15 +59,13 @@ npm install
 bower install
 ```
 
-## Run the application
+## Run application
 
 ### Run in developement mode
 
 ```
 gulp
 ```
-
-Use browersync link (port 8000) with your ip address so that the brower is automatically refreshed when files change.
 
 ### Run in production mode
 
@@ -75,11 +83,11 @@ node ./server/app.js
     controllers/     express controllers
       api/           express-resource-new rest end points
     app.js           this is the actual node server
-  webroot/           the node server serves this directory as the webserver root or public directory
+  webroot/           webserver root or public directory
     app/             angular files
     dist/            automatically created files
     vendor/          bower dependencies
-  websrc/            source files that are used to generate public files in /webroot/dist
+  websrc/            source files that are used to generate files in /webroot/dist
 ```
 ## Browser support
 
