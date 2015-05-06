@@ -15,23 +15,23 @@ This project is meant to be the skeletal framework in which we create future UI 
 * Install [Node](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
 * Install [Ruby](https://www.ruby-lang.org/en/documentation/installation/)  
   This is only needed because there are no javascript versions of a SASS linter.
-* Upgrade NPM  
+* Upgrade [NPM](https://www.npmjs.com/)  
   ```
   sudo npm install -g npm
   ```
-* Install Bower  
+* Install [Bower](http://bower.io/)  
   ```
   sudo npm install -g bower
   ```
-* Install Gulp  
+* Install [Gulp](http://gulpjs.com/)  
   ```
   sudo npm install -g gulp
   ```
-* Install scss-lint  
+* Install [scss-lint](https://github.com/brigade/scss-lint)  
   ```
   sudo gem install scss-lint
   ```
-* Install browser-sync  
+* Install [browser-sync](http://www.browsersync.io/)  
   ```
   sudo npm install -g browser-sync
   ```
