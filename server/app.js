@@ -15,37 +15,41 @@ var app = module.exports = express();
 var server = require('http').createServer(app);
 
 var nconf = require('nconf');
+var homedir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+var env = process.env.NODE_ENV || 'development';
+var appName = 'ocui';
+var isNotProduction = (env === 'development' || env === 'local');
 nconf
 	.overrides()
 	.env()
 	.argv()
-	.file({file: '../config.json'})
-	.defaults({});
-
-var port = process.env.PORT || 3000;
-var env = process.env.NODE_ENV || 'development';
-var isNotProduction = (env === 'development' || env === 'local' || env === 'staging');
-var compressionThreshold = nconf.get('compressionThreshold') || 512;
-var cookieSecret = nconf.get('cookieSecret') || 'CookieSecret';
-var siteProtocol = nconf.get('siteProtocol') || 'http';
-var siteHost = nconf.get('siteHost') || 'localhost';
+	.file({file: homedir + '/.config' + '/' + appName + '/' + env + 'ConfigOverrides.json'})
+	.file({file: '../config/' + env + 'Config.json'})
+	.defaults({
+		PORT: 3000,
+		siteProtocol: 'http',
+		siteHost: 'localhost',
+		compressionThreshold: 512,
+		cookieSecret: 'CookieSecret'
+	});
+console.log('Current config:', nconf.get());
 
 /**
- * Config
+ * Node config
  */
-app.set('port', port);
+app.set('port', nconf.get('PORT'));
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 app.set('controllers', __dirname + '/controllers');
 
 app.use(compression({
-	threshold: compressionThreshold
+	threshold: nconf.get('compressionThreshold')
 }));
 
 app.use(express.static(path.join(__dirname, '../webroot')));
 
-app.use(cookieParser(cookieSecret));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser(nconf.get('cookieSecret')));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
@@ -80,15 +84,19 @@ app.resource('api/clientlogger');
  * Resources requiring authentication
  */
 
+/**
+ * File not found
+ */
+
 app.use(function(req, res) {
-	res.status(404).send('Not Found');
+	res.status(404).send('<html><head><title>Page Not Found</title><style>html{color:#777;font-family:sans-serif;}body{margin:2em;}</style></head><body><div class="container"><h1>Not found</h1><p>Sorry, but the page you were trying to view does not exist.</p></div></body></html>');
 });
 
 /**
  * Server
  */
 server.listen(app.get('port'), function listen() {
-	console.log('Server is listening on port %d in %s mode:', server.address().port, app.settings.env);
-	console.log(siteProtocol + '://' + siteHost + ':' + server.address().port);
+	console.log('Server is listening on port %d in %s mode:', nconf.get('PORT'), app.settings.env);
+	console.log(nconf.get('siteProtocol') + '://' + nconf.get('siteHost') + ':' + nconf.get('PORT'));
 	console.log('-------------------------------------------------------------------------------');
 });
