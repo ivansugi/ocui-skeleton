@@ -139,18 +139,6 @@ gulp.task('js-body-min', function jsBodyMin() {
 });
 
 /**
- * font
- * Move fonts to location expected when minifing/concating all vendor css
- */
-gulp.task('fonts', function fonts() {
-	var fontawesome = gulp.src('./webroot/vendor/fontawesome/fonts/**/*')
-		.pipe(gulp.dest(indexDest + '/fonts/'));
-	var opensans = gulp.src('./webroot/vendor/open-sans-fontface/fonts/**/*')
-		.pipe(gulp.dest(processedDest + '/fonts/'));
-	return merge(fontawesome, opensans);
-});
-
-/**
  * css-process
  * Creates css from sass file
  * Add css browser prefixed declarations for the last 2 major releasees of a browser that has over 5% of the global market share
@@ -162,6 +150,18 @@ gulp.task('css-process', function cssProcess() {
 		.pipe(prefix('last 2 versions', '> 5%'))
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(processedDest));
+});
+
+/**
+ * font
+ * Move fonts to location expected when minifing/concating all vendor css
+ */
+gulp.task('fonts', function fonts() {
+	var fontawesome = gulp.src('./webroot/vendor/fontawesome/fonts/**/*')
+		.pipe(gulp.dest(indexDest + '/fonts/'));
+	var opensans = gulp.src('./webroot/vendor/open-sans-fontface/fonts/**/*')
+		.pipe(gulp.dest(processedDest + '/fonts/'));
+	return merge(fontawesome, opensans);
 });
 
 /**
@@ -224,18 +224,11 @@ gulp.task('index-prod', ['js-head-min', 'js-body-min', 'css-min'], function inde
  * watch
  * When a certain file type changes, run the appropriate task
  */
-
 gulp.task('watch', function watch() {
 	gulp.watch('./websrc/**/*.scss', ['css-lint', 'css-process', browserReload]);
 	gulp.watch(assets.jsBodyCustom, ['js-lint', browserReload]);
 	gulp.watch(['./websrc/index.html', './websrc/assets.json'], ['index', browserReload]);
 	gulp.watch('./webroot/app/**/*.html', [browserReload]);
-	gulp.watch('./gulpfile.js', ['restart-gulp']);
-});
-
-gulp.task('restart-gulp', function() {
-	gutil.log('Restarting gulp...');
-	process.exit(0);
 });
 
 /**
@@ -248,7 +241,7 @@ gulp.task('server', ['css-process', 'index', 'watch'], function server(cb) {
 		script: 'server/app.js',
 		delay: 1,
 		env: {'NODE_ENV': process.env.NODE_ENV || 'development'},
-		watch: 'server',
+		watch: './server/**/*.*',
 		ext: 'js json'
 	})
 	.on('start', function onStart() {
