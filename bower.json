@@ -21,7 +21,6 @@
     "angular-sanitize": "^1",
     "angular-strap": "^2",
     "angular-touch": "^1",
-    "angular-ui-grid": "^3",
     "angular-ui-router": "^0",
     "angularjs-toaster": "^0",
     "animate.css": "^3",
@@ -38,6 +37,7 @@
     "moment": "^2",
     "ngstorage": "^0",
     "numeraljs": "^1",
+    "tr-ng-grid": "^3",
     "open-sans-fontface": "^1"
   },
   "devDependencies": {

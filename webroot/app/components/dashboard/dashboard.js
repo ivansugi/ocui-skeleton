@@ -31,45 +31,79 @@ angular
 			}
 		};
 		vm.widgets = [
+			// {
+			// 	row: 1,
+			// 	col: 0,
+			// 	sizeX: 2,
+			// 	sizeY: 1,
+			// 	icon: 'fa-bar-chart',
+			// 	title: 'Study bar chart'
+			// },
+			// {
+			// 	row: 1,
+			// 	col: 3,
+			// 	sizeX: 1,
+			// 	sizeY: 1,
+			// 	icon: 'fa-pie-chart',
+			// 	title: 'Study pie chart'
+			// },
+			// {
+			// 	row: 2,
+			// 	col: 0,
+			// 	sizeX: 2,
+			// 	sizeY: 1,
+			// 	icon: 'fa-line-chart',
+			// 	title: 'Study line chart'
+			// },
+			// {
+			// 	row: 2,
+			// 	col: 3,
+			// 	sizeX: 1,
+			// 	sizeY: 1,
+			// 	icon: 'fa-area-chart',
+			// 	title: 'Study area chart'
+			// }
+		];
+		vm.mockData = [
 			{
-				row: 0,
-				col: 0,
-				sizeX: 3,
-				sizeY: 1,
-				icon: 'fa-table',
-				title: 'Study table'
+				'Flag': false,
+				'ID Number': '14C-0005',
+				'Time': '2015-03-03 18:15',
+				'Category': 'Pain Medication',
+				'Concern Level': 8,
+				'Status': '1-New'
 			},
 			{
-				row: 1,
-				col: 0,
-				sizeX: 2,
-				sizeY: 1,
-				icon: 'fa-bar-chart',
-				title: 'Study bar chart'
+				'Flag': false,
+				'ID Number': '14C-0004',
+				'Time': '2015-02-03 14:15',
+				'Category': 'Communication',
+				'Concern Level': 7,
+				'Status': '2-In-Progress'
 			},
 			{
-				row: 1,
-				col: 3,
-				sizeX: 1,
-				sizeY: 1,
-				icon: 'fa-pie-chart',
-				title: 'Study pie chart'
+				'Flag': false,
+				'ID Number': '14C-0003',
+				'Time': '2015-02-02 21:15',
+				'Category': 'Infection',
+				'Concern Level': 6,
+				'Status': '2-In-Progress'
 			},
 			{
-				row: 2,
-				col: 0,
-				sizeX: 2,
-				sizeY: 1,
-				icon: 'fa-line-chart',
-				title: 'Study line chart'
+				'Flag': false,
+				'ID Number': '14C-0002',
+				'Time': '2015-02-02 19:15',
+				'Category': 'Plan of Care',
+				'Concern Level': 9,
+				'Status': '2-In-Progress'
 			},
 			{
-				row: 2,
-				col: 3,
-				sizeX: 1,
-				sizeY: 1,
-				icon: 'fa-area-chart',
-				title: 'Study area chart'
-			}
+				'Flag': false,
+				'ID Number': '14C-0001',
+				'Time': '2015-02-01 13:15',
+				'Category': 'Pain',
+				'Concern Level': 5,
+				'Status': '3-Closed'
+			},
 		];
 	});
