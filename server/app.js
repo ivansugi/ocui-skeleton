@@ -89,7 +89,7 @@ app.resource('api/clientlogger');
  */
 
 app.use(function(req, res) {
-	res.status(404).send('<html><head><title>Page Not Found</title><style>html{color:#777;font-family:sans-serif;}body{margin:2em;}</style></head><body><div class="container"><h1>Not found</h1><p>Sorry, but the page you were trying to view does not exist.</p></div></body></html>');
+	res.status(404).sendFile(path.join(__dirname, '../webroot/404.html'));
 });
 
 /**
