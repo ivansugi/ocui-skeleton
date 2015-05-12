@@ -49,7 +49,8 @@
         "./webroot/vendor/angular-gridster/src/angular-gridster.js",
         "./webroot/vendor/d3/d3.js",
         "./webroot/vendor/nvd3/nv.d3.js",
-        "./webroot/vendor/angular-nvd3/dist/angular-nvd3.js"
+        "./webroot/vendor/angular-nvd3/dist/angular-nvd3.js",
+        "./webroot/vendor/angular-jwt/dist/angular-jwt.js"
     ],
     "jsBodyCustom": [
         "./webroot/app/app.js",
@@ -59,7 +60,8 @@
         "./webroot/app/main.js",
         "./webroot/app/dialogs/content.js",
         "./webroot/app/components/dashboard/dashboard.js",
-        "./webroot/app/components/manage/manage.js"
+        "./webroot/app/components/manage/manage.js",
+        "./webroot/app/components/login/login.js"
     ],
     "cssCustomProcessed": "./webroot/dist/main.css",
     "cssProcessed": "./webroot/dist/all.min.css",

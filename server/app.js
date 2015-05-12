@@ -6,6 +6,7 @@ var bodyParser = require('body-parser')
 var errorhandler = require('errorhandler');
 var requestLogger = require('morgan');
 var compression = require('compression');
+var jwt = require('express-jwt');
 
 var path = require('path');
 var passport = require('passport');

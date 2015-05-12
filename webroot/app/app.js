@@ -26,13 +26,14 @@ angular
 		'app.main',
 		'app.dialog.content',
 		'app.component.dashboard',
-		'app.component.manage'
+		'app.component.manage',
+		'app.component.login'
 	])
 	.config(function config($provide, $locationProvider, $httpProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider) {
 		$provide.decorator('$log', function $log($delegate, logHttpService) {
 			var logError = $delegate.error;
 			$delegate.error = function error(message) {
-				console.log(message);
+				console.error(message);
 				logHttpService.postLog(message);
 			};
 			return $delegate;
@@ -40,19 +41,6 @@ angular
 		$locationProvider.html5Mode(true);
 		$httpProvider.interceptors.push('httpInterceptor');
 		$urlRouterProvider.otherwise('/app/dashboard');
-		$stateProvider
-			.state('dashboard', {
-				url: '/app/dashboard',
-				templateUrl: '/app/components/dashboard/dashboard.tpl.html',
-				controller: 'DashboardController',
-				controllerAs: 'dashboard'
-			})
-			.state('manage', {
-				url: '/app/manage',
-				templateUrl: '/app/components/manage/manage.tpl.html',
-				controller: 'ManageController',
-				controllerAs: 'manage'
-			});
 		$mdThemingProvider.definePalette('dark-grey', {
 			'50': '999999',
 			'100': '888888',
@@ -113,4 +101,23 @@ angular
 		$mdThemingProvider.theme('default')
 			.primaryPalette('clinica-blue')
 			.accentPalette('open-orange');
+		$stateProvider
+			.state('login', {
+				url: '/app/login',
+				templateUrl: '/app/components/login/login.tpl.html',
+				controller: 'LoginController',
+				controllerAs: 'login'
+			})
+			.state('dashboard', {
+				url: '/app/dashboard',
+				templateUrl: '/app/components/dashboard/dashboard.tpl.html',
+				controller: 'DashboardController',
+				controllerAs: 'dashboard'
+			})
+			.state('manage', {
+				url: '/app/manage',
+				templateUrl: '/app/components/manage/manage.tpl.html',
+				controller: 'ManageController',
+				controllerAs: 'manage'
+			});
 	});

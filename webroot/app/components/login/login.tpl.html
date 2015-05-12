@@ -1,0 +1,39 @@
+<section class="panel panel-default md-whiteframe-z1">
+	<div class="panel-heading">
+		<h2 class="panel-title">Log in to OpenClinica</h2>
+	</div>
+	<div class="panel-body">
+		<form name="loginForm" ng-submit="login(login.input)">
+			<div class="form-group">
+				<div class="input-group" ng-class="{'has-error': loginForm.username.$invalid}">
+					<span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+					<input
+							type="email"
+							name="username"
+							placeholder="email@orgname.org"
+							title="Username"
+							class="form-control"
+							ng-model="login.input.username"
+							required
+							ng-minlength="2"
+							ng-maxlength="30"
+							autofocus/>
+				</div>
+				<div class="input-group" ng-class="{'has-error': loginForm.password.$invalid}">
+					<span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+					<input
+						type="password"
+						name="password"
+						placeholder="password"
+						title="Password"
+						class="form-control"
+						ng-model="login.input.password"
+						required
+						ng-minlength="4"/>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary" ng-disabled="loginForm.$invalid">Log in</button>
+			<a href="/app/forgot" class="pull-right">Forgot Password?</a>
+		</form>
+	</div>
+</section>
