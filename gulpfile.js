@@ -225,10 +225,9 @@ gulp.task('index-prod', ['js-head-min', 'js-body-min', 'css-min'], function inde
  * When a certain file type changes, run the appropriate task
  */
 gulp.task('watch', function watch() {
-	gulp.watch('./websrc/**/*.scss', ['css-lint', 'css-process', browserReload]);
-	gulp.watch(assets.jsBodyCustom, ['js-lint', browserReload]);
+	gulp.watch('./websrc/**/*.scss', ['css-lint', 'css-process']);
+	gulp.watch(assets.jsBodyCustom, ['js-lint']);
 	gulp.watch(['./websrc/index.html', './websrc/assets.json'], ['index', browserReload]);
-	gulp.watch('./webroot/app/**/*.html', [browserReload]);
 });
 
 /**
@@ -238,7 +237,7 @@ gulp.task('watch', function watch() {
 gulp.task('server', ['css-process', 'index', 'watch'], function server(cb) {
 	var called = false;
 	return nodemon({
-		script: 'server/app.js',
+		script: './server/app.js',
 		delay: 1,
 		env: {'NODE_ENV': process.env.NODE_ENV || 'development'},
 		watch: './server/**/*.*',
@@ -267,11 +266,12 @@ gulp.task('browser-sync', ['server'], function syncServer() {
 	browserSync({
 		proxy: 'http://localhost:3000',
 		port: 8000,
-		files: ['webroot/**/*'],
+		files: ['./webroot/**/*.css', './webroot/**/*.js', './webroot/**/*.html'],
 		watchOptions: {
 			debounceDelay: 500
 		},
 		reloadDelay: 200,
+		reloadDebounce: 200,
 		notify: false,
 		browser: ['google chrome']
 	});
