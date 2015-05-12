@@ -18,16 +18,18 @@
 		"json3": "^3",
 		"es6-promise": "^2",
 		"request": "^2",
+		"async": "^0",
 		"lodash": "^2",
 		"moment": "^2",
 		"passport": "^0",
 		"passport-oauth": "^1",
 		"chalk": "^0",
-		"nconf": "^0"
+		"nconf": "^0",
+		"express-jwt": "^3"
 	},
 	"devDependencies": {
 		"bower": "^1",
-		"browser-sync": "^1",
+		"browser-sync": "^2",
 		"gulp": "^3",
 		"gulp-autoprefixer": "^1",
 		"gulp-cached": "^1",
