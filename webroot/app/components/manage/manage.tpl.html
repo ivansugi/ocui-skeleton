@@ -1,270 +1,168 @@
-<div class="row">
-	<div class="col-md-6">
-		<section class="panel panel-default md-whiteframe-z1">
-			<div class="panel-heading">
-				<h2 class="panel-title">Bootstrap form</h2>
-			</div>
-			<div class="panel-body">
-				<form name="bsform">
-					<fieldset>
-						<legend>Text inputs</legend>
-						<div class="form-group" ng-class="{'has-error': bsform.text.$invalid}">
-							<label for="bs-text">Text</label>
-							<input type="text" class="form-control" id="bs-text" name="text" ng-model="text" required/>
-						</div>
-						<div class="form-group" ng-class="{'has-error': bsform.email.$invalid}">
-							<label for="bs-email">Email</label>
-							<input type="email" class="form-control" id="bs-email" name="email" ng-model="email" placeholder="someone@company.com" required/>
-						</div>
-						<div class="form-group" ng-class="{'has-error': bsform.tel.$invalid}">
-							<label for="bs-tel">Telephone</label>
-							<input type="tel" class="form-control" id="bs-tel" name="tel" ng-model="tel" placeholder="+1 987-654-3210" required/>
-						</div>
-						<div class="form-group" ng-class="{'has-error': bsform.url.$invalid}">
-							<label for="bs-url">URL</label>
-							<input type="url" class="form-control" id="bs-url" name="url" ng-model="url" placeholder="http://www.company.com" required/>
-						</div>
-						<div class="form-group" ng-class="{'has-error': bsform.password.$invalid}">
-							<label for="bs-password">Password</label>
-							<input type="password" class="form-control" id="bs-password" name="password" ng-model="password" required/>
-						</div>
-						<div class="form-group">
-							<label for="bs-textarea">Textarea</label>
-							<textarea class="form-control" rows="3" id="bs-textarea" placeholder="Type here" required></textarea>
-						</div>
-					</fieldset>
-					<fieldset>
-						<legend>Special text inputs</legend>
-						<div class="form-group">
-							<label for="bs-number">Number</label>
-							<input type="number" class="form-control" id="bs-number" placeholder="0" required/>
-						</div>
-						<div class="form-group">
-							<label for="bs-date">Date</label>
-							<input type="date" class="form-control" id="bs-date" required/>
-						</div>
-						<div class="form-group">
-							<label for="bs-time">Time</label>
-							<input type="time" class="form-control" id="bs-time" required/>
-						</div>
-						<div class="form-group">
-							<label for="bs-month">Month</label>
-							<input type="month" class="form-control" id="bs-month" required/>
-						</div>
-					</fieldset>
-					<fieldset>
-						<legend>Click inputs</legend>
-						<div class="form-group">
-							<label for="bs-select">Select</label>
-							<select class="form-control" id="bs-select" required>
-								<option disabled selected>Please select...</option>
-								<optgroup label="Group 1">
-									<option>1</option>
-									<option>2</option>
-								</optgroup>
-								<optgroup label="Group 2">
-									<option>3</option>
-									<option>4</option>
-								</optgroup>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="bs-multiselect">Multiselect</label>
-							<select class="form-control" id="bs-select" multiple>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-							</select>
-						</div>
-						<div class="checkbox">
-							<label>
-								<input type="checkbox"/> Checkbox
-							</label>
-						</div>
-						<div class="radio">
-							<label>
-								<input type="radio" name="bs-radio" id="bs-radio1" value="option1" checked>
-								Radio 1
-							</label>
-						</div>
-						<div class="radio">
-							<label>
-								<input type="radio" name="bs-radio" id="bs-radio2" value="option2">
-								Radio 2
-							</label>
-						</div>
-						<div class="form-group">
-							<label for="bsRange" class="control-label">Range</label>
-							<input type="range" id="bsRange" min="0" max="10" value="0" oninput="bsOutputRange.value=bsRange.value"/>
-							<output for="bs-range" id="bsOutputRange">0</output>
-						</div>
-						<div class="form-inline">
-							<div class="form-group">
-								<label for="bs-color" class="control-label">Color</label><br/>
-								<input type="color" id="bs-color" ng-model="color" style="width: 100%; height: 34px; margin: 0; padding: 0; border: 0; outline: 0; border-image-width: 0; background-color: inherit; border-radius: 4px;"/>
-								{{color}}
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="bs-file" class="control-label">File</label>
-							<input type="file" id="bs-file"/>
-						</div>
-					</fieldset>
-					<fieldset>
-						<legend>Data list</legend>
-						<div class="form-group">
-							<label for="bs-text-datalist" class="control-label">Text datalist</label>
-							<input type="text" class="form-control" id="bs-text-datalist" placeholder="browser" list="browsers"/>
-							<datalist id="browsers">
-								<option value="Chrome">Chrome</option>
-								<option value="Firefox">Firefox</option>
-								<option value="Internet Explorer">Internet Explorer</option>
-								<option value="Opera">Opera</option>
-								<option value="Safari">Safari</option>
-							</datalist>
-						</div>
-						<div class="form-group">
-							<label for="bs-date-datalist" class="control-label">Date datalist</label>
-							<input type="date" class="form-control" id="bs-date-datalist" list="days" />
-							<datalist id="days">
-								<option label="Independence Day">2013-07-04</option>
-								<option label="Labor Day">2013-09-02</option>
-								<option label="Columbus Day">2013-10-14</option>
-							</datalist>
-						</div>
-						<div class="form-group">
-							<label for="bs-time-datalist" class="control-label">Time datalist</label>
-							<input type="time" class="form-control" list="times" />
-							<datalist id="times">
-								<option label="Midnight">00:00</option>
-								<option>06:00</option>
-								<option label="Noon">12:00</option>
-								<option>18:00</option>
-							</datalist>
-						</div>
-						<div class="form-group">
-							<label for="bs-color-datalist" class="control-label">Color datalist</label>
-							<input type="color" class="form-control" id="bs-color-datalist" value="#000000" list="color" />
-							<datalist id="color">
-								<option>#ff0000</option>
-								<option>#0000ff</option>
-								<option>#00ff00</option>
-								<option>#ffff00</option>
-								<option>#00ffff</option>
-							</datalist>
-						</div>
-					</fieldset>
-					<fieldset>
-						<legend>Non-standard inputs</legend>
-						<div class="form-group" ng-class="{'has-error': bsform.datepicker.$invalid}">
-							<label for="bs-datepicker">Datepicker</label>
-							<input type="text" class="form-control" ng-model="datepicker" id="bs-datepicker" name="datepicker" bs-datepicker autoclose="true">
-						</div>
-						<div class="form-group" ng-class="{'has-error': form.timepicker.$invalid}">
-							<label for="bs-timepicker">Time</label>
-							<input type="text" class="form-control" ng-model="timepicker" id="bs-timepicker" name="timepicker" bs-timepicker>
-						</div>
-						<div>
-							<rating ng-model="rate" max="10"></rating> {{(rate) ? rate : 0}}
-						</div>
-						<div>
-							Autocomplete/typeahead
-						</div>
-					</fieldset>
-					<br/>
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</form>
-			</div>
-		</section>
+<section class="panel panel-default md-whiteframe-z1">
+	<div class="panel-heading">
+		<h2 class="panel-title">Form</h2>
 	</div>
-	<div class="col-md-6">
-		<section class="panel panel-default md-whiteframe-z1">
-			<div class="panel-heading">
-				<h2 class="panel-title">Material form</h2>
-			</div>
-			<div class="panel-body">
-				<form>
-					<fieldset>
-						<legend>Text inputs</legend>
-						<md-input-container flex>
-							<label>Text</label>
-							<input ng-model="form.text">
-						</md-input-container>
-						<md-input-container flex>
-							<label>Email</label>
-							<input ng-model="form.email" type="email" placeholder="someone@company.com">
-						</md-input-container>
-						<md-input-container flex>
-							<label>Telephone</label>
-							<input ng-model="form.telephone" type="tel" placeholder="+1 987-654-3210">
-						</md-input-container>
-						<md-input-container flex>
-							<label>URL</label>
-							<input ng-model="form.url" type="url" placeholder="http://www.company.com">
-						</md-input-container>
-						<md-input-container flex>
-							<label>Password</label>
-							<input ng-model="form.password" type="password">
-						</md-input-container>
-						<md-input-container flex>
-							<label>Textarea</label>
-							<textarea ng-model="form.textarea" rows="3"></textarea>
-						</md-input-container>
-					</fieldset>
-					<fieldset>
-						<legend>Special text inputs</legend>
-						<md-input-container>
-							<label>Number</label>
-							<input type="number" ng-model="form.number">
-						</md-input-container>
-						<md-input-container flex>
-							<label>Date</label>
-							<input type="date" ng-model="form.date">
-						</md-input-container>
-						<md-input-container flex>
-							<label>Time</label>
-							<input type="time" ng-model="form.time">
-						</md-input-container>
-						<md-input-container flex>
-							<label>Month</label>
-							<input type="month" ng-model="form.month">
-						</md-input-container>
-					</fieldset>
-					<fieldset>
-						<legend>Click inputs</legend>
-						<div>
-							Select
-						</div>
-						<div>
-							<md-checkbox ng-model="form.checkbox">
-								Checkbox
-							</md-checkbox>
-						</div>
-						<md-radio-group ng-model="form.radio">
-							<md-radio-button value="radio1">Radio1</md-radio-button>
-							<md-radio-button value="radio2">Radio2</md-radio-button>
-						</md-radio-group>
-						<br/>
-						<md-slider flex md-discrete ng-model="form.range" min="0" max="10">
-						</md-slider>
-					</fieldset>
-					<fieldset>
-						<legend>Non-standard inputs</legend>
-						<md-switch ng-model="form.switch">
-							{{(form.switch) ? form.switch : 'false'}}
-						</md-switch>
-						<div>
-							Autocomplete/typeahead
-						</div>
-						<div>
-							Chip/tag input
-						</div>
-					</fieldset>
-					<br/>
-					<md-button class="md-raised md-primary">Submit</md-button>
-				</form>
-			</div>
-		</section>
+	<div class="panel-body">
+		<form name="bsform">
+			<fieldset>
+				<legend>Text inputs</legend>
+				<div class="form-group" ng-class="{'has-error': bsform.text.$invalid}">
+					<label for="bs-text">Text</label>
+					<input type="text" class="form-control" id="bs-text" name="text" ng-model="text" required/>
+				</div>
+				<div class="form-group" ng-class="{'has-error': bsform.email.$invalid}">
+					<label for="bs-email">Email</label>
+					<input type="email" class="form-control" id="bs-email" name="email" ng-model="email" placeholder="someone@company.com" required/>
+				</div>
+				<div class="form-group" ng-class="{'has-error': bsform.tel.$invalid}">
+					<label for="bs-tel">Telephone</label>
+					<input type="tel" class="form-control" id="bs-tel" name="tel" ng-model="tel" placeholder="+1 987-654-3210" required/>
+				</div>
+				<div class="form-group" ng-class="{'has-error': bsform.url.$invalid}">
+					<label for="bs-url">URL</label>
+					<input type="url" class="form-control" id="bs-url" name="url" ng-model="url" placeholder="http://www.company.com" required/>
+				</div>
+				<div class="form-group" ng-class="{'has-error': bsform.password.$invalid}">
+					<label for="bs-password">Password</label>
+					<input type="password" class="form-control" id="bs-password" name="password" ng-model="password" required/>
+				</div>
+				<div class="form-group">
+					<label for="bs-textarea">Textarea</label>
+					<textarea class="form-control" rows="3" id="bs-textarea" placeholder="Type here" required></textarea>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Special text inputs</legend>
+				<div class="form-group">
+					<label for="bs-number">Number</label>
+					<input type="number" class="form-control" id="bs-number" placeholder="0" required/>
+				</div>
+				<div class="form-group">
+					<label for="bs-date">Date</label>
+					<input type="date" class="form-control" id="bs-date" required/>
+				</div>
+				<div class="form-group">
+					<label for="bs-time">Time</label>
+					<input type="time" class="form-control" id="bs-time" required/>
+				</div>
+				<div class="form-group">
+					<label for="bs-month">Month</label>
+					<input type="month" class="form-control" id="bs-month" required/>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Click inputs</legend>
+				<div class="form-group">
+					<label for="bs-select">Select</label>
+					<select class="form-control" id="bs-select" required>
+						<option disabled selected>Please select...</option>
+						<optgroup label="Group 1">
+							<option>1</option>
+							<option>2</option>
+						</optgroup>
+						<optgroup label="Group 2">
+							<option>3</option>
+							<option>4</option>
+						</optgroup>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="bs-multiselect">Multiselect</label>
+					<select class="form-control" id="bs-select" multiple>
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+					</select>
+				</div>
+				<div>
+					<md-checkbox ng-model="form.checkbox">
+						Checkbox
+					</md-checkbox>
+				</div>
+				<md-radio-group ng-model="form.radio">
+					<md-radio-button value="radio1">Radio1</md-radio-button>
+					<md-radio-button value="radio2">Radio2</md-radio-button>
+				</md-radio-group>
+				<br/>
+				<md-slider flex md-discrete ng-model="form.range" min="0" max="10">
+				</md-slider>
+				<div class="form-group">
+					<label for="bs-color" class="control-label">Color</label><br/>
+					<input type="color" id="bs-color" ng-model="color"/>
+					{{(color) ? color : '#000000'}}
+				</div>
+				<div class="form-group">
+					<label for="bs-file" class="control-label">File</label>
+					<input type="file" id="bs-file"/>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Data list</legend>
+				<div class="form-group">
+					<label for="bs-text-datalist" class="control-label">Text datalist</label>
+					<input type="text" class="form-control" id="bs-text-datalist" placeholder="browser" list="browsers"/>
+					<datalist id="browsers">
+						<option value="Chrome">Chrome</option>
+						<option value="Firefox">Firefox</option>
+						<option value="Internet Explorer">Internet Explorer</option>
+						<option value="Opera">Opera</option>
+						<option value="Safari">Safari</option>
+					</datalist>
+				</div>
+				<div class="form-group">
+					<label for="bs-date-datalist" class="control-label">Date datalist</label>
+					<input type="date" class="form-control" id="bs-date-datalist" list="days" />
+					<datalist id="days">
+						<option label="Independence Day">2013-07-04</option>
+						<option label="Labor Day">2013-09-02</option>
+						<option label="Columbus Day">2013-10-14</option>
+					</datalist>
+				</div>
+				<div class="form-group">
+					<label for="bs-time-datalist" class="control-label">Time datalist</label>
+					<input type="time" class="form-control" list="times" />
+					<datalist id="times">
+						<option label="Midnight">00:00</option>
+						<option>06:00</option>
+						<option label="Noon">12:00</option>
+						<option>18:00</option>
+					</datalist>
+				</div>
+				<div class="form-group">
+					<label for="bs-color-datalist" class="control-label">Color datalist</label>
+					<input type="color" class="form-control" id="bs-color-datalist" value="#000000" list="color" />
+					<datalist id="color">
+						<option>#ff0000</option>
+						<option>#0000ff</option>
+						<option>#00ff00</option>
+						<option>#ffff00</option>
+						<option>#00ffff</option>
+					</datalist>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Non-standard inputs</legend>
+				<div class="form-group" ng-class="{'has-error': bsform.datepicker.$invalid}">
+					<label for="bs-datepicker">Datepicker</label>
+					<input type="text" class="form-control" ng-model="datepicker" id="bs-datepicker" name="datepicker" bs-datepicker autoclose="true">
+				</div>
+				<div class="form-group" ng-class="{'has-error': form.timepicker.$invalid}">
+					<label for="bs-timepicker">Time</label>
+					<input type="text" class="form-control" ng-model="timepicker" id="bs-timepicker" name="timepicker" bs-timepicker>
+				</div>
+				<div>
+					<rating ng-model="rate" max="10"></rating> {{(rate) ? rate : 0}}
+				</div>
+				<md-switch ng-model="form.switch">
+					{{(form.switch) ? 'on' : 'off'}}
+				</md-switch>
+				<div>
+					Autocomplete/typeahead
+				</div>
+			</fieldset>
+			<br/>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
 	</div>
-</div>
+</section>
