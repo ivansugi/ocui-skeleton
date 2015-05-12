@@ -32,7 +32,10 @@ nconf
 		compressionThreshold: 512,
 		cookieSecret: 'CookieSecret'
 	});
-console.log('Current config:', nconf.get());
+console.log('Current config:');
+console.log('-------------------------------------------------------------------------------');
+console.log(nconf.get());
+console.log('-------------------------------------------------------------------------------');
 
 /**
  * Node config
