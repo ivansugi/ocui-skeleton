@@ -138,6 +138,16 @@ body {
 	width: 100%;
 }
 
+input[type=color] {
+	background-color: inherit;
+	border: 0;
+	border-radius: 0;
+	height: 34px;
+	outline: 0;
+	padding: 0;
+	width: 100%;
+}
+
 #page {
 	min-height: 100%;
 	.page-header {
