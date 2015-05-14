@@ -263,18 +263,16 @@ gulp.task('server', ['css-process', 'index', 'watch'], function server(cb) {
  * Reload/update browser on changes
  */
 gulp.task('browser-sync', ['server'], function syncServer() {
-	browserSync({
-		proxy: 'http://localhost:3000',
-		port: 8000,
-		files: ['./webroot/**/*.css', './webroot/**/*.js', './webroot/**/*.html'],
-		watchOptions: {
-			debounceDelay: 500
-		},
-		reloadDelay: 200,
-		reloadDebounce: 200,
-		notify: false,
-		browser: ['google chrome']
-	});
+	setTimeout (function delayedBSStart() {
+		browserSync({
+			proxy: 'http://localhost:3000',
+			port: 8000,
+			files: ['./webroot/**/*.css', './webroot/**/*.js', './webroot/**/*.html'],
+			notify: false,
+			reloadDebounce: 200,
+			open: 'external'
+		});
+	}, 500);
 });
 
 /**
