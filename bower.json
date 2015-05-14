@@ -33,7 +33,7 @@
     "howler": "^1",
     "html5-desktop-notifications": "*",
     "json3": "^3",
-    "lodash": "^2",
+    "lodash": "^3",
     "modernizr": "^2",
     "moment": "^2",
     "ngstorage": "^0",

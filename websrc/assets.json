@@ -19,7 +19,7 @@
     "jsBodyVendor": [
         "./webroot/vendor/json3/lib/json3.js",
         "./webroot/vendor/es6-promise/promise.js",
-        "./webroot/vendor/lodash/dist/lodash.js",
+        "./webroot/vendor/lodash/lodash.js",
         "./webroot/vendor/numeraljs/numeral.js",
         "./webroot/vendor/moment/moment.js",
         "./webroot/vendor/async/lib/async.js",
