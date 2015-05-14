@@ -177,7 +177,8 @@ input[type=color] {
 			transition-timing-function: ease-in-out;
 			width: $sidenav-width;
 			.logo-svg {
-				padding: 6px 10px;
+				padding-left: 10px;
+				padding-top: 10px;
 				width: $sidenav-width-expanded - 20;
 			}
 		}
