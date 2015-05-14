@@ -10,9 +10,9 @@ angular
 		'ngTouch',
 		'ui.router',
 		'ui.bootstrap.tpls',
+		'ui.bootstrap.modal',
 		'ui.bootstrap.accordion',
 		'ui.bootstrap.dropdown',
-		'ui.bootstrap.modal',
 		'ui.bootstrap.rating',
 		'trNgGrid',
 		'mgcrea.ngStrap.datepicker',
@@ -20,6 +20,7 @@ angular
 		'ngStorage',
 		'angular-loading-bar',
 		'toaster',
+		'angular-jwt',
 		'app.service.loghttp',
 		'app.service.exceptionhandler',
 		'app.service.httpinterceptor',
@@ -29,7 +30,15 @@ angular
 		'app.component.manage',
 		'app.component.login'
 	])
-	.config(function config($provide, $locationProvider, $httpProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider) {
+	.config(function config(
+			$provide,
+			$locationProvider,
+			$httpProvider,
+			$stateProvider,
+			$urlRouterProvider,
+			$mdThemingProvider,
+			jwtInterceptorProvider
+	) {
 		$provide.decorator('$log', function $log($delegate, logHttpService) {
 			var logError = $delegate.error;
 			$delegate.error = function error(message) {
@@ -40,6 +49,10 @@ angular
 		});
 		$locationProvider.html5Mode(true);
 		$httpProvider.interceptors.push('httpInterceptor');
+		jwtInterceptorProvider.tokenGetter = ['myService', function(myService) {
+			myService.doSomething();
+			return localStorage.getItem('id_token');
+		}];
 		$urlRouterProvider.otherwise('/app/dashboard');
 		$mdThemingProvider.definePalette('dark-grey', {
 			'50': '999999',
@@ -102,22 +115,50 @@ angular
 			.primaryPalette('clinica-blue')
 			.accentPalette('open-orange');
 		$stateProvider
-			.state('login', {
-				url: '/app/login',
-				templateUrl: '/app/components/login/login.tpl.html',
-				controller: 'LoginController',
-				controllerAs: 'login'
-			})
 			.state('dashboard', {
 				url: '/app/dashboard',
-				templateUrl: '/app/components/dashboard/dashboard.tpl.html',
 				controller: 'DashboardController',
-				controllerAs: 'dashboard'
+				controllerAs: 'dashboard',
+				templateUrl: '/app/components/dashboard/dashboard.tpl.html'
 			})
 			.state('manage', {
 				url: '/app/manage',
-				templateUrl: '/app/components/manage/manage.tpl.html',
 				controller: 'ManageController',
-				controllerAs: 'manage'
+				controllerAs: 'manage',
+				templateUrl: '/app/components/manage/manage.tpl.html'
+			})
+			.state('login', {
+				url: '/app/login',
+				onEnter: function loginModalEnter($modal, $state) {
+					$modal.open({
+						controller: 'LoginController',
+						controllerAs: 'login',
+						templateUrl: '/app/dialogs/login.tpl.html',
+						size: 'sm',
+						resolve: {
+
+						}
+					})
+					.result.finally(function loginModalResultFinally() {
+						console.log('inside finally');
+					})
+				}
+			})
+			.state('forgot', {
+				url: '/app/forgot',
+				onEnter: function forgotModalEnter($modal, $state) {
+					$modal.open({
+						controller: 'LoginController',
+						controllerAs: 'login',
+						templateUrl: '/app/dialogs/forgot.tpl.html',
+						size: 'sm',
+						resolve: {
+
+						}
+					})
+					.result.finally(function loginModalResultFinally() {
+						console.log('inside finally');
+					})
+				}
 			});
 	});

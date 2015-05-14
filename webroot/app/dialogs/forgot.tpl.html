@@ -1,0 +1,24 @@
+<div class="modal-header">
+	<h3 class="modal-title">Forgot password</h3>
+</div>
+<div class="modal-body">
+	<form name="loginForm" ng-submit="login.submit(login.input)">
+		<div class="form-group">
+			<div class="input-group" ng-class="{'has-error': loginForm.username.$invalid}">
+				<span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+				<input
+						type="email"
+						name="username"
+						placeholder="email@orgname.org"
+						title="Username"
+						class="form-control"
+						ng-model="login.input.username"
+						required
+						ng-minlength="2"
+						ng-maxlength="30"
+						autofocus/>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary" ng-disabled="loginForm.$invalid">Send email</button>
+	</form>
+</div>
