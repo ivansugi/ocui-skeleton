@@ -11,11 +11,20 @@
 		</div>
 		<div class="panel-body">
 			<div class="table-responsive">
-				<table tr-ng-grid="" items="dashboard.mockData" class="table"></table>
+				<table tr-ng-grid="" items="dashboard.mockData" class="table">
+					<tbody>
+						<tr>
+							<td>
+								<button class="btn btn-default">Action</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
+			<p><a href="/app/login" class="btn btn-default">Log in</a></p>
 		</div>
 	</div>
-	<ul>
+<!-- 	<ul>
 		<li gridster-item="widget" ng-repeat="widget in dashboard.widgets">
 			<div class="panel panel-default md-whiteframe-z1">
 				<div class="panel-heading cursor-move">
@@ -31,5 +40,5 @@
 				</div>
 			</div>
 		</li>
-	</ul>
+	</ul> -->
 </section>
