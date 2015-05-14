@@ -2,7 +2,7 @@
 	"preset": "google",
 	"validateLineBreaks": "LF",
 	"validateIndentation": "\t",
-	"excludeFiles": ["node_modules/**"],
+	"excludeFiles": ["node_modules/**", "webroot/vendor/**"],
 	"maximumLineLength": 132,
 	"requireParenthesesAroundIIFE": true
 }
