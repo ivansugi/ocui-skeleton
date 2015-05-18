@@ -6,56 +6,36 @@ var bodyParser = require('body-parser')
 var errorhandler = require('errorhandler');
 var requestLogger = require('morgan');
 var compression = require('compression');
-var jwt = require('express-jwt');
-
+var chalk = require('chalk');
 var path = require('path');
-var passport = require('passport');
+var ejwt = require('express-jwt');
 require('express-resource-new');
-
 var app = module.exports = express();
 var server = require('http').createServer(app);
 
-var nconf = require('nconf');
-var homedir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 var env = process.env.NODE_ENV || 'development';
-var appName = 'ocui';
 var isNotProduction = (env === 'development' || env === 'local');
-nconf
-	.overrides()
-	.env()
-	.argv()
-	.file({file: homedir + '/.config' + '/' + appName + '/' + env + 'ConfigOverrides.json'})
-	.file({file: '../config/' + env + 'Config.json'})
-	.defaults({
-		PORT: 3000,
-		siteProtocol: 'http',
-		siteHost: 'localhost',
-		compressionThreshold: 512,
-		cookieSecret: 'CookieSecret'
-	});
-console.log('Current config:');
-console.log('-------------------------------------------------------------------------------');
-console.log(nconf.get());
-console.log('-------------------------------------------------------------------------------');
+
+var conf = require('./conf.js');
+conf.load();
+conf.outputToLog();
 
 /**
  * Node config
  */
-app.set('port', nconf.get('PORT'));
+app.set('port', conf.get('PORT'));
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 app.set('controllers', __dirname + '/controllers');
 
 app.use(compression({
-	threshold: nconf.get('compressionThreshold')
+	threshold: conf.get('compressionThreshold')
 }));
 
-app.use(express.static(path.join(__dirname, '../webroot')));
-
-app.use(cookieParser(nconf.get('cookieSecret')));
+var webroot = path.join(__dirname, '../webroot');
+app.use(express.static(webroot));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(passport.initialize());
 
 if (isNotProduction) {
 	app.use(requestLogger('dev'));
@@ -72,12 +52,11 @@ else {
 /**
  * Routes not requiring authentication
  */
-app.get('/index.html', function indexRoute(req, res) {
-	res.sendFile(path.join(__dirname, '../webroot/index.html'));
-});
-app.get('/app/*', function browserRoutes(req, res) {
-	res.sendFile(path.join(__dirname, '../webroot/index.html'));
-});
+app.get('/app/*',
+	function browserRoutes(req, res) {
+		res.sendFile('index.html', {root: webroot});
+	}
+);
 
 /**
  * Resources not requiring authentication
@@ -88,19 +67,19 @@ app.resource('api/clientlogger');
  * Resources requiring authentication
  */
 
+
 /**
  * File not found
  */
-
 app.use(function(req, res) {
-	res.status(404).sendFile(path.join(__dirname, '../webroot/404.html'));
+	res.status(404).sendFile('404.html', {root: webroot});
 });
 
 /**
  * Server
  */
 server.listen(app.get('port'), function listen() {
-	console.log('Server is listening on port %d in %s mode:', nconf.get('PORT'), app.settings.env);
-	console.log(nconf.get('siteProtocol') + '://' + nconf.get('siteHost') + ':' + nconf.get('PORT'));
+	console.log('Server is listening on port %d in %s mode:', conf.get('PORT'), app.settings.env);
+	console.log(chalk.magenta(conf.get('siteProtocol') + '://' + conf.get('siteHost') + ':' + conf.get('PORT')));
 	console.log('-------------------------------------------------------------------------------');
 });
