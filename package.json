@@ -25,6 +25,7 @@
 		"passport-oauth": "^1",
 		"chalk": "^1",
 		"nconf": "^0",
+		"jsonwebtoken": "^5",
 		"express-jwt": "^3"
 	},
 	"devDependencies": {
