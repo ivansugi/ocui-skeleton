@@ -9,6 +9,7 @@ $topnav-dropdown-focus-background: #e8e8e8;
 $topnav-dropdown-focus-text-color: #111;
 $sidenav-background: #fff;
 $sidenav-text-color: #333;
+$sidenav-header-text-color: #999;
 $sidenav-menu-divide-color: #ddd;
 $sidenav-menu-focus-background: #f5f5f5;
 $sidenav-width: 50px;
@@ -312,12 +313,14 @@ input[type=color] {
 					padding: 0;
 					white-space: nowrap;
 					.panel-title {
-						font-size: small;
+						font-size: smaller;
 						.accordion-toggle {
 							border-bottom: 1px solid $sidenav-menu-divide-color;
 							border-top: 1px solid $sidenav-menu-divide-color;
+							color: $sidenav-header-text-color;
 							display: block;
 							padding: 10px 15px;
+							text-transform: uppercase;
 						}
 						.accordion-toggle:link,
 						.accordion-toggle:active,
