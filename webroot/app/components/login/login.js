@@ -14,8 +14,8 @@ angular
 		};
 		vm.close = function dismiss() {
 			$modalInstance.$close();
-		}
+		};
 		vm.dismiss = function dismiss() {
 			$modalInstance.$dismiss();
-		}
+		};
 	});

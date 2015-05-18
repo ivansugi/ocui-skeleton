@@ -57,6 +57,7 @@
         "./webroot/app/services/loghttp.js",
         "./webroot/app/services/exceptionhandler.js",
         "./webroot/app/services/httpinterceptor.js",
+        "./webroot/app/services/auth.js",
         "./webroot/app/main.js",
         "./webroot/app/dialogs/content.js",
         "./webroot/app/components/dashboard/dashboard.js",

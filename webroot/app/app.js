@@ -24,6 +24,7 @@ angular
 		'app.service.loghttp',
 		'app.service.exceptionhandler',
 		'app.service.httpinterceptor',
+		'app.service.auth',
 		'app.main',
 		'app.dialog.content',
 		'app.component.dashboard',
@@ -141,7 +142,7 @@ angular
 					})
 					.result.finally(function loginModalResultFinally() {
 						console.log('inside finally');
-					})
+					});
 				}
 			})
 			.state('forgot', {
@@ -158,7 +159,7 @@ angular
 					})
 					.result.finally(function loginModalResultFinally() {
 						console.log('inside finally');
-					})
+					});
 				}
 			});
 	});
