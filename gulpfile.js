@@ -19,6 +19,7 @@ var gutil = require('gulp-util');
 var cache = require('gulp-cached');
 var jshint = require('gulp-jshint');
 var jscs = require('gulp-jscs');
+var flow = require('gulp-flowtype');
 var mocha = require('gulp-mocha');
 var scsslint = require('gulp-scss-lint');
 var ngAnnotate = require('gulp-ng-annotate');
@@ -86,6 +87,23 @@ gulp.task('js-custom-lint', function jsCustomLint() {
 		.pipe(cache('js-custom-lint'))
 		.pipe(jshint())
 		.pipe(jshint.reporter('jshint-stylish'));
+});
+
+/**
+ * js-custom-typecheck
+ * Checks for common type mismatch errors in our custom javascript libraries
+ */
+gulp.task('js-custom-typecheck', function jsCustomLint() {
+	return gulp.src(assets.jsBodyCustom, {base: './webroot/'})
+		.pipe(cache('js-custom-typecheck'))
+		.pipe(flow({
+			all: false,
+			weak: false,
+			declarations: './declarations',
+			killFlow: false,
+			beep: true,
+			abort: false
+		}));
 });
 
 /**
@@ -237,7 +255,7 @@ gulp.task('watch', function watch() {
 gulp.task('server', ['css-process', 'index', 'watch'], function server(cb) {
 	var called = false;
 	return nodemon({
-		script: './server/app.js',
+		script: './server/server.js',
 		delay: 1,
 		env: {'NODE_ENV': process.env.NODE_ENV || 'development'},
 		watch: './server/**/*.*',
@@ -284,7 +302,7 @@ gulp.task('browser-sync', ['server'], function syncServer() {
  * js-lint
  * All javascript linting in one command
  */
-gulp.task('js-lint', ['js-code-style', 'js-custom-lint']);
+gulp.task('js-lint', ['js-code-style', 'js-custom-lint', 'js-custom-typecheck']);
 
 /**
  * lint

@@ -38,6 +38,7 @@
 		"gulp-inject": "^1",
 		"gulp-jscs": "^1",
 		"gulp-jshint": "^1",
+		"gulp-flowtype": "^0",
 		"gulp-minify-css": "^1",
 		"gulp-minify-html": "^1",
 		"gulp-mocha": "^2",
@@ -53,11 +54,11 @@
 		"jshint-stylish": "^1",
 		"merge-stream": "^0"
 	},
-	"main": "./server/app.js",
+	"main": "./server/server.js",
 	"engines": {
 		"node": ">=0.10.0"
 	},
 	"scripts": {
-		"start": "node ./server/app.js"
+		"start": "node ./server/server.js"
 	}
 }
