@@ -26,7 +26,7 @@ conf.outputToLog();
 app.set('port', conf.get('PORT'));
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
-app.set('controllers', __dirname + '/controllers');
+app.set('controllers', __dirname + '/controllers/');
 
 app.use(compression({
 	threshold: conf.get('compressionThreshold')
@@ -66,6 +66,7 @@ app.resource('api/clientlogger');
 /**
  * Resources requiring authentication
  */
+app.resource('api/studies', {id: 'id'});
 
 
 /**
