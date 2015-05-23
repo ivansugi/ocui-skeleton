@@ -6,25 +6,25 @@ var conf = require('./conf.js');
 conf.load();
 
 module.exports = {
-	index: function(request, response) {
-		response.send('index');
+	index: function(req, res) {
+		res.send('index');
 	},
-	show: function(request, response) {
-		response.send('show');
+	show: function(req, res) {
+		res.send('show');
 	},
-	new: function(request, response) {
-		response.send('new');
+	new: function(req, res) {
+		res.send('new');
 	},
-	create: function(request, response) {
-		response.send('create');
+	create: function(req, res) {
+		res.send('create');
 	},
-	edit: function(request, response) {
-		response.send('edit');
+	edit: function(req, res) {
+		res.send('edit');
 	},
-	update: function(request, response) {
-		response.send('update');
+	update: function(req, res) {
+		res.send('update');
 	},
-	destroy: function(request, response) {
-		response.send('delete');
+	destroy: function(req, res) {
+		res.send('delete');
 	}
-}
+};

@@ -172,15 +172,17 @@ input[type=color] {
 		}
 		.logo {
 			overflow-x: hidden;
+			padding-left: 9px;
+			padding-top: 7px;
 			transition-delay: 0;
 			transition-duration: $slide-animation-speed;
 			transition-property: all;
 			transition-timing-function: ease-in-out;
 			width: $sidenav-width;
 			.logo-svg {
-				padding-left: 10px;
-				padding-top: 10px;
-				width: $sidenav-width-expanded - 20;
+				// padding-left: 10px;
+				// padding-top: 10px;
+				// width: $sidenav-width-expanded - 20;
 			}
 		}
 		.navbar-brand {
@@ -402,4 +404,18 @@ input[type=color] {
 	.ng-leave {
 		transition: .3s cubic-bezier(.250, .250, .750, .750) all;
 	}
+}
+#loading-bar .bar {
+	background: #f58220;
+	height: 5px;
+}
+#loading-bar .peg {
+	box-shadow: #f58220 1px 0 6px 1px;
+}
+#loading-bar-spinner .spinner-icon {
+	border-left-color: #f58220;
+	border-top-color: #f58220;
+}
+.tr-ng-grid > thead > tr > th {
+	vertical-align: bottom;
 }

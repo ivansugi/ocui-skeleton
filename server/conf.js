@@ -21,7 +21,9 @@ module.exports = {
 				siteHost: 'localhost',
 				compressionThreshold: 512,
 				cookieSecret: 'CookieSecret',
-				jwtSecret: 'TokenSecret'
+				jwtSecret: 'TokenSecret',
+				authenticationUrl: 'http://104.131.126.24:8080/OpenClinica/pages/accounts/study/', //S_THEJUNOD/crc/kkrumlian
+				restUrl: 'https://demo2.eclinicalhosting.com/OpenClinica2/rest/clinicaldata/json/view/' //S_MICU/*/*/*'
 			});
 	},
 	get: function get(key) {
@@ -33,4 +35,4 @@ module.exports = {
 		console.dir(nconf.get());
 		console.log('-------------------------------------------------------------------------------');
 	}
-}
+};

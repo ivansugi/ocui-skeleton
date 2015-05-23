@@ -8,10 +8,11 @@ angular
 
 			},
 			login: function login(input) {
-				$http.post('/api/authenticate', input)
-				.then(function authenticateThen() {
+				$http
+					.post('/api/authenticate', input)
+					.then(function authenticateThen() {
 
-				});
+					});
 			},
 			logout: function logout() {
 

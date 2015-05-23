@@ -19,12 +19,14 @@ angular
 		'mgcrea.ngStrap.timepicker',
 		'ngStorage',
 		'angular-loading-bar',
+		'cgBusy',
 		'toaster',
 		'angular-jwt',
 		'app.service.loghttp',
 		'app.service.exceptionhandler',
 		'app.service.httpinterceptor',
 		'app.service.auth',
+		'app.service.study',
 		'app.main',
 		'app.dialog.content',
 		'app.component.dashboard',
@@ -38,7 +40,8 @@ angular
 			$stateProvider,
 			$urlRouterProvider,
 			$mdThemingProvider,
-			jwtInterceptorProvider
+			jwtInterceptorProvider,
+			cfpLoadingBarProvider
 	) {
 		$provide.decorator('$log', function $log($delegate, logHttpService) {
 			var logError = $delegate.error;
@@ -115,6 +118,7 @@ angular
 		$mdThemingProvider.theme('default')
 			.primaryPalette('clinica-blue')
 			.accentPalette('open-orange');
+		cfpLoadingBarProvider.includeSpinner = false;
 		$stateProvider
 			.state('dashboard', {
 				url: '/app/dashboard',
