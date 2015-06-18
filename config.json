@@ -1,6 +1,3 @@
 {
-	"siteProtocol": "http",
-	"siteHost": "localhost",
-	"cookieSecret": "4b9010c865e62dc1f17b7a1650627e2f",
-	"compressionThreshold": 512
+
 }

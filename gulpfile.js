@@ -23,6 +23,7 @@ var flow = require('gulp-flowtype');
 var mocha = require('gulp-mocha');
 var scsslint = require('gulp-scss-lint');
 var ngAnnotate = require('gulp-ng-annotate');
+var babel = require('gulp-babel');
 var concat = require('gulp-concat');
 var merge = require('merge-stream');
 var uglify = require('gulp-uglify');
@@ -31,12 +32,18 @@ var sass = require('gulp-sass');
 var prefix = require('gulp-autoprefixer');
 var replace = require('gulp-replace');
 var minifyCss = require('gulp-minify-css');
+var imagemin = require('gulp-imagemin');
 var inject = require('gulp-inject');
 var minifyHtml = require('gulp-minify-html');
 var nodemon = require('gulp-nodemon');
 var browserSync = require('browser-sync');
+// var spa = require('browser-sync-spa');
 
 var browserReload = browserSync.reload;
+
+// browserSync.use(spa({
+// 	selector: "[ng-app]"
+// }));
 
 // get version to make sure production minified assets are cached to the version
 var version = require('./package.json').version;
@@ -47,6 +54,7 @@ var assets = require('./websrc/assets.json');
 // destination for processed files (minimized, etc.)
 var indexDest = './webroot';
 var processedDest = indexDest + '/dist';
+
 
 /**
  * PRIVATE HELPER FUNCTIONS
@@ -134,6 +142,7 @@ gulp.task('js-server-test', function jsServerTest() {
 gulp.task('js-head-min', function jsHeadMin() {
 	return gulp.src(assets.jsHead, {base: './webroot/'})
 		.pipe(sourcemaps.init())
+//		.pipe(babel())
 		.pipe(concat('head.min.js', {newLine: ';\n'}))
 		.pipe(ngAnnotate())
 		.pipe(uglify())
@@ -150,7 +159,9 @@ gulp.task('js-body-min', function jsBodyMin() {
 	files = files.concat(assets.jsBodyCustom);
 	return gulp.src(files, {base: './webroot/'})
 		.pipe(sourcemaps.init())
+//		.pipe(babel())
 		.pipe(concat('body.min.js', {newLine: ';\n'}))
+		.pipe(ngAnnotate())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('../maps'))
 		.pipe(gulp.dest(processedDest));
@@ -172,7 +183,7 @@ gulp.task('css-process', function cssProcess() {
 
 /**
  * font
- * Move fonts to location expected when minifing/concating all vendor css
+ * Move fonts to location expected when minifying/concating all vendor css
  */
 gulp.task('fonts', function fonts() {
 	var fontawesome = gulp.src('./webroot/vendor/fontawesome/fonts/**/*')
@@ -198,6 +209,16 @@ gulp.task('css-min', ['css-process', 'fonts'], function cssMin() {
 		.pipe(gulp.dest(processedDest));
 });
 
+gulp.task('img-min', function imageMin() {
+	return gulp.src('./websrc/img/*')
+		.pipe(imagemin({
+			optimizationLevel: 5,
+			progressive: true,
+			interlaced: true
+		}))
+		.pipe(gulp.dest('./webroot/img'));
+});
+
 /**
  * index
  * Creates a development-mode index.html with references to the source versions of the dependencies
@@ -212,7 +233,7 @@ gulp.task('index', ['css-process'], function index() {
 	);
 	var jsHead = [];
 	jsHead = jsHead.concat(assets.jsHead);
-	return gulp.src('./websrc/index.html')
+	return gulp.src('./websrc/*.html')
 		.pipe(inject(gulp.src(cssAndJs, {read: false}), {ignorePath: '/webroot/'}))
 		.pipe(inject(gulp.src(jsHead, {read: false}), {ignorePath: '/webroot/', starttag: '<!-- inject:head:{{ext}} -->'}))
 		.pipe(gulp.dest(indexDest));
@@ -222,9 +243,9 @@ gulp.task('index', ['css-process'], function index() {
  * index-prod
  * Create a production-mode index.html with references to the minimized versions of the dependencies
  */
-gulp.task('index-prod', ['js-head-min', 'js-body-min', 'css-min'], function indexProd() {
+gulp.task('index-prod', ['js-head-min', 'js-body-min', 'css-min', 'img-min'], function indexProd() {
 	gutil.log('Creating \'' + gutil.colors.cyan(version) + '\' production index');
-	return gulp.src('./websrc/index.html')
+	return gulp.src('./websrc/*.html')
 		.pipe(inject(gulp.src(['./webroot/dist/all.min.css',
 			'./webroot/dist/body.min.js'],
 			{read: false}),
@@ -232,9 +253,9 @@ gulp.task('index-prod', ['js-head-min', 'js-body-min', 'css-min'], function inde
 		.pipe(inject(gulp.src('./webroot/dist/head.min.js',
 			{read: false}),
 			{ignorePath: '/webroot/', starttag: '<!-- inject:head:{{ext}} -->'}))
-		.pipe(replace('min.css', 'min.css?v=' + version))
 		.pipe(replace('min.js', 'min.js?v=' + version))
-		.pipe(minifyHtml({comments: true, conditionals: true, cdata: true, empty: true})) //conditionals not working, added comments
+		.pipe(replace('min.css', 'min.css?v=' + version))
+		.pipe(minifyHtml({conditionals: true, cdata: true, empty: true}))
 		.pipe(gulp.dest(indexDest));
 });
 
@@ -246,20 +267,25 @@ gulp.task('watch', function watch() {
 	gulp.watch('./websrc/**/*.scss', ['css-lint', 'css-process']);
 	gulp.watch(assets.jsBodyCustom, ['js-lint']);
 	gulp.watch(['./websrc/index.html', './websrc/assets.json'], ['index', browserReload]);
+	gulp.watch(['./websrc/img/**.*'], ['img-min']);
 });
 
 /**
  * server
  * Run the node server in a dev mode that restart server when certain files change
  */
-gulp.task('server', ['css-process', 'index', 'watch'], function server(cb) {
+gulp.task('server', ['css-process', 'img-min', 'index', 'watch'], function server(cb) {
 	var called = false;
 	return nodemon({
 		script: './server/server.js',
+		ignore: [
+			'webroot/',
+			'websrc/',
+		],
+		watch: ['server/'],
+		ext: 'js json',
 		delay: 1,
-		env: {'NODE_ENV': process.env.NODE_ENV || 'development'},
-		watch: './server/**/*.*',
-		ext: 'js json'
+		env: {'NODE_ENV': process.env.NODE_ENV || 'development'}
 	})
 	.on('start', function onStart() {
 		if (!called) {
@@ -267,10 +293,11 @@ gulp.task('server', ['css-process', 'index', 'watch'], function server(cb) {
 		}
 		called = true;
 	})
-	.on('restart', ['watch'], function onRestart() {
+	.on('change', ['watch'])
+	.on('restart', function onRestart() {
 		setTimeout(function delayedBSReload() {
 			browserReload({
-				stream: true
+				stream: false
 			});
 		}, 500); // .5 sec delay
 	});

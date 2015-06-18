@@ -6,10 +6,9 @@
   "private": true,
   "dependencies": {
     "angular": "^1",
-    "angular-animate": "^1",
+    "angular-animate": "^1.4",
     "angular-aria": "^1",
-    "angular-bootstrap": "^0",
-    "angular-busy": "^4",
+    "angular-bootstrap": "^0.12",
     "angular-cookies": "^1",
     "angular-gridster": "^0",
     "angular-loader": "^1",
@@ -28,7 +27,7 @@
     "animate.css": "^3",
     "async": "^0",
     "bootstrap": "^3",
-    "bootstrap-sass-official": "^3",
+    "bootstrap-sass": "^3",
     "es6-promise": "^2",
     "fontawesome": "^4",
     "howler": "^1",
@@ -47,6 +46,7 @@
     "angular-scenario": "^1"
   },
   "resolutions": {
-    "angular": "^1.3"
+    "angular": "^1.4",
+    "angular-animate": "^1.4"
   }
 }

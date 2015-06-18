@@ -407,10 +407,10 @@ input[type=color] {
 }
 #loading-bar .bar {
 	background: #f58220;
-	height: 5px;
+	height: 3px;
 }
 #loading-bar .peg {
-	box-shadow: #f58220 1px 0 6px 1px;
+	box-shadow: #f58220 2px 0 6px 2px;
 }
 #loading-bar-spinner .spinner-icon {
 	border-left-color: #f58220;
@@ -418,4 +418,116 @@ input[type=color] {
 }
 .tr-ng-grid > thead > tr > th {
 	vertical-align: bottom;
+}
+.concerns-cell {
+	table {
+		width: 100%;
+	}
+	tr {
+		border-bottom: 1px solid #eee;
+		td {
+			vertical-align: top;
+			li {
+				padding-bottom: 4px;
+			}
+		}
+	}
+	tr:last-child {
+		border-bottom: 0;
+	}
+	.concern-category {
+		font-weight: 600;
+		min-width: 123px;
+		text-align: center;
+		vertical-align: middle;
+		width: 20%;
+	}
+	.concern-level {
+		text-align: center;
+		vertical-align: middle;
+		width: 10%;
+	}
+	.concern-subcategories {
+		padding-right: 10px;
+		width: 35%;
+	}
+	.concern-narrative {
+		width: 35%;
+	}
+	img {
+		filter: opacity(60%);
+		width: 48px;
+	}
+}
+th[field-name=concernLevel],
+td[field-name=concernLevel],
+th[field-name=concerns],
+td[field-name=concerns] {
+	display: none;
+}
+.label {
+	font-size: large;
+}
+.label1 {
+	background-color: #d9d94f;
+}
+.label2 {
+	background-color: #d9994f;
+}
+.label3 {
+	background-color: #d9534f;
+}
+.modal.fade .modal-dialog {
+	opacity: 0;
+	top: 300px;
+	transform: scale(.1);
+	transition: all .3s ease-in-out;
+}
+.modal.in .modal-dialog {
+	opacity: 1;
+	transform: translate3d(0, -300px, 0);
+}
+.table-responsive {
+	.table {
+		max-width: 767px;
+		width: 767px;
+	}
+	thead > tr > th,
+	tbody > tr > th,
+	tfoot > tr > th,
+	thead > tr > td,
+	tbody > tr > td,
+	tfoot > tr > td {
+		white-space: normal;
+	}
+}
+.modal {
+	.concerns-cell td {
+		display: table-row;
+	}
+	.concern-category {
+		height: 80px;
+	}
+	.concern-level {
+		height: 30px;
+		.label {
+			margin-top: 10px;
+		}
+	}
+}
+@media (min-width: 768px) {
+	.table-responsive {
+		.table {
+			max-width: 100%;
+			width: 100%;
+		}
+	}
+	.modal {
+		.concerns-cell td {
+			display: table-cell;
+		}
+		.concern-level {
+			height: inherit;
+		}
+	}
 }

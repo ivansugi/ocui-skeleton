@@ -7,4 +7,3 @@ linters:
     enabled: false
   PropertySortOrder:
     ignore_unspecified: true
-

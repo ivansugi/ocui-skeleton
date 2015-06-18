@@ -71,7 +71,7 @@ gulp
 
 ```
 gulp prod
-node ./server/app.js
+node ./server/server.js
 ```
 
 ## Directory layout

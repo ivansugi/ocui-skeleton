@@ -11,7 +11,7 @@ module.exports = {
 		var isNotProduction = (env === 'development' || env === 'local');
 		nconf
 			.overrides()
-			.env()
+			.env(['USER', 'INIT_CWD', 'NODE_PATH', 'NODE_ENV', 'PORT'])
 			.argv()
 			.file({file: homedir + '/.config' + '/' + appName + '/' + env + 'ConfigOverrides.json'})
 			.file({file: '../config/' + env + 'Config.json'})
@@ -20,10 +20,9 @@ module.exports = {
 				siteProtocol: 'http',
 				siteHost: 'localhost',
 				compressionThreshold: 512,
-				cookieSecret: 'CookieSecret',
 				jwtSecret: 'TokenSecret',
-				authenticationUrl: 'http://104.131.126.24:8080/OpenClinica/pages/accounts/study/', //S_THEJUNOD/crc/kkrumlian
-				restUrl: 'https://demo2.eclinicalhosting.com/OpenClinica2/rest/clinicaldata/json/view/' //S_MICU/*/*/*'
+				authenticationUrl: 'http://104.131.126.24:8080/OpenClinica/pages/accounts/study/',
+				restUrl: 'https://demo2.eclinicalhosting.com/OpenClinica2/rest/clinicaldata/json/view/'
 			});
 	},
 	get: function get(key) {

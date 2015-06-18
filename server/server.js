@@ -1,8 +1,7 @@
 'use strict';
 
 var express = require('express');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var errorhandler = require('errorhandler');
 var requestLogger = require('morgan');
 var compression = require('compression');
@@ -24,8 +23,6 @@ conf.outputToLog();
  * Node config
  */
 app.set('port', conf.get('PORT'));
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views');
 app.set('controllers', __dirname + '/controllers/');
 
 app.use(compression({

@@ -19,7 +19,6 @@ angular
 		'mgcrea.ngStrap.timepicker',
 		'ngStorage',
 		'angular-loading-bar',
-		'cgBusy',
 		'toaster',
 		'angular-jwt',
 		'app.service.loghttp',
@@ -44,9 +43,9 @@ angular
 			cfpLoadingBarProvider
 	) {
 		$provide.decorator('$log', function $log($delegate, logHttpService) {
-			var logError = $delegate.error;
+			// var logError = $delegate.error;
 			$delegate.error = function error(message) {
-				console.error(message);
+				//console.error(message);
 				logHttpService.postLog(message);
 			};
 			return $delegate;
@@ -57,7 +56,6 @@ angular
 			myService.doSomething();
 			return localStorage.getItem('id_token');
 		}];
-		$urlRouterProvider.otherwise('/app/dashboard');
 		$mdThemingProvider.definePalette('dark-grey', {
 			'50': '999999',
 			'100': '888888',
@@ -119,9 +117,10 @@ angular
 			.primaryPalette('clinica-blue')
 			.accentPalette('open-orange');
 		cfpLoadingBarProvider.includeSpinner = false;
+		$urlRouterProvider.otherwise('/app/dashboard/S_MICU');
 		$stateProvider
 			.state('dashboard', {
-				url: '/app/dashboard',
+				url: '/app/dashboard/:studyId',
 				controller: 'DashboardController',
 				controllerAs: 'dashboard',
 				templateUrl: '/app/components/dashboard/dashboard.tpl.html'
@@ -134,7 +133,7 @@ angular
 			})
 			.state('login', {
 				url: '/app/login',
-				onEnter: function loginModalEnter($modal, $state) {
+				onEnter: function loginModalEnter($modal) {
 					$modal.open({
 						controller: 'LoginController',
 						controllerAs: 'login',
@@ -151,7 +150,7 @@ angular
 			})
 			.state('forgot', {
 				url: '/app/forgot',
-				onEnter: function forgotModalEnter($modal, $state) {
+				onEnter: function forgotModalEnter($modal) {
 					$modal.open({
 						controller: 'LoginController',
 						controllerAs: 'login',
@@ -166,4 +165,7 @@ angular
 					});
 				}
 			});
+	})
+	.run(function() {
+		TrNgGrid.defaultPagerMinifiedPageCountThreshold = 5;
 	});

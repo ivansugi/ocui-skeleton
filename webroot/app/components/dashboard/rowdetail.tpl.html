@@ -1,0 +1,57 @@
+<div class="modal-header">
+	<h3 class="modal-title">Case details</h3>
+</div>
+<div class="modal-body">
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td>Date</td>
+				<td>{{selectedItem.date}}</td>
+			</tr>
+			<tr>
+				<td>Name</td>
+				<td>{{selectedItem.name}}</td>
+			</tr>
+			<tr>
+				<td>Room</td>
+				<td>{{selectedItem.room}}</td>
+			</tr>
+			<tr>
+				<td>Concern(s)</td>
+				<td class="concerns-cell">
+					<table>
+						<tr ng-repeat="item in selectedItem.concerns">
+							<td class="concern-category"><img ng-src="/img/{{item.categoryFilename}}.svg"/><br/>{{item.category}}</td>
+							<td class="concern-level">
+								<div class="label label{{item.severity}}">
+									{{item.severity}}
+								</div>
+							</td>
+							<td class="concern-subcategories"><ol><li ng-repeat="subitem in item.subcategories">{{subitem}}</li></ol></td>
+							<td class="concern-narritive">{{item.narrative}}</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>First Occurred</td>
+				<td>{{selectedItem.firstOccurred}}</td>
+			</tr>
+			<tr>
+				<td>Shared Concern</td>
+				<td>{{selectedItem.sharedConcern}}</td>
+			</tr>
+			<tr>
+				<td>Plan To Share</td>
+				<td>{{selectedItem.planToShare}}</td>
+			</tr>
+			<tr>
+				<td>Family Engaged</td>
+				<td>{{selectedItem.familyEngaged}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="close()">Close</button>
+</div>

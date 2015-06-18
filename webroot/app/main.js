@@ -45,4 +45,5 @@ angular
 				}
 			});
 		};
+		vm.currentStudy = 'S_MICU';
 	});

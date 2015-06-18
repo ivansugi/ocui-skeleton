@@ -3,7 +3,7 @@
 		<div class="panel-heading cursor-move">
 			<span class="panel-title">
 				<span class="fa fa-table"></span>
-				MySafeCare: An Application for Patients and Families
+				MySafeCare<span class="hidden-xs">: An Application for Patients and Families</span>
 			</span>
 			<div class="pull-right">
 				<button class="btn btn-xs btn-default" ng-click="dashboard.remove(widget)"><span class="fa fa-times"></span></button>
@@ -11,7 +11,38 @@
 		</div>
 		<div class="panel-body">
 			<div class="table-responsive">
-				<table tr-ng-grid="" items="dashboard.mockData" class="table">
+				<table tr-ng-grid="" items="dashboard.tableData" class="table" fields="['date','name', 'room', 'concerns']" selection-mode="SingleRow" selected-items="selectedItems" enable-filtering="false" locale="en-us">
+					<thead>
+						<tr>
+							<th field-name="date" cell-width="12%" display-align="right"></th>
+							<th field-name="name" cell-width="13%"></th>
+							<th field-name="room" cell-width="5%"></th>
+							<th cell-width="70%">
+								<!-- <div class="tr-ng-title">
+									Concern(s)
+								</div> -->
+								<input class="form-control" type="text" ng-model="gridOptions.filterBy" placeholder="Search any column"/>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="concerns-cell">
+								<table>
+									<tr ng-repeat="item in gridItem.concerns">
+										<td class="concern-category"><img ng-src="/img/{{item.categoryFilename}}.svg" ng-if="item.categoryFilename"/><br/>{{item.category}}</td>
+										<td class="concern-level">
+											<div class="label label{{item.severity}}">
+												{{item.severity}}
+											</div>
+										</td>
+										<td class="concern-subcategories"><ol><li ng-repeat="subitem in item.subcategories">{{subitem}}</li></ol></td>
+										<td class="concern-narrative">{{item.narrative}}</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 		</div>

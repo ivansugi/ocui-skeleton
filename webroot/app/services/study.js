@@ -4,8 +4,8 @@ angular
 	.module('app.service.study', [])
 	.factory('studyService', function studyService($http) {
 		return {
-			get: function get(cb) {
-				$http.get('/api/studies/S_MICU')
+			get: function get(studyId, cb) {
+				$http.get('/api/studies/' + studyId)
 					.success(function(data) {
 						cb(data);
 					});
