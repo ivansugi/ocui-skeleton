@@ -11,7 +11,7 @@ angular
 			toaster.pop({
 				type: 'success',
 				title: 'Study changed',
-				body: 'Study changed to: ' + newStudy,
+				body: 'Study changed to: <strong>' + newStudy + '</strong>',
 				bodyOutputType: 'trustedHtml'
 			});
 		};
