@@ -34,7 +34,7 @@ angular
 	})
 	.controller('RowDetailModalController', function rowDetailController($scope, $modalInstance, selectedItem) {
 		$scope.selectedItem = selectedItem;
-		console.log(selectedItem);
+		console.log('Selected item:', selectedItem);
 		$scope.close = function close() {
 			$modalInstance.close();
 		};

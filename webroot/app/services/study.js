@@ -2,11 +2,15 @@
 
 angular
 	.module('app.service.study', [])
-	.factory('studyService', function studyService($http) {
+	.factory('studyService', function studyService($http, $cacheFactory) {
 		return {
 			get: function get(studyId, cb) {
-				$http.get('/api/studies/' + studyId)
+				$http.get('/api/studies/' + studyId, {cache: true})
 					.success(function(data) {
+						setTimeout(function removeCache() {
+							console.log('remove:', studyId);
+							$cacheFactory.get('$http').remove('/api/studies/' + studyId);
+						}, 1000 * 60 * 10); // 10 minutes
 						cb(data);
 					});
 			}

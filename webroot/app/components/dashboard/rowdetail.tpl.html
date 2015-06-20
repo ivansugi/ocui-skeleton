@@ -21,7 +21,7 @@
 				<td class="concerns-cell">
 					<table>
 						<tr ng-repeat="item in selectedItem.concerns">
-							<td class="concern-category"><img ng-src="/img/{{item.categoryFilename}}.svg"/><br/>{{item.category}}</td>
+							<td class="concern-category"><img ng-src="/img/{{item.categoryFilename}}.svg" ng-if="item.categoryFilename"/><br/>{{item.category}}</td>
 							<td class="concern-level">
 								<div class="label label{{item.severity}}">
 									{{item.severity}}

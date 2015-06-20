@@ -19,7 +19,7 @@ angular
 			type: 'info',
 			title: 'What is this page for?',
 			body: 'This page gives you the ability to switch between MICU and Oncology studies.' +
-				'You would only see the link if you had permissions.',
+				'You would only see the link if you have permissions.',
 			bodyOutputType: 'trustedHtml'
 		});
 	});
