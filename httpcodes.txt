@@ -1,0 +1,6 @@
+200 success
+401 missing/bad/long expired token
+403 you have a token but you don't have access to this data
+404 resource not found
+419 authentication timeout (short expired token)
+500 generic server error

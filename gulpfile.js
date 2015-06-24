@@ -78,9 +78,9 @@ var clone = function clone(obj) {
 
 /**
  * js-code-style
- * Checks code style (?) on our own JS
+ * Checks code style on our own JS
  */
-gulp.task('js-code-style', function jsCodeStyle() {
+gulp.task('js-style', function jsStyle() {
 	return gulp.src(assets.jsBodyCustom, {base: './webroot/'})
 		.pipe(cache('js-cs'))
 		.pipe(jscs());
@@ -90,7 +90,7 @@ gulp.task('js-code-style', function jsCodeStyle() {
  * js-custom-lint
  * Lints our custom javascript libraries
  */
-gulp.task('js-custom-lint', function jsCustomLint() {
+gulp.task('js-hint', function jsHint() {
 	return gulp.src(assets.jsBodyCustom, {base: './webroot/'})
 		.pipe(cache('js-custom-lint'))
 		.pipe(jshint())
@@ -101,7 +101,7 @@ gulp.task('js-custom-lint', function jsCustomLint() {
  * js-custom-typecheck
  * Checks for common type mismatch errors in our custom javascript libraries
  */
-gulp.task('js-custom-typecheck', function jsCustomLint() {
+gulp.task('js-typecheck', function jsLint() {
 	return gulp.src(assets.jsBodyCustom, {base: './webroot/'})
 		.pipe(cache('js-custom-typecheck'))
 		.pipe(flow({
@@ -185,7 +185,7 @@ gulp.task('css-process', function cssProcess() {
  * font
  * Move fonts to location expected when minifying/concating all vendor css
  */
-gulp.task('fonts', function fonts() {
+gulp.task('fonts-fix', function fontsFix() {
 	var fontawesome = gulp.src('./webroot/vendor/fontawesome/fonts/**/*')
 		.pipe(gulp.dest(indexDest + '/fonts/'));
 	var opensans = gulp.src('./webroot/vendor/open-sans-fontface/fonts/**/*')
@@ -197,7 +197,7 @@ gulp.task('fonts', function fonts() {
  * css-min
  * Minifies our css file
  */
-gulp.task('css-min', ['css-process', 'fonts'], function cssMin() {
+gulp.task('css-min', ['css-process', 'fonts-fix'], function cssMin() {
 	var files = clone(assets.cssVendor);
 	files.push(assets.cssCustomProcessed);
 	return gulp.src(files, {base: './webroot/'})
@@ -223,7 +223,7 @@ gulp.task('img-min', function imageMin() {
  * index
  * Creates a development-mode index.html with references to the source versions of the dependencies
  */
-gulp.task('index', ['css-process'], function index() {
+gulp.task('index-dev', ['css-process'], function indexDev() {
 	var cssAndJs = [];
 	cssAndJs = cssAndJs.concat(
 		assets.cssVendor,
@@ -263,10 +263,10 @@ gulp.task('index-prod', ['js-head-min', 'js-body-min', 'css-min', 'img-min'], fu
  * watch
  * When a certain file type changes, run the appropriate task
  */
-gulp.task('watch', function watch() {
+gulp.task('watch-dev', function watch() {
 	gulp.watch('./websrc/**/*.scss', ['css-lint', 'css-process']);
 	gulp.watch(assets.jsBodyCustom, ['js-lint']);
-	gulp.watch(['./websrc/index.html', './websrc/assets.json'], ['index', browserReload]);
+	gulp.watch(['./websrc/index.html', './websrc/assets.json'], ['index-dev', browserReload]);
 	gulp.watch(['./websrc/img/**.*'], ['img-min']);
 });
 
@@ -274,7 +274,7 @@ gulp.task('watch', function watch() {
  * server
  * Run the node server in a dev mode that restart server when certain files change
  */
-gulp.task('server', ['css-process', 'img-min', 'index', 'watch'], function server(cb) {
+gulp.task('server-dev', ['css-process', 'img-min', 'index-dev', 'watch-dev'], function server(cb) {
 	var called = false;
 	return nodemon({
 		script: './server/server.js',
@@ -293,7 +293,7 @@ gulp.task('server', ['css-process', 'img-min', 'index', 'watch'], function serve
 		}
 		called = true;
 	})
-	.on('change', ['watch'])
+	.on('change', ['watch-dev'])
 	.on('restart', function onRestart() {
 		setTimeout(function delayedBSReload() {
 			browserReload({
@@ -307,7 +307,7 @@ gulp.task('server', ['css-process', 'img-min', 'index', 'watch'], function serve
  * browser-sync
  * Reload/update browser on changes
  */
-gulp.task('browser-sync', ['server'], function syncServer() {
+gulp.task('browser-sync', ['server-dev'], function syncServer() {
 	setTimeout (function delayedBSStart() {
 		browserSync({
 			proxy: 'http://localhost:3000',
@@ -329,7 +329,7 @@ gulp.task('browser-sync', ['server'], function syncServer() {
  * js-lint
  * All javascript linting in one command
  */
-gulp.task('js-lint', ['js-code-style', 'js-custom-lint', 'js-custom-typecheck']);
+gulp.task('js-lint', ['js-style', 'js-hint', 'js-typecheck']);
 
 /**
  * lint

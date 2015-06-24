@@ -32,10 +32,19 @@ angular
 			bodyOutputType: 'trustedHtml'
 		});
 	})
-	.controller('RowDetailModalController', function rowDetailController($scope, $modalInstance, selectedItem) {
+	.controller('RowDetailModalController', function rowDetailController($scope, $modalInstance, toaster, selectedItem) {
 		$scope.selectedItem = selectedItem;
 		console.log('Selected item:', selectedItem);
 		$scope.close = function close() {
 			$modalInstance.close();
+		};
+		$scope.submitFollowup = function submitFollowup() {
+			console.log('Submitted');
+			toaster.pop({
+				type: 'error',
+				title: 'Follow-up not saved',
+				body: 'Since we do not have a back end configured yet, the data was not saved anywhere.',
+				bodyOutputType: 'trustedHtml'
+			});
 		};
 	});

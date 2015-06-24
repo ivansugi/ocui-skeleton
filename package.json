@@ -23,8 +23,8 @@
 		"nconf": "^0",
 		"jsonwebtoken": "^5",
 		"express-jwt": "^3",
-		"memoizee": "^0",
-		"node-cache": "^3"
+		"node-cache": "^3",
+		"lokijs": "^1"
 	},
 	"devDependencies": {
 		"bower": "^1",

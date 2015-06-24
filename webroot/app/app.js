@@ -13,11 +13,9 @@ angular
 		'ui.bootstrap.modal',
 		'ui.bootstrap.accordion',
 		'ui.bootstrap.dropdown',
-		'ui.bootstrap.rating',
 		'trNgGrid',
 		'mgcrea.ngStrap.datepicker',
 		'mgcrea.ngStrap.timepicker',
-		'ngStorage',
 		'angular-loading-bar',
 		'toaster',
 		'angular-jwt',
@@ -30,7 +28,8 @@ angular
 		'app.dialog.content',
 		'app.component.dashboard',
 		'app.component.manage',
-		'app.component.login'
+		'app.component.login',
+		'monospaced.elastic'
 	])
 	.config(function config(
 			$provide,

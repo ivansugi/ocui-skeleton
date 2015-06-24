@@ -531,3 +531,12 @@ td[field-name=concerns] {
 		}
 	}
 }
+.followup-heading {
+	text-align: center;
+}
+.followup {
+	margin-bottom: 5px;
+	.followup-header {
+		font-weight: 600
+	}
+}

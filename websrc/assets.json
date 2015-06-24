@@ -9,7 +9,7 @@
         "./webroot/vendor/angularjs-toaster/toaster.css",
         "./webroot/vendor/angular-gridster/dist/angular-gridster.min.css",
         "./webroot/vendor/animate.css/animate.css",
-        "./webroot/vendor/nvd3/nv.d3.css"
+        "./webroot/vendor/c3/c3.css"
     ],
     "jsHead": [
         "./webroot/vendor/modernizr/modernizr.js",
@@ -31,7 +31,7 @@
         "./webroot/vendor/angular-aria/angular-aria.js",
         "./webroot/vendor/angular-messages/angular-messages.js",
         "./webroot/vendor/angular-ui-router/release/angular-ui-router.js",
-        "./webroot/vendor/ngstorage/ngStorage.js",
+        "./webroot/vendor/angular-local-storage/dist/angular-local-storage.js",
         "./webroot/vendor/angular-bootstrap/ui-bootstrap-tpls.js",
         "./webroot/vendor/angular-strap/dist/modules/tooltip.js",
         "./webroot/vendor/angular-strap/dist/modules/dimensions.js",
@@ -41,15 +41,16 @@
         "./webroot/vendor/angular-strap/dist/modules/datepicker.tpl.js",
         "./webroot/vendor/angular-strap/dist/modules/timepicker.js",
         "./webroot/vendor/angular-strap/dist/modules/timepicker.tpl.js",
-        "./webroot/vendor/tr-ng-grid/trNgGrid.js",
         "./webroot/vendor/angular-loading-bar/build/loading-bar.js",
         "./webroot/vendor/angularjs-toaster/toaster.js",
+        "./webroot/vendor/angular-jwt/dist/angular-jwt.js",
+        "./webroot/vendor/angular-elastic/elastic.js",
         "./webroot/vendor/angular-gridster/src/angular-gridster.js",
+        "./webroot/vendor/tr-ng-grid/trNgGrid.js",
         "./webroot/vendor/angular-recaptcha/release/angular-recaptcha.js",
         "./webroot/vendor/d3/d3.js",
-        "./webroot/vendor/nvd3/nv.d3.js",
-        "./webroot/vendor/angular-nvd3/dist/angular-nvd3.js",
-        "./webroot/vendor/angular-jwt/dist/angular-jwt.js"
+        "./webroot/vendor/c3/c3.js",
+        "./webroot/vendor/angular-chart/angular-chart.js"
     ],
     "jsBodyCustom": [
         "./webroot/app/app.js",
