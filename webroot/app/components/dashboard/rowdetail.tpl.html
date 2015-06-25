@@ -3,25 +3,25 @@
 	<h3 class="modal-title">Case details</h3>
 </div>
 <div class="modal-body">
-	<table class="table table-bordered">
+	<table class="table table-bordered rowdetail">
 		<tbody>
 			<tr>
-				<td>Date</td>
+				<td class="rowdetail-label">Date</td>
 				<td>{{selectedItem.date}}</td>
 			</tr>
 			<tr>
-				<td>Name</td>
+				<td class="rowdetail-label">Name</td>
 				<td>{{selectedItem.name}}</td>
 			</tr>
 			<tr>
-				<td>Room</td>
+				<td class="rowdetail-label">Room</td>
 				<td>{{selectedItem.room}}</td>
 			</tr>
 			<tr>
-				<td>Concern(s)</td>
+				<td class="rowdetail-label">Concern(s)</td>
 				<td class="concerns-cell">
 					<table>
-						<tr ng-repeat="item in selectedItem.concerns">
+						<tr ng-repeat-start="item in selectedItem.concerns">
 							<td class="concern-category"><img ng-src="/img/{{item.categoryFilename}}.svg" ng-if="item.categoryFilename"/><br/>{{item.category}}</td>
 							<td class="concern-level">
 								<div class="label label{{item.severity}}">
@@ -31,29 +31,28 @@
 							<td class="concern-subcategories"><ol><li ng-repeat="subitem in item.subcategories">{{subitem}}</li></ol></td>
 							<td class="concern-narritive">{{item.narrative}}</td>
 						</tr>
+						<tr ng-repeat-end class="concern-detail">
+							<td colspan="4">
+								<table>
+									<tr>
+										<td ng-show="item.firstOccurred" tooltip="This field is relative to the date of submission." tooltip-placement="left" class="concern-detail-cell"><strong>First occurred:</strong> {{item.firstOccurred}}</td>
+										<td ng-show="item.shared" tooltip="Did the patient share this concern with the care team?" tooltip-placement="left" class="concern-detail-cell"><strong>Shared concern:</strong> {{item.shared}}</td>
+										<td ng-show="item.planToShare" tooltip="Does the patient plan to share this concern with the care team?" tooltip-placement="left" class="concern-detail-cell"><strong>Plan to share:</strong> {{item.planToShare}}</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
 					</table>
 				</td>
 			</tr>
-			<tr>
-				<td>First Occurred</td>
-				<td>{{selectedItem.firstOccurred}}</td>
-			</tr>
-			<tr>
-				<td>Shared Concern</td>
-				<td>{{selectedItem.sharedConcern}}</td>
-			</tr>
-			<tr>
-				<td>Plan To Share</td>
-				<td>{{selectedItem.planToShare}}</td>
-			</tr>
-			<tr>
-				<td>Family Engaged</td>
+			<tr tooltip="Is the patient's family/friend engaged in the care?" tooltip-placement="left">
+				<td class="rowdetail-label">Family Engaged <span class="fa fa-question-circle"></span></td>
 				<td>{{selectedItem.familyEngaged}}</td>
 			</tr>
 		</tbody>
 	</table>
 	<accordion>
-		<accordion-group>
+		<accordion-group is-open="true">
 			<accordion-heading>
 				Follow-ups
 			</accordion-heading>

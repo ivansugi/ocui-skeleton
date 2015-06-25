@@ -426,10 +426,16 @@ input[type=color] {
 	tr {
 		border-bottom: 1px solid #eee;
 		td {
+			padding-top: 10px;
 			vertical-align: top;
 			li {
 				padding-bottom: 4px;
 			}
+		}
+	}
+	tr:first-child {
+		td {
+			padding-top: 0;
 		}
 	}
 	tr:last-child {
@@ -538,5 +544,31 @@ td[field-name=concerns] {
 	margin-bottom: 5px;
 	.followup-header {
 		font-weight: 600
+	}
+}
+.rowdetail {
+	tr {
+		border-bottom: 0;
+	}
+	.concern-detail {
+		background-color: #eee;
+		border-bottom: 1px solid #eee;
+		td {
+			padding-top: 0;
+			vertical-align: top;
+			li {
+				padding-bottom: 4px;
+			}
+		}
+		.concern-detail-cell {
+			padding: 5px;
+			padding-left: 10px;
+		}
+	}
+	.concern-detail:last-child {
+		border-bottom: 0;
+	}
+	.rowdetail-label {
+		white-space: nowrap;
 	}
 }

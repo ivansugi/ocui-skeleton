@@ -39,7 +39,6 @@ angular
 			$modalInstance.close();
 		};
 		$scope.submitFollowup = function submitFollowup() {
-			console.log('Submitted');
 			toaster.pop({
 				type: 'error',
 				title: 'Follow-up not saved',

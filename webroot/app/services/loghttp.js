@@ -15,6 +15,7 @@ angular
 					height: window.screen.height,
 					message: message
 				}));
+				console.log(message);
 			}
 		};
 	});

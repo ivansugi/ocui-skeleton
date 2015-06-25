@@ -8,7 +8,7 @@ var conf = require('../conf.js');
 
 conf.load();
 
-var studyCache = new NodeCache({stdTTL: 100});
+var studyCache = new NodeCache({stdTTL: 119, checkperiod: 120}); //cache lives for 2 minutes
 
 var getTextValueFromNumber = function getTextValueFromNumber(studyResponse, itemOID, itemValue) {
 	var itemDefObject = _.find(studyResponse.Study.MetaDataVersion.ItemDef, {'@OID': itemOID});
@@ -31,9 +31,9 @@ var parseODC = function parseODC(body) {
 		var concernCategoryFilename = '';
 		var concernSubcategories = [];
 		var concernNarrative = '';
-		var firstOccurred = '';
-		var sharedConcern = '';
-		var planToShare = '';
+		var concernFirstOccurred = '';
+		var concernShared = '';
+		var concernPlanToShare = '';
 		var familyEngaged = '';
 		if (currentSubject.StudyEventData) {
 			var currentStudyEvent = currentSubject.StudyEventData;
@@ -49,12 +49,6 @@ var parseODC = function parseODC(body) {
 							name = currentItem['@Value'];
 						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCROOM') {
 							room = currentItem['@Value'];
-						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCFIRST') {
-							firstOccurred = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
-						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSHARED') {
-							sharedConcern = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
-						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCPLANTOSHARE') {
-							planToShare = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
 						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCFAMILYCARE') {
 							familyEngaged = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
 						}
@@ -92,6 +86,12 @@ var parseODC = function parseODC(body) {
 							}
 						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCNARR') {
 							concernNarrative = currentItem['@Value'];
+						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCFIRST') {
+							concernFirstOccurred = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
+						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSHARED') {
+							concernShared = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
+						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCPLANTOSHARE') {
+							concernPlanToShare = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
 						}
 					}
 					concerns.push({
@@ -99,7 +99,10 @@ var parseODC = function parseODC(body) {
 						severity: parseInt(concernSeverity),
 						categoryFilename: concernCategoryFilename,
 						subcategories: concernSubcategories,
-						narrative: concernNarrative
+						narrative: concernNarrative,
+						firstOccurred: concernFirstOccurred,
+						shared: concernShared,
+						planToShare: concernPlanToShare
 					});
 				}
 				result[iSubject] = {
@@ -107,9 +110,6 @@ var parseODC = function parseODC(body) {
 					name: name,
 					room: room,
 					concerns: concerns,
-					firstOccurred: firstOccurred,
-					sharedConcern: sharedConcern,
-					planToShare: planToShare,
 					familyEngaged: familyEngaged
 				};
 			}
