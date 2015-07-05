@@ -12,7 +12,7 @@ angular
 			if ($scope.selectedItems.length > 0) {
 				$modal.open({
 					templateUrl: '/app/components/dashboard/rowdetail.tpl.html',
-					controller: 'RowDetailModalController',
+					controller: 'RowDetailModalController as rowDetail',
 					size: 'lg',
 					resolve: {
 						selectedItem: function() {
@@ -32,13 +32,14 @@ angular
 			bodyOutputType: 'trustedHtml'
 		});
 	})
-	.controller('RowDetailModalController', function rowDetailController($scope, $modalInstance, toaster, selectedItem) {
-		$scope.selectedItem = selectedItem;
+	.controller('RowDetailModalController', function rowDetailController($modalInstance, toaster, selectedItem) {
+		var vm = this;
+		vm.selectedItem = selectedItem;
 		console.log('Selected item:', selectedItem);
-		$scope.close = function close() {
+		vm.close = function close() {
 			$modalInstance.close();
 		};
-		$scope.submitFollowup = function submitFollowup() {
+		vm.submitFollowup = function submitFollowup() {
 			toaster.pop({
 				type: 'error',
 				title: 'Follow-up not saved',

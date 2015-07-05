@@ -7,7 +7,7 @@ var requestLogger = require('morgan');
 var compression = require('compression');
 var chalk = require('chalk');
 var path = require('path');
-var ejwt = require('express-jwt');
+var jwt = require('express-jwt');
 require('express-resource-new');
 var app = module.exports = express();
 var server = require('http').createServer(app);
@@ -25,6 +25,11 @@ conf.outputToLog();
 app.set('port', conf.get('PORT'));
 app.set('controllers', __dirname + '/controllers/');
 
+var authenticate = jwt({
+	secret: new Buffer(conf.get('AUTH_SECRET'), 'base64'),
+	audience: conf.get('AUTH_ID')
+});
+
 app.use(compression({
 	threshold: conf.get('compressionThreshold')
 }));
@@ -33,6 +38,7 @@ var webroot = path.join(__dirname, '../webroot');
 app.use(express.static(webroot));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use('/secured', authenticate);
 
 if (isNotProduction) {
 	app.use(requestLogger('dev'));
@@ -77,7 +83,7 @@ app.use(function(req, res) {
  * Server
  */
 server.listen(app.get('port'), function listen() {
-	console.log('Server is listening on port %d in %s mode:', conf.get('PORT'), app.settings.env);
+	console.log('Listening on port %d in %s mode:', conf.get('PORT'), app.settings.env);
 	console.log(chalk.magenta(conf.get('siteProtocol') + '://' + conf.get('siteHost') + ':' + conf.get('PORT')));
 	console.log('-------------------------------------------------------------------------------');
 });

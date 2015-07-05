@@ -35,6 +35,8 @@ var minifyCss = require('gulp-minify-css');
 var imagemin = require('gulp-imagemin');
 var inject = require('gulp-inject');
 var minifyHtml = require('gulp-minify-html');
+var gulpDocs = require('gulp-ngdocs');
+var jsdoc = require('gulp-jsdoc');
 var nodemon = require('gulp-nodemon');
 var browserSync = require('browser-sync');
 // var spa = require('browser-sync-spa');
@@ -321,6 +323,21 @@ gulp.task('browser-sync', ['server-dev'], function syncServer() {
 });
 
 /**
+ * docs
+ * Create automatically generated documentation
+ */
+gulp.task('docs-angular', function docsAngular() {
+	return gulp.src('./webroot/app/**/*.js')
+		.pipe(gulpDocs.process())
+		.pipe(gulp.dest('./docs/angular/'));
+});
+
+gulp.task('docs-node', function docsNode() {
+	return gulp.src('./server/**/*.js')
+		.pipe(jsdoc('./docs/node/'));
+})
+
+/**
  * SHORTCUT COMMANDS
  * =================
  */
@@ -366,6 +383,12 @@ gulp.task('dev', ['lint', 'test', 'browser-sync']);
  * All production mode tasks in one command
  */
 gulp.task('prod', ['index-prod']);
+
+/**
+ * docs
+ * Generated both angular and node documentation
+ */
+gulp.task('docs', ['docs-angular', 'docs-node']);
 
 /**
  * default

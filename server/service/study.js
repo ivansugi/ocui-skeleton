@@ -41,10 +41,14 @@ var parseODC = function parseODC(body) {
 				currentStudyEvent = currentSubject.StudyEventData[0];
 			}
 			if (currentStudyEvent.FormData && currentStudyEvent.FormData.ItemGroupData) {
-				for (var iItemGroup = 0; iItemGroup < currentStudyEvent.FormData.ItemGroupData.length; iItemGroup++) {
-					var currentItemGroup = currentStudyEvent.FormData.ItemGroupData[iItemGroup];
-					for (var iItem = 0; iItem < currentItemGroup.ItemData.length; iItem++) {
-						var currentItem = currentItemGroup.ItemData[iItem];
+				var currentItemGroup;
+				var currentItem;
+				var iItemGroup;
+				var iItem;
+				for (iItemGroup = 0; iItemGroup < currentStudyEvent.FormData.ItemGroupData.length; iItemGroup++) {
+					currentItemGroup = currentStudyEvent.FormData.ItemGroupData[iItemGroup];
+					for (iItem = 0; iItem < currentItemGroup.ItemData.length; iItem++) {
+						currentItem = currentItemGroup.ItemData[iItem];
 						if (currentItem['@ItemOID'] === 'I_MSCMY_MSCNAME') {
 							name = currentItem['@Value'];
 						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCROOM') {
@@ -59,7 +63,7 @@ var parseODC = function parseODC(body) {
 				for (var iConcernGroup = 0; iConcernGroup < concernGroupArray.length; iConcernGroup++) {
 					currentItemGroup = concernGroupArray[iConcernGroup];
 					for (iItem = 0; iItem < currentItemGroup.ItemData.length; iItem++) {
-						var currentItem = currentItemGroup.ItemData[iItem];
+						currentItem = currentItemGroup.ItemData[iItem];
 						if (currentItem['@ItemOID'] === 'I_MSCMY_MSCCONCERN') {
 							concernCategory = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']).replace(/concern/gi, '').replace(/My /gi, '');
 							concernCategory = _.capitalize(concernCategory);
