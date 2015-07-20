@@ -35,6 +35,7 @@ var parseODC = function parseODC(body) {
 		var concernShared = '';
 		var concernPlanToShare = '';
 		var familyEngaged = '';
+		var patientRelationship = '';
 		if (currentSubject.StudyEventData) {
 			var currentStudyEvent = currentSubject.StudyEventData;
 			if (Array.isArray(currentSubject.StudyEventData)) {
@@ -53,6 +54,8 @@ var parseODC = function parseODC(body) {
 							name = currentItem['@Value'];
 						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCROOM') {
 							room = currentItem['@Value'];
+						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCRELPATIENT') {
+							patientRelationship = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
 						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCFAMILYCARE') {
 							familyEngaged = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
 						}
@@ -114,6 +117,7 @@ var parseODC = function parseODC(body) {
 					name: name,
 					room: room,
 					concerns: concerns,
+					patientRelationship: patientRelationship,
 					familyEngaged: familyEngaged
 				};
 			}
@@ -126,7 +130,7 @@ var parseODC = function parseODC(body) {
 var getStudy = function(studyId, cb) {
 	var cachedResult = studyCache.get(studyId);
 	if (cachedResult === undefined) {
-		request.get(conf.get('restUrl') + studyId + '/*/*/*', function requestStudy(error, response, body) {
+		request.get(conf.get('restUrl') + studyId + '/*/*/*?includeDNs=y', function requestStudy(error, response, body) {
 			if (!error && response.statusCode === 200) {
 				var result = [];
 				result = parseODC(body);
