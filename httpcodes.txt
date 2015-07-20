@@ -1,6 +1,8 @@
-200 success
-401 missing/bad/long expired token
+200 request was successful
+201 successfully created something
+400 malformed request (didn't pass bouncer)
+401 missing/bad/expired token
 403 you have a token but you don't have access to this data
 404 resource not found (never use for no data)
-419 authentication timeout (short expired token)
+409 conflict (multple users trying to update same data)
 500 unknown server error
