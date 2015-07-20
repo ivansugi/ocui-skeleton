@@ -4,9 +4,13 @@
 	</div>
 	<div class="panel-body">
 		<form name="form">
-			<md-switch ng-model="main.currentStudy" ng-true-value="'S_MICU'" ng-false-value="'S_ONC'" ng-change="manage.studyChanged(main.currentStudy)">
-				{{main.currentStudy}}
-			</md-switch>
+			<div class="form-group">
+				<md-radio-group ng-model="main.currentStudy" ng-change="manage.studyChanged(main.currentStudy)">
+					<md-radio-button ng-repeat="study in manage.studyOptions2" ng-value="study" aria-label="{{study}}">
+						{{study}}
+					</md-radio-button>
+				</md-radio-group>
+			</div>
 		</form>
 	</div>
 </section>

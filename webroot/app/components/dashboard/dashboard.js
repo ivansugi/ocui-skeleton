@@ -32,12 +32,13 @@ angular
 			bodyOutputType: 'trustedHtml'
 		});
 	})
-	.controller('RowDetailModalController', function rowDetailController($modalInstance, toaster, selectedItem) {
+	.controller('RowDetailModalController', function rowDetailController($modalInstance, toaster, selectedItem, SOUNDS) {
 		var vm = this;
 		vm.selectedItem = selectedItem;
 		console.log('Selected item:', selectedItem);
 		vm.close = function close() {
 			$modalInstance.close();
+			// SOUNDS.click.play();
 		};
 		vm.submitFollowup = function submitFollowup() {
 			toaster.pop({
@@ -46,5 +47,7 @@ angular
 				body: 'Since we do not have a back end configured yet, the data was not saved anywhere.',
 				bodyOutputType: 'trustedHtml'
 			});
+			SOUNDS.error.play();
 		};
+		SOUNDS.popup.play();
 	});

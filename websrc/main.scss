@@ -141,7 +141,7 @@ body {
 
 input[type=color] {
 	background-color: inherit;
-	border: 0;
+	border: 0 none;
 	border-radius: 0;
 	height: 34px;
 	outline: 0;
@@ -195,8 +195,7 @@ input[type=color] {
 			}
 		}
 		.navbar-toggle {
-			border: 0;
-			border-color: transparent;
+			border: 0 none transparent;
 			display: block;
 			margin: 0;
 			padding: 15px;
@@ -302,7 +301,7 @@ input[type=color] {
 		.panel-group {
 			margin-bottom: 0;
 			.panel {
-				border: 0;
+				border: 0 none;
 				border-image-width: 0;
 				border-radius: 0;
 				box-shadow: none;
@@ -339,7 +338,7 @@ input[type=color] {
 					}
 				}
 				.panel-body {
-					border: 0;
+					border: 0 none;
 					border-image-width: 0;
 					padding: 0;
 					.list-group {
@@ -347,7 +346,7 @@ input[type=color] {
 						box-shadow: none;
 						margin-bottom: 0;
 						.list-group-item {
-							border: 0;
+							border: 0 none;
 							border-bottom: 1px solid $sidenav-menu-divide-color;
 							border-radius: 0;
 							margin-bottom: 0;
@@ -404,6 +403,10 @@ input[type=color] {
 	.ng-leave {
 		transition: .3s cubic-bezier(.250, .250, .750, .750) all;
 	}
+}
+.toast {
+	-webkit-animation-name: fadeInRight;
+	animation-name: fadeInRight;
 }
 #loading-bar .bar {
 	background: #f58220;
@@ -483,15 +486,39 @@ td[field-name=concerns] {
 .label3 {
 	background-color: #d9534f;
 }
-.modal.fade .modal-dialog {
-	opacity: 0;
-	top: 300px;
-	transform: scale(.1);
-	transition: all .3s ease-in-out;
+.modal {
+	.concerns-cell td {
+		display: table-row;
+	}
+	.concern-category {
+		height: 80px;
+	}
+	.concern-level {
+		height: 30px;
+		.label {
+			margin-top: 10px;
+		}
+	}
+	&.fade .modal-dialog {
+		opacity: 0;
+		top: 300px;
+		transform: scale(.1);
+		transition: all .3s ease-in-out;
+	}
+	&.in .modal-dialog {
+		opacity: 1;
+		transform: translate3d(0, -300px, 0);
+	}
 }
-.modal.in .modal-dialog {
-	opacity: 1;
-	transform: translate3d(0, -300px, 0);
+@media (min-width: 768px) {
+	.modal {
+		.concerns-cell td {
+			display: table-cell;
+		}
+		.concern-level {
+			height: inherit;
+		}
+	}
 }
 .table-responsive {
 	.table {
@@ -507,33 +534,11 @@ td[field-name=concerns] {
 		white-space: normal;
 	}
 }
-.modal {
-	.concerns-cell td {
-		display: table-row;
-	}
-	.concern-category {
-		height: 80px;
-	}
-	.concern-level {
-		height: 30px;
-		.label {
-			margin-top: 10px;
-		}
-	}
-}
 @media (min-width: 768px) {
 	.table-responsive {
 		.table {
 			max-width: 100%;
 			width: 100%;
-		}
-	}
-	.modal {
-		.concerns-cell td {
-			display: table-cell;
-		}
-		.concern-level {
-			height: inherit;
 		}
 	}
 }
@@ -543,7 +548,7 @@ td[field-name=concerns] {
 .followup {
 	margin-bottom: 5px;
 	.followup-header {
-		font-weight: 600
+		font-weight: 600;
 	}
 }
 .rowdetail {
@@ -552,8 +557,8 @@ td[field-name=concerns] {
 	}
 	.concern-detail {
 		background-color: #eee;
-		background-image: linear-gradient(white, #eee);
-		border-bottom: 1px solid #eee;
+		background-image: linear-gradient(#fff, #eee);
+		border-bottom: 1px solid #ccc;
 		td {
 			padding-top: 0;
 			vertical-align: top;
@@ -573,18 +578,42 @@ td[field-name=concerns] {
 		white-space: nowrap;
 	}
 }
-
-.responsive-iframe {
+.iframe-container {
 	display: none;
-	border: 0;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	width: 100vw;
-	height: 100%;
-	height: 100vh;
+	overflow: hidden;
+	padding: 0;
+	position: relative;
+	&.active {
+		display: block;
+	}
+	.responsive-iframe {
+		background-color: transparent;
+		border: 0 none;
+		height: 100%;
+		height: 100vh;
+		left: 0;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+		width: 100vw;
+	}
 }
-.responsive-iframe.active {
-	display: block;
+:not(.no-enter)#toast-container > div.ng-enter,
+:not(.no-leave)#toast-container > div.ng-leave
+{
+	transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+}
+:not(.no-enter)#toast-container > div.ng-enter.ng-enter-active,
+:not(.no-leave)#toast-container > div.ng-leave {
+	opacity: .9;
+	-webkit-transform: none;
+	transform: none;
+}
+:not(.no-leave)#toast-container > div.ng-leave.ng-leave-active,
+:not(.no-enter)#toast-container > div.ng-enter {
+	opacity: 0;
+	-webkit-transform: translate3d(100%, 0, 0);
+	transform: translate3d(100%, 0, 0);
 }

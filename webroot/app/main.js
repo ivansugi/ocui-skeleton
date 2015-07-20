@@ -2,7 +2,7 @@
 
 angular
 	.module('app.main', [])
-	.controller('MainController', function mainController($state, $modal, toaster) {
+	.controller('MainController', function mainController($state, $modal) {
 		var vm = this;
 		vm.$state = $state;
 		vm.canFullscreen = Modernizr.fullscreen;

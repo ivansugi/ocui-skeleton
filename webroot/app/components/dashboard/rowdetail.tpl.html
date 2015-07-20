@@ -45,6 +45,10 @@
 					</table>
 				</td>
 			</tr>
+			<tr>
+				<td class="rowdetail-label">Patient relationship</td>
+				<td>{{rowDetail.selectedItem.patientRelationship}}</td>
+			</tr>
 			<tr tooltip="Is the patient's family/friend engaged in the care?" tooltip-placement="left">
 				<td class="rowdetail-label">Family Engaged <span class="fa fa-question-circle"></span></td>
 				<td>{{rowDetail.selectedItem.familyEngaged}}</td>
@@ -60,7 +64,7 @@
 				<div class="form-group clearfix">
 					<textarea ng-model="newFollowup" class="form-control msd-elastic" placeholder="Add follow-up"></textarea>
 					<br/>
-					<button class="btn btn-default pull-right" ng-click="submitFollowup()">Submit follow-up</button>
+					<button class="btn btn-default pull-right" ng-click="rowDetail.submitFollowup()">Submit follow-up</button>
 				</div>
 			</form>
 			<h4 class="followup-heading">Follow-up history:</h4>

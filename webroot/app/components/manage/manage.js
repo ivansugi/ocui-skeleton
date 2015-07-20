@@ -2,11 +2,17 @@
 
 angular
 	.module('app.component.manage', [])
-	.controller('ManageController', function manageController(toaster) {
+	.controller('ManageController', function manageController(toaster, SOUNDS) {
 		var vm = this;
-		var ua = navigator.userAgent;
-		vm.isAndroidBrowser = (ua.indexOf('Android') > -1) && (ua.indexOf('AppleWebKit') > -1) && (ua.indexOf('Chrome') === -1);
-		vm.isSamsungBrowser = (ua.indexOf('Android') > -1) && (ua.indexOf('AppleWebKit') > -1) && (ua.indexOf('SAMSUNG') > -1);
+		vm.studyOptions = [
+			{
+				id: 'S_MICU'
+			},
+			{
+				id: 'S_ONC'
+			}
+		];
+		vm.studyOptions2 = ['S_MICU', 'S_ONC'];
 		vm.studyChanged = function(newStudy) {
 			toaster.pop({
 				type: 'success',
@@ -14,6 +20,7 @@ angular
 				body: 'Study changed to: <strong>' + newStudy + '</strong>',
 				bodyOutputType: 'trustedHtml'
 			});
+			SOUNDS.success.play();
 		};
 		toaster.pop({
 			type: 'info',

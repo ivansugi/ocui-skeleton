@@ -18,6 +18,7 @@ angular
 		'trNgGrid',
 		'angular-loading-bar',
 		'toaster',
+		'http-auth-interceptor',
 		'angular-jwt',
 		'app.service.loghttp',
 		'app.service.exceptionhandler',
@@ -167,4 +168,21 @@ angular
 	})
 	.run(function() {
 		TrNgGrid.defaultPagerMinifiedPageCountThreshold = 5;
+	})
+	.constant('SOUNDS', {
+		click: new Howl({
+			urls: ['/media/click.ogg']
+		}),
+		popup: new Howl({
+			urls: ['/media/popup.ogg']
+		}),
+		success: new Howl({
+			urls: ['/media/success.ogg']
+		}),
+		warning: new Howl({
+			urls: ['/media/warning.ogg']
+		}),
+		error: new Howl({
+			urls: ['/media/error.ogg']
+		})
 	});
