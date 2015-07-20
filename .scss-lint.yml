@@ -7,3 +7,10 @@ linters:
     enabled: false
   PropertySortOrder:
     ignore_unspecified: true
+  SelectorDepth:
+    enabled: true
+    max_depth: 6
+  NestingDepth:
+    enabled: true
+    max_depth: 4
+    ignore_parent_selectors: true
