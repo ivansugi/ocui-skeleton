@@ -405,7 +405,6 @@ input[type=color] {
 	}
 }
 .toast {
-	-webkit-animation-name: fadeInRight;
 	animation-name: fadeInRight;
 }
 #loading-bar .bar {
@@ -600,20 +599,17 @@ td[field-name=concerns] {
 		width: 100vw;
 	}
 }
-:not(.no-enter)#toast-container > div.ng-enter,
-:not(.no-leave)#toast-container > div.ng-leave
-{
-	transition: 300ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+:not(.no-enter)#toast-container > .ng-enter,
+:not(.no-leave)#toast-container > .ng-leave {
+	transition: 300ms cubic-bezier(.250, .250, .750, .750) all;
 }
-:not(.no-enter)#toast-container > div.ng-enter.ng-enter-active,
-:not(.no-leave)#toast-container > div.ng-leave {
+:not(.no-enter)#toast-container > .ng-enter.ng-enter-active,
+:not(.no-leave)#toast-container > .ng-leave {
 	opacity: .9;
-	-webkit-transform: none;
 	transform: none;
 }
-:not(.no-leave)#toast-container > div.ng-leave.ng-leave-active,
-:not(.no-enter)#toast-container > div.ng-enter {
+:not(.no-leave)#toast-container > .ng-leave.ng-leave-active,
+:not(.no-enter)#toast-container > .ng-enter {
 	opacity: 0;
-	-webkit-transform: translate3d(100%, 0, 0);
 	transform: translate3d(100%, 0, 0);
 }
