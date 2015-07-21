@@ -19,111 +19,115 @@ var getTextValueFromNumber = function getTextValueFromNumber(studyResponse, item
 
 var parseODC = function parseODC(body) {
 	var result = [];
-	var studyResponse = JSON.parse(body);
-	for (var iSubject = 0; iSubject < studyResponse.ClinicalData.SubjectData.length; iSubject++) {
-		var currentSubject = studyResponse.ClinicalData.SubjectData[iSubject];
-		var momentDate =  moment(currentSubject.StudyEventData['@OpenClinica:StartDate'], 'D-MMM-YYYY').toDate();
-		var date = moment(momentDate).format('YYYY-MM-DD');
-		var name = '';
-		var room = '';
-		var concernCategory = '';
-		var concernSeverity = '';
-		var concernCategoryFilename = '';
-		var concernSubcategories = [];
-		var concernNarrative = '';
-		var concernFirstOccurred = '';
-		var concernShared = '';
-		var concernPlanToShare = '';
-		var familyEngaged = '';
-		var patientRelationship = '';
-		if (currentSubject.StudyEventData) {
-			var currentStudyEvent = currentSubject.StudyEventData;
-			if (Array.isArray(currentSubject.StudyEventData)) {
-				currentStudyEvent = currentSubject.StudyEventData[0];
-			}
-			if (currentStudyEvent.FormData && currentStudyEvent.FormData.ItemGroupData) {
-				var currentItemGroup;
-				var currentItem;
-				var iItemGroup;
-				var iItem;
-				for (iItemGroup = 0; iItemGroup < currentStudyEvent.FormData.ItemGroupData.length; iItemGroup++) {
-					currentItemGroup = currentStudyEvent.FormData.ItemGroupData[iItemGroup];
-					for (iItem = 0; iItem < currentItemGroup.ItemData.length; iItem++) {
-						currentItem = currentItemGroup.ItemData[iItem];
-						if (currentItem['@ItemOID'] === 'I_MSCMY_MSCNAME') {
-							name = currentItem['@Value'];
-						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCROOM') {
-							room = currentItem['@Value'];
-						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCRELPATIENT') {
-							patientRelationship = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
-						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCFAMILYCARE') {
-							familyEngaged = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
+	try {
+		var studyResponse = JSON.parse(body);
+		for (var iSubject = 0; iSubject < studyResponse.ClinicalData.SubjectData.length; iSubject++) {
+			var currentSubject = studyResponse.ClinicalData.SubjectData[iSubject];
+			var momentDate =  moment(currentSubject.StudyEventData['@OpenClinica:StartDate'], 'D-MMM-YYYY').toDate();
+			var date = moment(momentDate).format('YYYY-MM-DD');
+			var name = '';
+			var room = '';
+			var concernCategory = '';
+			var concernSeverity = '';
+			var concernCategoryFilename = '';
+			var concernSubcategories = [];
+			var concernNarrative = '';
+			var concernFirstOccurred = '';
+			var concernShared = '';
+			var concernPlanToShare = '';
+			var familyEngaged = '';
+			var patientRelationship = '';
+			if (currentSubject.StudyEventData) {
+				var currentStudyEvent = currentSubject.StudyEventData;
+				if (Array.isArray(currentSubject.StudyEventData)) {
+					currentStudyEvent = currentSubject.StudyEventData[0];
+				}
+				if (currentStudyEvent.FormData && currentStudyEvent.FormData.ItemGroupData) {
+					var currentItemGroup;
+					var currentItem;
+					var iItemGroup;
+					var iItem;
+					for (iItemGroup = 0; iItemGroup < currentStudyEvent.FormData.ItemGroupData.length; iItemGroup++) {
+						currentItemGroup = currentStudyEvent.FormData.ItemGroupData[iItemGroup];
+						for (iItem = 0; iItem < currentItemGroup.ItemData.length; iItem++) {
+							currentItem = currentItemGroup.ItemData[iItem];
+							if (currentItem['@ItemOID'] === 'I_MSCMY_MSCNAME') {
+								name = currentItem['@Value'];
+							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCROOM') {
+								room = currentItem['@Value'];
+							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCRELPATIENT') {
+								patientRelationship = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
+							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCFAMILYCARE') {
+								familyEngaged = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
+							}
 						}
 					}
-				}
-				var concerns = [];
-				var concernGroupArray = _.filter(currentStudyEvent.FormData.ItemGroupData, {'@ItemGroupOID': 'IG_MSCMY_MSC3'});
-				for (var iConcernGroup = 0; iConcernGroup < concernGroupArray.length; iConcernGroup++) {
-					currentItemGroup = concernGroupArray[iConcernGroup];
-					for (iItem = 0; iItem < currentItemGroup.ItemData.length; iItem++) {
-						currentItem = currentItemGroup.ItemData[iItem];
-						if (currentItem['@ItemOID'] === 'I_MSCMY_MSCCONCERN') {
-							concernCategory = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']).replace(/concern/gi, '').replace(/My /gi, '');
-							concernCategory = _.capitalize(concernCategory);
-							concernCategoryFilename = concernCategory.toLowerCase().replace(/\s+/g, '');
-							concernCategoryFilename = concernCategory.toLowerCase().replace(/\s+/g, '');
-						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSEVERITY') {
-							concernSeverity = currentItem['@Value'];
-						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSUBCONCERNS') {
-							concernSubcategories = [];
-							if (currentItem['@Value'].length > 0) {
-								var subcategoryArray = [];
-								if (currentItem['@Value'].indexOf(',') > -1) {
-									subcategoryArray = currentItem['@Value'].split(',');
-								} else {
-									subcategoryArray.push(currentItem['@Value']);
-								}
-								for (var iSubcategory = 0; iSubcategory < subcategoryArray.length; iSubcategory++) {
-									var multiSelectListObject = studyResponse.Study.MetaDataVersion['OpenClinica:MultiSelectList'][0];
-									var multiSelectListItemObject = _.find(multiSelectListObject['OpenClinica:MultiSelectListItem'], {'@CodedOptionValue': subcategoryArray[iSubcategory]});
-									if (multiSelectListItemObject) {
-										concernSubcategories.push(multiSelectListItemObject.Decode.TranslatedText);
+					var concerns = [];
+					var concernGroupArray = _.filter(currentStudyEvent.FormData.ItemGroupData, {'@ItemGroupOID': 'IG_MSCMY_MSC3'});
+					for (var iConcernGroup = 0; iConcernGroup < concernGroupArray.length; iConcernGroup++) {
+						currentItemGroup = concernGroupArray[iConcernGroup];
+						for (iItem = 0; iItem < currentItemGroup.ItemData.length; iItem++) {
+							currentItem = currentItemGroup.ItemData[iItem];
+							if (currentItem['@ItemOID'] === 'I_MSCMY_MSCCONCERN') {
+								concernCategory = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']).replace(/concern/gi, '').replace(/My /gi, '');
+								concernCategory = _.capitalize(concernCategory);
+								concernCategoryFilename = concernCategory.toLowerCase().replace(/\s+/g, '');
+								concernCategoryFilename = concernCategory.toLowerCase().replace(/\s+/g, '');
+							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSEVERITY') {
+								concernSeverity = currentItem['@Value'];
+							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSUBCONCERNS') {
+								concernSubcategories = [];
+								if (currentItem['@Value'].length > 0) {
+									var subcategoryArray = [];
+									if (currentItem['@Value'].indexOf(',') > -1) {
+										subcategoryArray = currentItem['@Value'].split(',');
+									} else {
+										subcategoryArray.push(currentItem['@Value']);
+									}
+									for (var iSubcategory = 0; iSubcategory < subcategoryArray.length; iSubcategory++) {
+										var multiSelectListObject = studyResponse.Study.MetaDataVersion['OpenClinica:MultiSelectList'][0];
+										var multiSelectListItemObject = _.find(multiSelectListObject['OpenClinica:MultiSelectListItem'], {'@CodedOptionValue': subcategoryArray[iSubcategory]});
+										if (multiSelectListItemObject) {
+											concernSubcategories.push(multiSelectListItemObject.Decode.TranslatedText);
+										}
 									}
 								}
+							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCNARR') {
+								concernNarrative = currentItem['@Value'];
+							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCFIRST') {
+								concernFirstOccurred = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
+							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSHARED') {
+								concernShared = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
+							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCPLANTOSHARE') {
+								concernPlanToShare = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
 							}
-						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCNARR') {
-							concernNarrative = currentItem['@Value'];
-						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCFIRST') {
-							concernFirstOccurred = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
-						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSHARED') {
-							concernShared = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
-						} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCPLANTOSHARE') {
-							concernPlanToShare = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
 						}
+						concerns.push({
+							category: concernCategory,
+							severity: parseInt(concernSeverity),
+							categoryFilename: concernCategoryFilename,
+							subcategories: concernSubcategories,
+							narrative: concernNarrative,
+							firstOccurred: concernFirstOccurred,
+							shared: concernShared,
+							planToShare: concernPlanToShare
+						});
 					}
-					concerns.push({
-						category: concernCategory,
-						severity: parseInt(concernSeverity),
-						categoryFilename: concernCategoryFilename,
-						subcategories: concernSubcategories,
-						narrative: concernNarrative,
-						firstOccurred: concernFirstOccurred,
-						shared: concernShared,
-						planToShare: concernPlanToShare
-					});
+					result[iSubject] = {
+						date: date,
+						name: name,
+						room: room,
+						concerns: concerns,
+						patientRelationship: patientRelationship,
+						familyEngaged: familyEngaged
+					};
 				}
-				result[iSubject] = {
-					date: date,
-					name: name,
-					room: room,
-					concerns: concerns,
-					patientRelationship: patientRelationship,
-					familyEngaged: familyEngaged
-				};
 			}
 		}
+		result = _.sortByOrder(result, ['date', 'concernLevel'], [false, false]);
+	} catch (e) {
+		console.error('Failed to parseODC:', e);
 	}
-	result = _.sortByOrder(result, ['date', 'concernLevel'], [false, false]);
 	return result;
 };
 
@@ -138,7 +142,7 @@ var getStudy = function(studyId, cb) {
 				cb(result);
 			}
 			else {
-				console.log(error);
+				console.error('Unsuccessful ODC request:', error);
 			}
 		});
 	} else {
