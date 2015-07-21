@@ -11,7 +11,7 @@
 		</div>
 		<div class="panel-body">
 			<div class="table-responsive">
-				<table tr-ng-grid="" items="dashboard.tableData" class="table" fields="['date','name', 'room', 'concerns']" selection-mode="SingleRow" selected-items="selectedItems" enable-filtering="false" locale="en-us">
+				<table tr-ng-grid="" items="dashboard.tableData" class="table" fields="['date','name', 'room', 'concerns']" selection-mode="SingleRow" selected-items="selectedItems" enable-filtering="false" locale="en-us" ng-show="dashboard.tableData.length > 0">
 					<thead>
 						<tr>
 							<th field-name="date" cell-width="15%" display-align="right"></th>
@@ -41,6 +41,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<p class="alert alert-danger" ng-show="dashboard.tableData.length === 0">No data being returned from server</p>
 			</div>
 		</div>
 	</div>
