@@ -8,7 +8,6 @@ module.exports = {
 		var homedir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 		var env = process.env.NODE_ENV || 'development';
 		var appName = 'ocui';
-		var isNotProduction = (env === 'development' || env === 'local');
 		nconf
 			.overrides()
 			.env(['USER', 'INIT_CWD', 'NODE_PATH', 'NODE_ENV', 'PORT'])
