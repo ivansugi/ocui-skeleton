@@ -29,7 +29,7 @@ var merge = require('merge-stream');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
-var prefix = require('gulp-autoprefixer');
+var autoprefixer = require('gulp-autoprefixer');
 var replace = require('gulp-replace');
 var minifyCss = require('gulp-minify-css');
 var imagemin = require('gulp-imagemin');
@@ -178,7 +178,7 @@ gulp.task('css-process', function cssProcess() {
 	return gulp.src('./websrc/main.scss', {base: './websrc'})
 		.pipe(sourcemaps.init())
 		.pipe(sass({errLogToConsole: true}))
-		.pipe(prefix('last 2 versions', '> 5%'))
+		.pipe(autoprefixer('> 5%', 'last 2 versions'))
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(processedDest));
 });
@@ -212,11 +212,17 @@ gulp.task('css-min', ['css-process', 'fonts-fix'], function cssMin() {
 });
 
 gulp.task('img-min', function imageMin() {
-	return gulp.src('./websrc/img/*')
+	 return gulp.src('./websrc/img/*')
 		.pipe(imagemin({
 			optimizationLevel: 5,
 			progressive: true,
-			interlaced: true
+			interlaced: true,
+			multipass: true,
+			svgoPlugins:[
+				{removeViewBox: true},
+				{removeUselessStrokeAndFill: true},
+				{removeEmptyAttrs: true},
+			]
 		}))
 		.pipe(gulp.dest('./webroot/img'));
 });
