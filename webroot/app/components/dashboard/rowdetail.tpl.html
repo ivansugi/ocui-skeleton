@@ -6,8 +6,12 @@
 	<table class="table table-bordered rowdetail">
 		<tbody>
 			<tr>
+				<td class="rowdetail-label">Status</td>
+				<td>{{rowDetail.selectedItem.status.substr(2)}}</td>
+			</tr>
+			<tr>
 				<td class="rowdetail-label">Date</td>
-				<td>{{rowDetail.selectedItem.date}}</td>
+				<td>{{rowDetail.selectedItem.date | date:'shortDate'}}</td>
 			</tr>
 			<tr>
 				<td class="rowdetail-label">Name</td>
@@ -64,26 +68,20 @@
 				<div class="form-group clearfix">
 					<textarea ng-model="newFollowup" class="form-control msd-elastic" placeholder="Add follow-up"></textarea>
 					<br/>
+					<button class="btn btn-default pull-left" ng-click="rowDetail.submitFollowup()">Submit and close follow-up</button>
 					<button class="btn btn-default pull-right" ng-click="rowDetail.submitFollowup()">Submit follow-up</button>
 				</div>
 			</form>
-			<h4 class="followup-heading">Follow-up history:</h4>
-			<div class="followup">
-				<div class="followup-header clearfix">
-					<span class="followup-staff pull-left">Smith, Joe RN</span>
-					<span class="followup-time pull-right">2015-06-23 12:00</span>
-				</div>
-				<div class="followup-body">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				</div>
-			</div>
-			<div class="followup">
-				<div class="followup-header clearfix">
-					<span class="followup-staff pull-left">Jones, Susan RN</span>
-					<span class="followup-time pull-right">2015-06-20 12:00</span>
-				</div>
-				<div class="followup-body">
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<div ng-show="rowDetail.selectedItem.followups.length > 0">
+				<h4 class="followup-heading">Follow-up history:</h4>
+				<div class="followup" ng-repeat="followup in rowDetail.selectedItem.followups">
+					<div class="followup-header clearfix">
+						<span class="followup-staff pull-left">{{followup.staff}}</span>
+						<span class="followup-time pull-right">{{followup.date | date:'shortDate'}}</span>
+					</div>
+					<div class="followup-body">
+						<p>{{followup.note}}</p>
+					</div>
 				</div>
 			</div>
 		</accordion-group>

@@ -11,19 +11,26 @@
 		</div>
 		<div class="panel-body">
 			<div class="table-responsive">
-				<table tr-ng-grid="" items="dashboard.tableData" class="table" fields="['date','name', 'room', 'concerns']" selection-mode="SingleRow" selected-items="selectedItems" enable-filtering="false" locale="en-us" ng-show="dashboard.tableData.length > 0">
+				<table tr-ng-grid="" items="dashboard.tableData" class="table" fields="['status', 'date','name', 'room', 'concerns']" selection-mode="SingleRow" selected-items="selectedItems" enable-filtering="false" locale="en-us" ng-show="dashboard.tableData.length > 0">
 					<thead>
 						<tr>
-							<th field-name="date" cell-width="15%" display-align="right"></th>
-							<th field-name="name" cell-width="13%"></th>
+							<th field-name="status" cell-width="7%"></th>
+							<th field-name="date" cell-width="14%" display-align="right"></th>
+							<th field-name="name" cell-width="12%"></th>
 							<th field-name="room" cell-width="2%"></th>
-							<th cell-width="70%">
+							<th cell-width="65%">
 								<input class="form-control" type="text" ng-model="gridOptions.filterBy" placeholder="Search any column"/>
 							</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<tr ng-class="{'text-bold':gridItem.status==='1:New','text-light':gridItem.status==='3:Closed'}">
+							<td field-name="status">
+								<div>{{gridDisplayItem.status.substr(2)}}</div>
+							</td>
+							<td field-name="date">
+								<div>{{gridDisplayItem.date | date:'shortDate'}}</div>
+							</td>
 							<td class="concerns-cell">
 								<table>
 									<tr ng-repeat="item in gridItem.concerns">

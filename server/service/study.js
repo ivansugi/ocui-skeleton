@@ -23,8 +23,7 @@ var parseODC = function parseODC(body) {
 		var studyResponse = JSON.parse(body);
 		for (var iSubject = 0; iSubject < studyResponse.ClinicalData.SubjectData.length; iSubject++) {
 			var currentSubject = studyResponse.ClinicalData.SubjectData[iSubject];
-			var momentDate =  moment(currentSubject.StudyEventData['@OpenClinica:StartDate'], 'D-MMM-YYYY').toDate();
-			var date = moment(momentDate).format('YYYY-MM-DD');
+			var date = moment(currentSubject.StudyEventData['@OpenClinica:StartDate'], 'D-MMM-YYYY').toDate();
 			var name = '';
 			var room = '';
 			var concernCategory = '';
@@ -37,11 +36,46 @@ var parseODC = function parseODC(body) {
 			var concernPlanToShare = '';
 			var familyEngaged = '';
 			var patientRelationship = '';
+			var status = '1:New';
+			var followups = [];
 			if (currentSubject.StudyEventData) {
 				var currentStudyEvent = currentSubject.StudyEventData;
 				if (Array.isArray(currentSubject.StudyEventData)) {
 					currentStudyEvent = currentSubject.StudyEventData[0];
 				}
+				// follow up
+				if (currentStudyEvent['OpenClinica:DiscrepancyNotes']) {
+					var currentDiscrepancyNotes = currentStudyEvent['OpenClinica:DiscrepancyNotes']['OpenClinica:DiscrepancyNote'];
+					status = currentDiscrepancyNotes['@Status'];
+					if (status === 'Updated' || status === 'New') {
+						status = '2:In progress';
+					} else if (status === 'Closed') {
+						status = '3:Closed';
+					}
+					followups = [];
+					var currentChildNote;
+					if (Array.isArray(currentDiscrepancyNotes['OpenClinica:ChildNote'])) {
+						currentDiscrepancyNotes['OpenClinica:ChildNote'] = _.sortByOrder(currentDiscrepancyNotes['OpenClinica:ChildNote'], ['@ID'], [false]);
+						for (var iChildNotes = 0; iChildNotes < currentDiscrepancyNotes['OpenClinica:ChildNote'].length; iChildNotes++) {
+							currentChildNote = currentDiscrepancyNotes['OpenClinica:ChildNote'][iChildNotes];
+							followups.push({
+								id: iChildNotes,
+								staff: currentChildNote['@UserName'],
+								date: moment(currentChildNote['@DateCreated'], 'D-MMM-YYYY').toDate(),
+								note: currentChildNote['OpenClinica:DetailedNote']
+							});
+						}
+					} else {
+						currentChildNote = currentDiscrepancyNotes['OpenClinica:ChildNote'];
+						followups.push({
+							id: 0,
+							staff: currentChildNote['@UserName'],
+							date: moment(currentChildNote['@DateCreated'], 'D-MMM-YYYY').toDate(),
+							note: currentChildNote['OpenClinica:DetailedNote']
+						});
+					}
+				}
+				// form data
 				if (currentStudyEvent.FormData && currentStudyEvent.FormData.ItemGroupData) {
 					var currentItemGroup;
 					var currentItem;
@@ -62,6 +96,7 @@ var parseODC = function parseODC(body) {
 							}
 						}
 					}
+					// concerns
 					var concerns = [];
 					var concernGroupArray = _.filter(currentStudyEvent.FormData.ItemGroupData, {'@ItemGroupOID': 'IG_MSCMY_MSC3'});
 					for (var iConcernGroup = 0; iConcernGroup < concernGroupArray.length; iConcernGroup++) {
@@ -113,18 +148,21 @@ var parseODC = function parseODC(body) {
 							planToShare: concernPlanToShare
 						});
 					}
+					concerns = _.sortByOrder(concerns, ['severity'], [false]);
 					result[iSubject] = {
+						status: status,
 						date: date,
 						name: name,
 						room: room,
 						concerns: concerns,
 						patientRelationship: patientRelationship,
-						familyEngaged: familyEngaged
+						familyEngaged: familyEngaged,
+						followups: followups
 					};
 				}
 			}
 		}
-		result = _.sortByOrder(result, ['date', 'concernLevel'], [false, false]);
+		result = _.sortByOrder(result, ['status', 'date'], [true, false]);
 	} catch (e) {
 		console.error('Failed to parseODC:', e);
 	}
