@@ -53,8 +53,8 @@
 				<td class="rowdetail-label">Patient relationship</td>
 				<td>{{rowDetail.selectedItem.patientRelationship}}</td>
 			</tr>
-			<tr tooltip="Is the patient's family/friend engaged in the care?" tooltip-placement="left">
-				<td class="rowdetail-label">Family Engaged <span class="fa fa-question-circle"></span></td>
+			<tr>
+				<td class="rowdetail-label" tooltip="Is the patient's family/friend engaged in the care?" tooltip-placement="right">Family Engaged <span class="fa fa-question-circle"></span></td>
 				<td>{{rowDetail.selectedItem.familyEngaged}}</td>
 			</tr>
 		</tbody>
@@ -88,5 +88,5 @@
 	</accordion>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-primary" ng-click="rowDetail.close()">Close</button>
+	<button class="btn btn-primary" ng-click="rowDetail.close()">Close dialog</button>
 </div>
