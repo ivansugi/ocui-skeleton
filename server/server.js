@@ -43,7 +43,7 @@ app.use('/secured', authenticate);
 if (isNotProduction) {
 	app.use(requestLogger('dev'));
 	app.use(errorhandler());
-	app.get('/*', function noCache(req, res, next) {
+	app.all('/*', function noCache(req, res, next) {
 		res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 		next();
 	});
@@ -66,6 +66,8 @@ app.get('/app/*',
  */
 app.resource('api/clientlogger');
 
+app.resource('api/tokens');
+
 /**
  * Resources requiring authentication
  */
@@ -76,7 +78,17 @@ app.resource('api/studies', {id: 'id'});
  * File not found
  */
 app.use(function(req, res) {
-	res.status(404).sendFile('404.html', {root: webroot});
+	console.error(chalk.red('NOT FOUND:'));
+	console.error(chalk.red(' req.method:', req.method));
+	console.error(chalk.red(' req.url:', req.url));
+	if (req.body && (Object.keys(req.body).length > 0)) {
+		console.error(chalk.red(' req.body:'), req.body);
+	}
+	if (req.url.indexOf('/app/') > -1) {
+		res.status(404).sendFile('404.html', {root: webroot});
+	} else {
+		res.status(404).send(JSON.stringify({error: 'not found'}));
+	}
 });
 
 /**

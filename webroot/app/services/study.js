@@ -6,7 +6,7 @@ angular
 		return {
 			get: function get(studyId, cb) {
 				$http.get('/api/studies/' + studyId, {cache: true})
-					.success(function(data) {
+					.success(function getStudySuccess(data) {
 						setTimeout(function removeCache() {
 							console.log('remove:', studyId);
 							$cacheFactory.get('$http').remove('/api/studies/' + studyId);

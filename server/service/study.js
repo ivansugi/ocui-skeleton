@@ -17,7 +17,7 @@ var getTextValueFromNumber = function getTextValueFromNumber(studyResponse, item
 	return (codeListItemObject) ? codeListItemObject.Decode.TranslatedText : '';
 };
 
-var parseODC = function parseODC(body) {
+var parseODM = function parseODM(body) {
 	var result = [];
 	try {
 		var studyResponse = JSON.parse(body);
@@ -164,7 +164,7 @@ var parseODC = function parseODC(body) {
 		}
 		result = _.sortByOrder(result, ['status', 'date'], [true, false]);
 	} catch (e) {
-		console.error('Failed to parseODC:', e);
+		console.error('Failed to parseODM:', e);
 	}
 	return result;
 };
@@ -172,15 +172,16 @@ var parseODC = function parseODC(body) {
 var getStudy = function(studyId, cb) {
 	var cachedResult = studyCache.get(studyId);
 	if (cachedResult === undefined) {
-		request.get(conf.get('restUrl') + studyId + '/*/*/*?includeDNs=y', function requestStudy(error, response, body) {
+		request.get(conf.get('ocUrl') + conf.get('odmPrePath') + studyId + conf.get('odmPostPath'), function requestStudy(error, response, body) {
 			if (!error && response.statusCode === 200) {
 				var result = [];
-				result = parseODC(body);
+				result = parseODM(body);
 				studyCache.set(studyId, result);
-				cb(result);
+				cb(200, result);
 			}
 			else {
-				console.error('Unsuccessful ODC request:', error);
+				console.error('Unsuccessful ODM request:', error);
+				cb(response.statusCode, error);
 			}
 		});
 	} else {

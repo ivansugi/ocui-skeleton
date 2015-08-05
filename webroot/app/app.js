@@ -20,6 +20,7 @@ angular
 		'toaster',
 		'http-auth-interceptor',
 		'angular-jwt',
+		'monospaced.elastic', // for textarea auto-expansion
 		'app.service.loghttp',
 		'app.service.exceptionhandler',
 		'app.service.httpinterceptor',
@@ -29,8 +30,7 @@ angular
 		'app.dialog.content',
 		'app.component.dashboard',
 		'app.component.manage',
-		'app.component.login',
-		'monospaced.elastic'
+		'app.component.login'
 	])
 	.config(function config(
 			$provide,

@@ -20,8 +20,11 @@ module.exports = {
 				siteHost: 'localhost',
 				compressionThreshold: 512,
 				jwtSecret: 'TokenSecret',
-				authenticationUrl: 'http://104.131.126.24:8080/OpenClinica/pages/accounts/study/',
-				restUrl: 'https://demo2.eclinicalhosting.com/OpenClinica2/rest/clinicaldata/json/view/',
+				ocUrl: 'https://demo2.eclinicalhosting.com',
+				odmPrePath: '/OpenClinica2/rest/clinicaldata/json/view/',
+				odmPostPath: '/*/*/*?includeDNs=y',
+				authUrl: 'https://demo2.eclinicalhosting.com',
+				authenticationPath: '/pages/accounts/login/',
 				AUTH_SECRET: 'myCoolSecret',
 				AUTH_ID: 'myCoolClientId'
 			});

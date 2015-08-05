@@ -1,5 +1,6 @@
 <div class="modal-header">
-	<h3 class="modal-title">Log in to OpenClinica</h3>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="login.close()"><span aria-hidden="true">&times;</span></button>
+	<h3 class="modal-title">Log in to MySafeCare</h3>
 </div>
 <div class="modal-body">
 	<form name="loginForm" ng-submit="login.submit(login.input)">
@@ -7,9 +8,9 @@
 			<div class="input-group" ng-class="{'has-error': loginForm.username.$invalid}">
 				<span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
 				<input
-						type="email"
+						type="text"
 						name="username"
-						placeholder="email@orgname.org"
+						placeholder="username"
 						title="Username"
 						class="form-control"
 						ng-model="login.input.username"
@@ -35,5 +36,3 @@
 		<a href="/app/forgot" class="pull-right">Forgot Password?</a>
 	</form>
 </div>
-<!-- <div class="modal-footer">
-</div> -->
