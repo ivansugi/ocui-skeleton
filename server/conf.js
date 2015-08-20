@@ -21,7 +21,7 @@ module.exports = {
 				compressionThreshold: 512,
 				jwtSecret: 'TokenSecret',
 				authenticationUrl: 'http://104.131.126.24:8080/OpenClinica/pages/accounts/study/',
-				restUrl: 'https://demo2.eclinicalhosting.com/OpenClinica2/rest/clinicaldata/json/view/',
+				restUrl: 'https://demo2.eclinicalhosting.com/OpenClinica2/pages/auth/api/v1/clinicaldata/json/view/',
 				AUTH_SECRET: 'myCoolSecret',
 				AUTH_ID: 'myCoolClientId'
 			});
