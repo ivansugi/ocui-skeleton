@@ -3,10 +3,10 @@
 var jwt = require('jsonwebtoken');
 var authSvc = require('../../../service/authenticate.js');
 
-module.export = {
+module.exports = {
 	create: function tokenCreate(req, res) {
 		console.log('req.body:', req.body);
-		authSvc.get(req.body.username, function authGet(status, data) {
+		authSvc.get(req.body, function authGet(status, data) {
 			res.status(status).send(data);
 		});
 	}
