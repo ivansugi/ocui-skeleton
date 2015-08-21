@@ -21,7 +21,7 @@ module.exports = {
 				compressionThreshold: 512,
 				jwtSecret: 'TokenSecret',
 				ocUrl: 'https://demo2.eclinicalhosting.com',
-				odmPrePath: '/OpenClinica2/rest/clinicaldata/json/view/',
+				odmPrePath: '/OpenClinica2/pages/auth/api/v1/clinicaldata/json/view/',
 				odmPostPath: '/*/*/*?includeDNs=y',
 				authUrl: 'https://demo2.eclinicalhosting.com/OpenClinica2',
 				authenticationPath: '/pages/accounts/login',
