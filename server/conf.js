@@ -23,8 +23,8 @@ module.exports = {
 				ocUrl: 'https://demo2.eclinicalhosting.com',
 				odmPrePath: '/OpenClinica2/rest/clinicaldata/json/view/',
 				odmPostPath: '/*/*/*?includeDNs=y',
-				authUrl: 'https://demo2.eclinicalhosting.com',
-				authenticationPath: '/pages/accounts/login/',
+				authUrl: 'https://demo2.eclinicalhosting.com/OpenClinica2',
+				authenticationPath: '/pages/accounts/login',
 				AUTH_SECRET: 'myCoolSecret',
 				AUTH_ID: 'myCoolClientId'
 			});

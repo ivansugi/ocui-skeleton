@@ -5,20 +5,23 @@ var conf = require('../conf.js');
 
 conf.load();
 
-module.export = {
-	get: function getUserRolesFromUsername(username, cb) {
-		console.log('getUsername', username);
-		request.get(conf.get('authUrl') + conf.get('authenticationPath') + username, function requestStudy(error, response, body) {
-			if (!error && response.statusCode === 200) {
-				var result = [];
-				result = JSON.parse(body);
+module.exports = {
+	get: function getUserRolesFromUsername(usernamePassObj, cb) {
+		request.post(
+			{
+				url: conf.get('authUrl') + conf.get('authenticationPath'),
+				json: usernamePassObj
+			}, 
+			function optionalCallback(err, httpResponse, body) {
+				if (err) {
+					console.error('Unsuccessful authentication:', error);
+					cb(response.statusCode, error);
+				}
+				console.log('Authentication successful!  Server responded with:', body);
+				var result = JSON.parse(JSON.stringify(body));
 				console.log('result:', result);
 				cb(200, result);
-			}
-			else {
-				console.error('Unsuccessful authentication:', error);
-				cb(response.statusCode, error);
-			}
-		});
+
+			});
 	}
 };
