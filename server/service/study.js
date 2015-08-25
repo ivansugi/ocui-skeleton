@@ -85,32 +85,32 @@ var parseODM = function parseODM(body) {
 						currentItemGroup = currentStudyEvent.FormData.ItemGroupData[iItemGroup];
 						for (iItem = 0; iItem < currentItemGroup.ItemData.length; iItem++) {
 							currentItem = currentItemGroup.ItemData[iItem];
-							if (currentItem['@ItemOID'] === 'I_MSCMY_MSCNAME') {
+							if (currentItem['@ItemOID'] === 'I_MYSAF_WHAT_NAME') {
 								name = currentItem['@Value'];
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCROOM') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_WHAT_ROOM') {
 								room = currentItem['@Value'];
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCRELPATIENT') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_RELATIONSHIP') {
 								patientRelationship = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCFAMILYCARE') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_FAMILY_ENGAGED') {
 								familyEngaged = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
 							}
 						}
 					}
 					// concerns
 					var concerns = [];
-					var concernGroupArray = _.filter(currentStudyEvent.FormData.ItemGroupData, {'@ItemGroupOID': 'IG_MSCMY_MSC3'});
+					var concernGroupArray = _.filter(currentStudyEvent.FormData.ItemGroupData, {'@ItemGroupOID': 'IG_MYSAF_MYCONCERNS'});
 					for (var iConcernGroup = 0; iConcernGroup < concernGroupArray.length; iConcernGroup++) {
 						currentItemGroup = concernGroupArray[iConcernGroup];
 						for (iItem = 0; iItem < currentItemGroup.ItemData.length; iItem++) {
 							currentItem = currentItemGroup.ItemData[iItem];
-							if (currentItem['@ItemOID'] === 'I_MSCMY_MSCCONCERN') {
+							if (currentItem['@ItemOID'] === 'I_MYSAF_CATEGORY') {
 								concernCategory = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']).replace(/concern/gi, '').replace(/My /gi, '');
 								concernCategory = _.capitalize(concernCategory);
 								concernCategoryFilename = concernCategory.toLowerCase().replace(/\s+/g, '');
 								concernCategoryFilename = concernCategory.toLowerCase().replace(/\s+/g, '');
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSEVERITY') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_SCALE') {
 								concernSeverity = currentItem['@Value'];
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSUBCONCERNS') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_CONCERN') {
 								concernSubcategories = [];
 								if (currentItem['@Value'].length > 0) {
 									var subcategoryArray = [];
@@ -127,13 +127,13 @@ var parseODM = function parseODM(body) {
 										}
 									}
 								}
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCNARR') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_INYOUROWNWORDS') {
 								concernNarrative = currentItem['@Value'];
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCFIRST') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_FIRST_OCCURRED') {
 								concernFirstOccurred = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSHARED') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_SHARED_PREV') {
 								concernShared = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCPLANTOSHARE') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_SHARED_PLAN') {
 								concernPlanToShare = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
 							}
 						}
