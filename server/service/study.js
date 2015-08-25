@@ -172,7 +172,16 @@ var parseODM = function parseODM(body) {
 var getStudy = function(studyId, cb) {
 	var cachedResult = studyCache.get(studyId);
 	if (cachedResult === undefined) {
-		request.get(conf.get('ocUrl') + conf.get('odmPrePath') + studyId + conf.get('odmPostPath'), function requestStudy(error, response, body) {
+        //TODO: pass in APIKEY of logged in user
+		var username = "2870f236b393493dba48ad7fb4d38571";
+		var auth = "Basic " + new Buffer(username + ":").toString("base64");
+		request(
+		{
+			url : conf.get('ocUrl') + conf.get('odmPrePath') + studyId + conf.get('odmPostPath'),
+			headers : {
+				"Authorization" : auth
+			}
+		},function requestStudy(error, response, body) {
 			if (!error && response.statusCode === 200) {
 				var result = [];
 				result = parseODM(body);
