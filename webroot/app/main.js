@@ -45,5 +45,5 @@ angular
 				}
 			});
 		};
-		vm.currentStudy = 'S_MICU';
+		vm.currentStudy = 'S_MSCMICU';
 	});
