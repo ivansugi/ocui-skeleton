@@ -32,7 +32,7 @@ angular
 			bodyOutputType: 'trustedHtml'
 		});
 	})
-	.controller('RowDetailModalController', function rowDetailController($modalInstance, toaster, selectedItem, SOUNDS) {
+	.controller('RowDetailModalController', function rowDetailController($modalInstance, toaster, selectedItem, SOUNDS,$http) {
 		var vm = this;
 		vm.selectedItem = selectedItem;
 		console.log('Selected item:', selectedItem);
@@ -40,14 +40,33 @@ angular
 			$modalInstance.close();
 			// SOUNDS.click.play();
 		};
-		vm.submitFollowup = function submitFollowup() {
-			toaster.pop({
-				type: 'error',
-				title: 'Follow-up not saved',
-				body: 'Since we do not have a back end configured yet, the data was not saved anywhere.',
-				bodyOutputType: 'trustedHtml'
-			});
-			SOUNDS.error.play();
+		vm.submitFollowup = function submitFollowup(message,status) {
+
+			var payload = selectedItem.metadata;
+			payload.message = message;
+			payload.parentId = selectedItem.followups.length > 0 ? selectedItem.followups[0].parentId : '0';
+			payload.status = status;
+
+			$http.post('/api/followups', payload)
+				.success(function postAuthSuccess(data) {
+					toaster.pop({
+						type: 'success',
+						title: 'Followup ',
+						body: payload.status,
+						bodyOutputType: 'trustedHtml'
+					});
+					SOUNDS.success.play();
+				})
+				.error(function postAuthFail(data, status) {
+					console.log('here....');
+					toaster.pop({
+						type: 'error',
+						title: 'Follow-up not saved',
+						body: 'Since we do not have a back end configured yet, the data was not saved anywhere.',
+						bodyOutputType: 'trustedHtml'
+					});
+					SOUNDS.error.play();
+				});
 		};
 		SOUNDS.popup.play();
 	});

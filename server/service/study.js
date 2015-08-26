@@ -38,11 +38,19 @@ var parseODM = function parseODM(body) {
 			var patientRelationship = '';
 			var status = '1:New';
 			var followups = [];
+			var metadata = {};
 			if (currentSubject.StudyEventData) {
 				var currentStudyEvent = currentSubject.StudyEventData;
 				if (Array.isArray(currentSubject.StudyEventData)) {
 					currentStudyEvent = currentSubject.StudyEventData[0];
 				}
+
+				// metadata
+				metadata.studySubjectOID = currentSubject['@SubjectKey'];
+				metadata.studyEventOID = currentStudyEvent['@StudyEventOID'];
+				console.log(metadata);
+
+
 				// follow up
 				if (currentStudyEvent['OpenClinica:DiscrepancyNotes']) {
 					var currentDiscrepancyNotes = currentStudyEvent['OpenClinica:DiscrepancyNotes']['OpenClinica:DiscrepancyNote'];
@@ -59,6 +67,7 @@ var parseODM = function parseODM(body) {
 						for (var iChildNotes = 0; iChildNotes < currentDiscrepancyNotes['OpenClinica:ChildNote'].length; iChildNotes++) {
 							currentChildNote = currentDiscrepancyNotes['OpenClinica:ChildNote'][iChildNotes];
 							followups.push({
+								parentId: currentDiscrepancyNotes['@ID'],
 								id: iChildNotes,
 								staff: currentChildNote['@UserName'],
 								date: moment(currentChildNote['@DateCreated'], 'D-MMM-YYYY').toDate(),
@@ -68,6 +77,7 @@ var parseODM = function parseODM(body) {
 					} else {
 						currentChildNote = currentDiscrepancyNotes['OpenClinica:ChildNote'];
 						followups.push({
+							parentId: currentDiscrepancyNotes['@ID'],
 							id: 0,
 							staff: currentChildNote['@UserName'],
 							date: moment(currentChildNote['@DateCreated'], 'D-MMM-YYYY').toDate(),
@@ -157,7 +167,8 @@ var parseODM = function parseODM(body) {
 						concerns: concerns,
 						patientRelationship: patientRelationship,
 						familyEngaged: familyEngaged,
-						followups: followups
+						followups: followups,
+						metadata: metadata
 					};
 				}
 			}
@@ -170,7 +181,8 @@ var parseODM = function parseODM(body) {
 };
 
 var getStudy = function(studyId, cb) {
-	var cachedResult = studyCache.get(studyId);
+	//var cachedResult = studyCache.get(studyId);
+	var cachedResult;
 	if (cachedResult === undefined) {
         //TODO: pass in APIKEY of logged in user
 		var username = "2870f236b393493dba48ad7fb4d38571";
