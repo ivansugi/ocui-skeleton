@@ -2,6 +2,7 @@
 
 var request = require('request');
 var conf = require('../conf.js');
+var jwt = require('jsonwebtoken');
 
 conf.load();
 
@@ -20,7 +21,10 @@ module.exports = {
 				console.log('Authentication successful!  Server responded with:', body);
 				var result = JSON.parse(JSON.stringify(body));
 				console.log('result:', result);
-				cb(200, result);
+				var newResult = {};
+				newResult.token = jwt.sign(result, new Buffer(conf.get('AUTH_SECRET'), 'base64'));
+				newResult.data = result;
+				cb(200, newResult);
 
 			});
 	}

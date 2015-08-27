@@ -31,7 +31,9 @@ angular
 		'app.component.dashboard',
 		'app.component.manage',
 		'app.component.login'
-	])
+	]).config(function ($httpProvider) {
+		  $httpProvider.interceptors.push('authinterceptor');
+		})
 	.config(function config(
 			$provide,
 			$locationProvider,

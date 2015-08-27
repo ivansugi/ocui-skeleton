@@ -20,10 +20,10 @@ module.exports = {
 				siteHost: 'localhost',
 				compressionThreshold: 512,
 				jwtSecret: 'TokenSecret',
-				ocUrl: 'https://demo2.eclinicalhosting.com',
-				odmPrePath: '/OpenClinica2/rest/clinicaldata/json/view/',
+				ocUrl: 'http://104.131.126.24:8080',
+				odmPrePath: '/OpenClinicaX/pages/auth/api/v1/clinicaldata/json/view/',
 				odmPostPath: '/*/*/*?includeDNs=y',
-				authUrl: 'https://demo2.eclinicalhosting.com/OpenClinica2',
+				authUrl: 'http://104.131.126.24:8080/OpenClinicaX',
 				authenticationPath: '/pages/accounts/login',
 				AUTH_SECRET: 'myCoolSecret',
 				AUTH_ID: 'myCoolClientId'
