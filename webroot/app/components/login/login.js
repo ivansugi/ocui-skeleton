@@ -17,7 +17,7 @@ angular
 				console.log('data:', data);
 				
 				$window.sessionStorage.token = data.token;
-				$state.go('dashboard',{studyId:'S_MICU'});
+				$state.go('dashboard',{studyId:'S_MSCMICU'});
 				$modalInstance.dismiss();
 				//res.redirect("/");
 				//console.log('token:', token);
