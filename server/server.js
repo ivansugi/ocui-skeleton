@@ -67,6 +67,7 @@ app.get('/app/*',
 app.resource('api/clientlogger');
 
 app.resource('api/tokens', function(){});
+app.resource('api/followups', function(){});
 
 /**
  * Resources requiring authentication
