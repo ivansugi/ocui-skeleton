@@ -38,11 +38,19 @@ var parseODM = function parseODM(body) {
 			var patientRelationship = '';
 			var status = '1:New';
 			var followups = [];
+			var metadata = {};
 			if (currentSubject.StudyEventData) {
 				var currentStudyEvent = currentSubject.StudyEventData;
 				if (Array.isArray(currentSubject.StudyEventData)) {
 					currentStudyEvent = currentSubject.StudyEventData[0];
 				}
+
+				// metadata
+				metadata.studySubjectOID = currentSubject['@SubjectKey'];
+				metadata.studyEventOID = currentStudyEvent['@StudyEventOID'];
+				console.log(metadata);
+
+
 				// follow up
 				if (currentStudyEvent['OpenClinica:DiscrepancyNotes']) {
 					var currentDiscrepancyNotes = currentStudyEvent['OpenClinica:DiscrepancyNotes']['OpenClinica:DiscrepancyNote'];
@@ -59,6 +67,7 @@ var parseODM = function parseODM(body) {
 						for (var iChildNotes = 0; iChildNotes < currentDiscrepancyNotes['OpenClinica:ChildNote'].length; iChildNotes++) {
 							currentChildNote = currentDiscrepancyNotes['OpenClinica:ChildNote'][iChildNotes];
 							followups.push({
+								parentId: currentDiscrepancyNotes['@ID'],
 								id: iChildNotes,
 								staff: currentChildNote['@UserName'],
 								date: moment(currentChildNote['@DateCreated'], 'D-MMM-YYYY').toDate(),
@@ -68,6 +77,7 @@ var parseODM = function parseODM(body) {
 					} else {
 						currentChildNote = currentDiscrepancyNotes['OpenClinica:ChildNote'];
 						followups.push({
+							parentId: currentDiscrepancyNotes['@ID'],
 							id: 0,
 							staff: currentChildNote['@UserName'],
 							date: moment(currentChildNote['@DateCreated'], 'D-MMM-YYYY').toDate(),
@@ -85,32 +95,32 @@ var parseODM = function parseODM(body) {
 						currentItemGroup = currentStudyEvent.FormData.ItemGroupData[iItemGroup];
 						for (iItem = 0; iItem < currentItemGroup.ItemData.length; iItem++) {
 							currentItem = currentItemGroup.ItemData[iItem];
-							if (currentItem['@ItemOID'] === 'I_MSCMY_MSCNAME') {
+							if (currentItem['@ItemOID'] === 'I_MYSAF_WHAT_NAME') {
 								name = currentItem['@Value'];
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCROOM') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_WHAT_ROOM') {
 								room = currentItem['@Value'];
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCRELPATIENT') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_RELATIONSHIP') {
 								patientRelationship = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCFAMILYCARE') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_FAMILY_ENGAGED') {
 								familyEngaged = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
 							}
 						}
 					}
 					// concerns
 					var concerns = [];
-					var concernGroupArray = _.filter(currentStudyEvent.FormData.ItemGroupData, {'@ItemGroupOID': 'IG_MSCMY_MSC3'});
+					var concernGroupArray = _.filter(currentStudyEvent.FormData.ItemGroupData, {'@ItemGroupOID': 'IG_MYSAF_MYCONCERNS'});
 					for (var iConcernGroup = 0; iConcernGroup < concernGroupArray.length; iConcernGroup++) {
 						currentItemGroup = concernGroupArray[iConcernGroup];
 						for (iItem = 0; iItem < currentItemGroup.ItemData.length; iItem++) {
 							currentItem = currentItemGroup.ItemData[iItem];
-							if (currentItem['@ItemOID'] === 'I_MSCMY_MSCCONCERN') {
+							if (currentItem['@ItemOID'] === 'I_MYSAF_CATEGORY') {
 								concernCategory = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']).replace(/concern/gi, '').replace(/My /gi, '');
 								concernCategory = _.capitalize(concernCategory);
 								concernCategoryFilename = concernCategory.toLowerCase().replace(/\s+/g, '');
 								concernCategoryFilename = concernCategory.toLowerCase().replace(/\s+/g, '');
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSEVERITY') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_SCALE') {
 								concernSeverity = currentItem['@Value'];
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSUBCONCERNS') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_CONCERN') {
 								concernSubcategories = [];
 								if (currentItem['@Value'].length > 0) {
 									var subcategoryArray = [];
@@ -127,13 +137,13 @@ var parseODM = function parseODM(body) {
 										}
 									}
 								}
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCNARR') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_INYOUROWNWORDS') {
 								concernNarrative = currentItem['@Value'];
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCFIRST') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_FIRST_OCCURRED') {
 								concernFirstOccurred = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCSHARED') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_SHARED_PREV') {
 								concernShared = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
-							} else if (currentItem['@ItemOID'] === 'I_MSCMY_MSCPLANTOSHARE') {
+							} else if (currentItem['@ItemOID'] === 'I_MYSAF_SHARED_PLAN') {
 								concernPlanToShare = getTextValueFromNumber(studyResponse, currentItem['@ItemOID'], currentItem['@Value']);
 							}
 						}
@@ -157,7 +167,8 @@ var parseODM = function parseODM(body) {
 						concerns: concerns,
 						patientRelationship: patientRelationship,
 						familyEngaged: familyEngaged,
-						followups: followups
+						followups: followups,
+						metadata: metadata
 					};
 				}
 			}
@@ -170,9 +181,19 @@ var parseODM = function parseODM(body) {
 };
 
 var getStudy = function(studyId, cb) {
-	var cachedResult = studyCache.get(studyId);
+	//var cachedResult = studyCache.get(studyId);
+	var cachedResult;
 	if (cachedResult === undefined) {
-		request.get(conf.get('ocUrl') + conf.get('odmPrePath') + studyId + conf.get('odmPostPath'), function requestStudy(error, response, body) {
+        //TODO: pass in APIKEY of logged in user
+		var username = "2870f236b393493dba48ad7fb4d38571";
+		var auth = "Basic " + new Buffer(username + ":").toString("base64");
+		request(
+		{
+			url : conf.get('ocUrl') + conf.get('odmPrePath') + studyId + conf.get('odmPostPath'),
+			headers : {
+				"Authorization" : auth
+			}
+		},function requestStudy(error, response, body) {
 			if (!error && response.statusCode === 200) {
 				var result = [];
 				result = parseODM(body);

@@ -6,13 +6,13 @@ angular
 		var vm = this;
 		vm.studyOptions = [
 			{
-				id: 'S_MICU'
+				id: 'S_MSCMICU'
 			},
 			{
-				id: 'S_ONC'
+				id: 'S_MSCONC'
 			}
 		];
-		vm.studyOptions2 = ['S_MICU', 'S_ONC'];
+		vm.studyOptions2 = ['S_MSCMICU', 'S_MSCONC'];
 		vm.studyChanged = function(newStudy) {
 			toaster.pop({
 				type: 'success',

@@ -68,8 +68,8 @@
 				<div class="form-group clearfix">
 					<textarea ng-model="newFollowup" class="form-control msd-elastic" placeholder="Add follow-up"></textarea>
 					<br/>
-					<button class="btn btn-default pull-left" ng-click="rowDetail.submitFollowup()">Submit &amp; close case</button>
-					<button class="btn btn-default pull-right" ng-click="rowDetail.submitFollowup()">Submit followup</button>
+					<button class="btn btn-default pull-left" ng-click="rowDetail.submitFollowup(newFollowup,'Closed');rowDetail.close()">Submit &amp; close case</button>
+					<button class="btn btn-default pull-right" ng-click="rowDetail.submitFollowup(newFollowup,'Updated');rowDetail.close()">Submit followup</button>
 				</div>
 			</form>
 			<div ng-show="rowDetail.selectedItem.followups.length > 0">

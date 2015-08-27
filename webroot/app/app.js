@@ -131,7 +131,7 @@ angular
 			.primaryPalette('clinica-blue')
 			.accentPalette('open-orange');
 		cfpLoadingBarProvider.includeSpinner = false;
-		$urlRouterProvider.otherwise('/app/dashboard/S_MICU');
+		$urlRouterProvider.otherwise('/app/dashboard/S_MSCMICU');
 		$stateProvider
 			.state('dashboard', {
 				url: '/app/dashboard/:studyId',
