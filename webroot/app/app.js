@@ -31,21 +31,7 @@ angular
 		'app.component.dashboard',
 		'app.component.manage',
 		'app.component.login'
-	]).config(function ($httpProvider) {
-		  $httpProvider.interceptors.push('authinterceptor');
-		}).factory('LocaAuthInterceptorAuthInterceptor', ['$window', '$q', '$injector', function ($window, $q, $injector) {
-		 return {
-		  responseError: function (response) { 
-		   if(response.status === 401){
-			$window.location = '/app/login';
-		   }else if(response.status === 403){
-			$('.modal').modal('hide');
-			$injector.get('$state').transitionTo('forbidden');
-		   }
-		   return $q.reject(response);
-		  }
-		 };
-		}])
+	])
 	.config(function config(
 			$provide,
 			$locationProvider,
@@ -66,10 +52,10 @@ angular
 		});
 		$locationProvider.html5Mode(true);
 		$httpProvider.interceptors.push('httpInterceptor');
-		jwtInterceptorProvider.tokenGetter = ['myService', function(myService) {
-			myService.doSomething();
+		jwtInterceptorProvider.tokenGetter = [function(myService) {
 			return localStorage.getItem('id_token');
 		}];
+		$httpProvider.interceptors.push('jwtInterceptor');
 		$mdThemingProvider.definePalette('dark-grey', {
 			'50': '999999',
 			'100': '888888',
@@ -147,22 +133,6 @@ angular
 			})
 			.state('login', {
 				url: '/app/login',
-				onEnter: function loginModalEnter($modal) {
-					$modal.open({
-						controller: 'LoginController',
-						controllerAs: 'login',
-						templateUrl: '/app/dialogs/login.tpl.html',
-						size: 'sm',
-						resolve: {
-
-						}
-					})
-					.result.finally(function loginModalResultFinally() {
-						console.log('inside finally');
-					});
-				}
-			}).state('forbidden', {
-				url: '/app/forbidden',
 				onEnter: function loginModalEnter($modal) {
 					$modal.open({
 						controller: 'LoginController',

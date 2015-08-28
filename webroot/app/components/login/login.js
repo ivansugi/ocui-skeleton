@@ -1,9 +1,11 @@
 'use strict';
 
-var jwtSecret = 'TokenSecret';
 angular
 	.module('app.component.login', [])
-	.controller('LoginController', function loginController($modalInstance, authService, $state, $window) {
+
+	.controller('LoginController', function loginController($modalInstance, ocuiAuthService, authService,
+			$state, $rootScope) {
+
 		var vm = this;
 		vm.input = {
 			username: '',
@@ -11,16 +13,24 @@ angular
 		};
 		vm.submit = function submit(input) {
 			console.log('input:', input);
-			authService.login(input, function loginAuth(data) {
-				 // If login is successful, redirect to the users state
-				// var token = jwt.sign(data, jwtSecret);
+			ocuiAuthService.login(input).then(function loginSuccess (data) {
 				console.log('data:', data);
-				
-				$window.sessionStorage.token = data.token;
-				$state.go('dashboard',{studyId:'S_MSCMICU'});
+				vm.input.password = '';
+				// Store JWT token from server, needed by angular-jwt
+				localStorage.setItem('id_token', data.id_token);
+
+				// Trigger event from angular-http-auth
+				authService.loginConfirmed(data);
+
+				$rootScope.user = data;
+				$state.go('dashboard', {studyId: 'S_MSCMICU'});
+				//$state.go('dashboard', {studyId: data.activeStudy});
 				$modalInstance.dismiss();
-				//res.redirect("/");
-				//console.log('token:', token);
+			}, function loginFailed (error) {
+				// Trigger event from angular-http-auth
+				authService.loginCancelled(JSON.parse(error.message), 'loginFailure');
+				console.log('error:', data);
+
 			});
 		};
 		vm.close = function close() {

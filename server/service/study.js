@@ -5,7 +5,8 @@ var moment = require('moment');
 var _ = require('lodash');
 var NodeCache = require('node-cache');
 var conf = require('../conf.js');
-
+var httpClient = require('../service/httpClient.js');
+var localStorage = require('localStorage');
 conf.load();
 
 var studyCache = new NodeCache({stdTTL: 119, checkperiod: 120}); //cache lives for 2 minutes
@@ -185,8 +186,10 @@ var getStudy = function(studyId, cb) {
 	var cachedResult;
 	if (cachedResult === undefined) {
         //TODO: pass in APIKEY of logged in user
-		var username = "2870f236b393493dba48ad7fb4d38571";
+		var username = localStorage.getItem("apiKey");
+		console.log('username:', username);
 		var auth = "Basic " + new Buffer(username + ":").toString("base64");
+		console.log('auth:', auth);
 		request(
 		{
 			url : conf.get('ocUrl') + conf.get('odmPrePath') + studyId + conf.get('odmPostPath'),
@@ -205,6 +208,38 @@ var getStudy = function(studyId, cb) {
 				cb(response.statusCode, error);
 			}
 		});
+		/*request(
+		{
+			url : conf.get('ocUrl') + conf.get('odmPrePath') + studyId + conf.get('odmPostPath'),
+			headers : {
+				"Authorization" : auth
+			}
+		}*//*
+		httpClient.get({
+			  url : conf.get('ocUrl') + conf.get('odmPrePath') + studyId + conf.get('odmPostPath'),
+			}).then(
+			function requestSuccess(data) {
+				var result = [];
+				result = parseODM(body);
+				studyCache.set(studyId, result);
+				cb(200, result);
+			},
+			function requestFailed(data) {
+				console.error('Unsuccessful ODM request:', error);
+				cb(response.statusCode, error);
+			});*/
+			/*,function requestStudy(error, response, body) {
+			if (!error && response.statusCode === 200) {
+				var result = [];
+				result = parseODM(body);
+				studyCache.set(studyId, result);
+				cb(200, result);
+			}
+			else {
+				console.error('Unsuccessful ODM request:', error);
+				cb(response.statusCode, error);
+			}*/
+	//	});
 	} else {
 		cb(cachedResult);
 	}

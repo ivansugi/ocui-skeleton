@@ -1,5 +1,7 @@
 'use strict';
 
+// polyfill for promise
+require('es6-promise').polyfill();
 var express = require('express');
 var bodyParser = require('body-parser');
 var errorhandler = require('errorhandler');
