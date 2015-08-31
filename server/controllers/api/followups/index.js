@@ -2,7 +2,7 @@
 
 var conf = require('../../../conf.js');
 var request = require('request');
-
+var localStorage = require('localStorage');
 conf.load();
 
 
@@ -23,7 +23,7 @@ module.exports = {
 		payload.DN_Id = req.body.parentId;
 
 		//TODO: pass in APIKEY of logged in user
-		var username = "2870f236b393493dba48ad7fb4d38571";
+		var username = localStorage.getItem("apiKey");
 		var auth = "Basic " + new Buffer(username + ":").toString("base64");
 		request(
 		{
