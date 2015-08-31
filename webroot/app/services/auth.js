@@ -24,6 +24,20 @@ angular
 					});
 			},
 			logout: function logout() {
+				return $http.post('/api/logout').then(
+					function requestSuccess(response) {
+					    console.log('data', response.data);
+						return response.data;
+					}, function requestFailed(response) {
+						console.log('data', response.data);
+						if (response.status === 400) {
+							throw new Error(response.data);
+						} else {
+							throw new Error(JSON.stringify({
+								unexpected_errors: [response.data]
+							}));
+						}
+					});
 
 			}
 		};
