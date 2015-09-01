@@ -31,7 +31,19 @@ angular
 		'app.component.dashboard',
 		'app.component.manage',
 		'app.component.login'
-	])
+	]).factory('AuthInterceptor', ['$window', '$q', '$injector', function ($window, $q, $injector) {
+	 return {
+	  responseError: function (response) { 
+	   if(response.status === 401){
+		$window.location = '/app/login';
+	   }else if(response.status === 403){
+		$('.modal').modal('hide');
+		$injector.get('$state').transitionTo('forbidden');
+	   }
+	   return $q.reject(response);
+	  }
+	 };
+	}])
 	.config(function config(
 			$provide,
 			$locationProvider,
@@ -113,6 +125,7 @@ angular
 			'contrastDarkColors': ['50', '100', '200', '300', 'A100', 'A200'],
 			'contrastLightColors': undefined
 		});
+		 $httpProvider.interceptors.push('AuthInterceptor');
 		$mdThemingProvider.theme('default')
 			.primaryPalette('clinica-blue')
 			.accentPalette('open-orange');
