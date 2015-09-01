@@ -43,6 +43,7 @@ app.use(bodyParser.json());
 //if its secured then authenticate
 //app.use('/secured', authenticate);
 app.use('/api/studies',authenticate);
+app.use('/api/followups',authenticate);
 if (isNotProduction) {
 	app.use(requestLogger('dev'));
 	app.use(errorhandler());
