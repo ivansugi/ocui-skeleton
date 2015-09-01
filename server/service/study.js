@@ -181,12 +181,16 @@ var parseODM = function parseODM(body) {
 	return result;
 };
 
-var getStudy = function(studyId, cb) {
+var getStudy = function(req,studyId, cb) {
 	//var cachedResult = studyCache.get(studyId);
 	var cachedResult;
 	if (cachedResult === undefined) {
+		console.log('ok:',req.user)
         //TODO: pass in APIKEY of logged in user
-		var username = localStorage.getItem("apiKey");
+		//var username = localStorage.getItem("apiKey-"+req.user.username);
+		
+		//another method
+		var username = req.user.apiKey;
 		console.log('username:', username);
 		var auth = "Basic " + new Buffer(username + ":").toString("base64");
 		console.log('auth:', auth);

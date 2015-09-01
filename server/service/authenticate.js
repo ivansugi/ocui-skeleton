@@ -34,7 +34,12 @@ module.exports = {
 				console.log('cookie', data.response.headers['set-cookie'][0]);
 				if (data.response.statusCode == 200) {
 					console.log('Authentication successful!  Server responded with:', data.body);
-					localStorage.setItem("apiKey",data.body.apiKey);
+					
+					//localStorage.setItem("apiKey-"+data.body.username,data.body.apiKey);
+					//another method
+					
+					console.log(data.body.username);
+					console.log("apikey : ", localStorage.getItem("apiKey-"+data.body.username));
 					return {
 						cookie: data.response.headers['set-cookie'][0],
 						content: data.body

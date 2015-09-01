@@ -40,8 +40,9 @@ var webroot = path.join(__dirname, '../webroot');
 app.use(express.static(webroot));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use('/secured', authenticate);
-
+//if its secured then authenticate
+//app.use('/secured', authenticate);
+app.use('/api/studies',authenticate);
 if (isNotProduction) {
 	app.use(requestLogger('dev'));
 	app.use(errorhandler());

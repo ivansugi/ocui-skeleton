@@ -23,7 +23,9 @@ module.exports = {
 		payload.DN_Id = req.body.parentId;
 
 		//TODO: pass in APIKEY of logged in user
-		var username = localStorage.getItem("apiKey");
+		//var username = localStorage.getItem("apiKey-"+req.user.username);
+		//another method
+		var username = req.user.apiKey;
 		var auth = "Basic " + new Buffer(username + ":").toString("base64");
 		request(
 		{
