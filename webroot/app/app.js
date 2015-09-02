@@ -43,6 +43,16 @@ angular
 	   return $q.reject(response);
 	  }
 	 };
+	}]).factory('ResponseInterceptor', ['$window', '$q', '$injector', function ($window, $q, $injector) {
+	 return {
+	  responseError: function (response) { 
+	  //TODO : add with 500 error page
+	   if(response.status === 500){
+		$window.location = '/app/login';
+	   }
+	   return $q.reject(response);
+	  }
+	 };
 	}])
 	.config(function config(
 			$provide,
@@ -126,6 +136,7 @@ angular
 			'contrastLightColors': undefined
 		});
 		 $httpProvider.interceptors.push('AuthInterceptor');
+		  $httpProvider.interceptors.push('ResponseInterceptor');
 		$mdThemingProvider.theme('default')
 			.primaryPalette('clinica-blue')
 			.accentPalette('open-orange');

@@ -4,6 +4,18 @@ angular
 	.module('app.component.manage', [])
 	.controller('ManageController', function manageController(toaster, SOUNDS) {
 		var vm = this;
+		var rolesJson = localStorage.getItem("roles");
+		var roles = JSON.parse(rolesJson);
+		vm.studyOptions = [];
+		vm.studyOptions2 = [];
+		console.log("roles :", roles)
+		for (index = 0, len = roles.length; index < len; ++index) {
+		    console.log("role name :",roles[index].studyOID);
+		    vm.studyOptions.push(roles[index].studyOID);
+		    vm.studyOptions2.push(roles[index].studyOID);
+		}
+		/*
+		
 		vm.studyOptions = [
 			{
 				id: 'S_MSCMICU'
@@ -12,7 +24,9 @@ angular
 				id: 'S_MSCONC'
 			}
 		];
-		vm.studyOptions2 = ['S_MSCMICU', 'S_MSCONC'];
+		//console.log("roles studyOptions:",  vm.studyOptions);
+		//console.log("roles studyOptions2:",  vm.studyOptions2);
+		vm.studyOptions2 = ['S_MSCMICU', 'S_MSCONC'];*/
 		vm.studyChanged = function(newStudy) {
 			toaster.pop({
 				type: 'success',
