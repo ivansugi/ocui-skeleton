@@ -45,5 +45,5 @@ angular
 				}
 			});
 		};
-		vm.currentStudy = 'S_MSCMICU';
+		vm.currentStudy = localStorage.getItem("roles_active");
 	});

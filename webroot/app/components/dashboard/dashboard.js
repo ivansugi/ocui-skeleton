@@ -4,7 +4,9 @@ angular
 	.module('app.component.dashboard', ['gridster'])
 	.controller('DashboardController', function dashboardController($scope, $modal, $stateParams, studyService, toaster) {
 		var vm = this;
-		studyService.get($stateParams.studyId, function getResults(data) {
+		console.log("studyId", $stateParams.studyId);
+		var studyId =  localStorage.getItem("roles_active");
+		studyService.get(studyId, function getResults(data) {
 			vm.tableData = data;
 		});
 		$scope.selectedItems = [];
@@ -34,7 +36,8 @@ angular
 	})
 	.controller('RowDetailModalController', function rowDetailController($modalInstance, toaster, selectedItem, SOUNDS,$http) {
 		var vm = this;
-		vm.selectedItem = selectedItem;
+		//vm.selectedItem = selectedItem;
+		vm.selectedItem = localStorage.getItem("roles_active");
 		console.log('Selected item:', selectedItem);
 		vm.close = function close() {
 			$modalInstance.close();

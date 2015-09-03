@@ -18,7 +18,7 @@ angular
 				vm.input.password = '';
 				// Store JWT token from server, needed by angular-jwt
 				localStorage.setItem('id_token', data.id_token);
-				localStorage.setItem('roles', data.roles);
+				
 				console.log('roles:', data.roles);
 				// Trigger event from angular-http-auth
 				authService.loginConfirmed(data);
@@ -27,6 +27,7 @@ angular
 				console.log('authService', authService);
 				localStorage.setItem('roles', JSON.stringify(data.roles));
 				$state.go('dashboard', {studyId: data.roles[0].studyOID});
+				localStorage.setItem('role_active',  data.roles[0].studyOID);
 				//$state.go('dashboard', {studyId: data.activeStudy});
 				$modalInstance.dismiss();
 			}, function loginFailed (error) {

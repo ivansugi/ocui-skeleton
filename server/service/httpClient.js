@@ -5,7 +5,7 @@
  */
 
 var request = require('request');
-
+request.debug = true;
 // our own error class
 function ConnectionError(message) {
 	this.message = message;
