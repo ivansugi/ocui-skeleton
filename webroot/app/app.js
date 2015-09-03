@@ -136,12 +136,12 @@ angular
 			'contrastLightColors': undefined
 		});
 		 $httpProvider.interceptors.push('AuthInterceptor');
-		  $httpProvider.interceptors.push('ResponseInterceptor');
+		 $httpProvider.interceptors.push('ResponseInterceptor');
 		$mdThemingProvider.theme('default')
 			.primaryPalette('clinica-blue')
 			.accentPalette('open-orange');
 		cfpLoadingBarProvider.includeSpinner = false;
-		$urlRouterProvider.otherwise('/app/dashboard/S_MSCMICU');
+		$urlRouterProvider.otherwise('/app/dashboard/'+ localStorage.getItem('role_active'));
 		$stateProvider
 			.state('dashboard', {
 				url: '/app/dashboard/:studyId',

@@ -26,8 +26,10 @@ angular
 				$rootScope.user = data;
 				console.log('authService', authService);
 				localStorage.setItem('roles', JSON.stringify(data.roles));
-				$state.go('dashboard', {studyId: data.roles[0].studyOID});
 				localStorage.setItem('role_active',  data.roles[0].studyOID);
+				console.log("role_active : ",data.roles[0].studyOID)
+				$state.go('dashboard', {studyId: localStorage.getItem('role_active')});
+
 				//$state.go('dashboard', {studyId: data.activeStudy});
 				$modalInstance.dismiss();
 			}, function loginFailed (error) {

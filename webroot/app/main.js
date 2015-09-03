@@ -45,5 +45,5 @@ angular
 				}
 			});
 		};
-		vm.currentStudy = localStorage.getItem("roles_active");
+		vm.currentStudy = localStorage.getItem("role_active");
 	});

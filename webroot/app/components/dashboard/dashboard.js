@@ -5,7 +5,7 @@ angular
 	.controller('DashboardController', function dashboardController($scope, $modal, $stateParams, studyService, toaster) {
 		var vm = this;
 		console.log("studyId", $stateParams.studyId);
-		var studyId =  localStorage.getItem("roles_active");
+		var studyId =  localStorage.getItem("role_active");
 		studyService.get(studyId, function getResults(data) {
 			vm.tableData = data;
 		});
