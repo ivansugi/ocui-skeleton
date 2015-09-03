@@ -27,7 +27,8 @@ angular
 				console.log('authService', authService);
 				localStorage.setItem('roles', JSON.stringify(data.roles));
 				localStorage.setItem('role_active',  data.roles[0].studyOID);
-				console.log("role_active : ",data.roles[0].studyOID)
+				console.log("role_active : ",data.roles[0].studyOID);
+				vm.currentStudy = data.roles[0].studyOID;
 				$state.go('dashboard', {studyId: localStorage.getItem('role_active')});
 
 				//$state.go('dashboard', {studyId: data.activeStudy});

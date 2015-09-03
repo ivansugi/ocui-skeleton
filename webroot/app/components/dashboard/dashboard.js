@@ -36,8 +36,8 @@ angular
 	})
 	.controller('RowDetailModalController', function rowDetailController($modalInstance, toaster, selectedItem, SOUNDS,$http) {
 		var vm = this;
-		//vm.selectedItem = selectedItem;
-		vm.selectedItem = localStorage.getItem("roles_active");
+		vm.selectedItem = selectedItem;
+		//vm.selectedItem = localStorage.getItem("role_active");
 		console.log('Selected item:', selectedItem);
 		vm.close = function close() {
 			$modalInstance.close();
