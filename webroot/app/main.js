@@ -2,7 +2,7 @@
 
 angular
 	.module('app.main', [])
-	.controller('MainController', function mainController($state, $modal) {
+	.controller('MainController', function mainController($state, $modal, ocuiAuthService) {
 		var vm = this;
 		vm.$state = $state;
 		vm.canFullscreen = Modernizr.fullscreen;
@@ -45,5 +45,8 @@ angular
 				}
 			});
 		};
+        vm.logout = function logoutUser() {
+            ocuiAuthService.logout();
+        };
 		vm.currentStudy = localStorage.getItem("role_active");
 	});

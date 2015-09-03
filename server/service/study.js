@@ -1,12 +1,12 @@
 'use strict';
 
-var request = require('request');
 var moment = require('moment');
 var _ = require('lodash');
 var NodeCache = require('node-cache');
+
 var conf = require('../conf.js');
-var httpClient = require('../service/httpClient.js');
-var localStorage = require('localStorage');
+var httpClient = require('./httpClient');
+
 conf.load();
 
 var studyCache = new NodeCache({stdTTL: 119, checkperiod: 120}); //cache lives for 2 minutes
@@ -50,7 +50,6 @@ var parseODM = function parseODM(body) {
 				metadata.studySubjectOID = currentSubject['@SubjectKey'];
 				metadata.studyEventOID = currentStudyEvent['@StudyEventOID'];
 				console.log(metadata);
-
 
 				// follow up
 				if (currentStudyEvent['OpenClinica:DiscrepancyNotes']) {
@@ -181,74 +180,51 @@ var parseODM = function parseODM(body) {
 	return result;
 };
 
-var getStudy = function(req,studyId, cb) {
-	//var cachedResult = studyCache.get(studyId);
-	var cachedResult;
+// Our own error classes.
+function StudyRequestError(message) {
+	this.message = message;
+	this.stack = Error().stack;
+}
+StudyRequestError.prototype = Object.create(Error.prototype);
+StudyRequestError.prototype.name = 'StudyRequestError';
+
+var getStudy = function(req, studyId) {
+	var cacheKey = req.user.apiKey + ':' + studyId;
+	var cachedResult = studyCache.get(cacheKey);
+
 	if (cachedResult === undefined) {
-		console.log('ok:',req.user)
-        //TODO: pass in APIKEY of logged in user
-		//var username = localStorage.getItem("apiKey-"+req.user.username);
-		
-		//another method
-		var username = req.user.apiKey;
-		console.log('username:', username);
-		var auth = "Basic " + new Buffer(username + ":").toString("base64");
-		console.log('auth:', auth);
-		request(
-		{
-			url : conf.get('ocUrl') + conf.get('odmPrePath') + studyId + conf.get('odmPostPath'),
-			headers : {
-				"Authorization" : auth
+		return httpClient.get(
+			req,
+			{
+				url : conf.get('ocUrl') + conf.get('odmPrePath') + studyId + conf.get('odmPostPath'),
+				headers: {
+					'Accept': 'application/json'
+				}
 			}
-		},function requestStudy(error, response, body) {
-			if (!error && response.statusCode === 200) {
-				var result = [];
-				result = parseODM(body);
-				studyCache.set(studyId, result);
-				cb(200, result);
+		).then(
+			function getStudySuccessful(data) {
+				if (data.response.statusCode === 200) {
+					data.result = [];
+					data.result = parseODM(data.body);
+					studyCache.set(cacheKey, data.result);
+					return data;
+				} else {
+					console.error('Unsuccessful ODM request:', data.body);
+					throw new StudyRequestError('Unable to fetch study metadata');
+				}
 			}
-			else {
-				console.error('Unsuccessful ODM request:', error);
-				cb(response.statusCode, error);
-			}
-		});
-		/*request(
-		{
-			url : conf.get('ocUrl') + conf.get('odmPrePath') + studyId + conf.get('odmPostPath'),
-			headers : {
-				"Authorization" : auth
-			}
-		}*//*
-		httpClient.get({
-			  url : conf.get('ocUrl') + conf.get('odmPrePath') + studyId + conf.get('odmPostPath'),
-			}).then(
-			function requestSuccess(data) {
-				var result = [];
-				result = parseODM(body);
-				studyCache.set(studyId, result);
-				cb(200, result);
-			},
-			function requestFailed(data) {
-				console.error('Unsuccessful ODM request:', error);
-				cb(response.statusCode, error);
-			});*/
-			/*,function requestStudy(error, response, body) {
-			if (!error && response.statusCode === 200) {
-				var result = [];
-				result = parseODM(body);
-				studyCache.set(studyId, result);
-				cb(200, result);
-			}
-			else {
-				console.error('Unsuccessful ODM request:', error);
-				cb(response.statusCode, error);
-			}*/
-	//	});
+		);
 	} else {
-		cb(cachedResult);
+		return new Promise(function promiseWorker(resolve, reject) {
+			resolve(cachedResult);
+		});
 	}
 };
 
 module.exports = {
+	StudyRequestError: StudyRequestError,
+
 	get: getStudy
 };
+
+/* vim: set ts=4 sw=4 tw=132 noet: */

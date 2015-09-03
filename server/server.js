@@ -40,10 +40,6 @@ var webroot = path.join(__dirname, '../webroot');
 app.use(express.static(webroot));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-//if its secured then authenticate
-//app.use('/secured', authenticate);
-app.use('/api/studies',authenticate);
-app.use('/api/followups',authenticate);
 if (isNotProduction) {
 	app.use(requestLogger('dev'));
 	app.use(errorhandler());
@@ -71,12 +67,15 @@ app.get('/app/*',
 app.resource('api/clientlogger');
 
 app.resource('api/tokens', function(){});
-app.resource('api/followups', function(){});
 
 /**
  * Resources requiring authentication
  */
+app.use('/api/studies', authenticate);
 app.resource('api/studies', {id: 'id'});
+
+app.use('/api/followups', authenticate);
+app.resource('api/followups', function(){});
 
 
 /**

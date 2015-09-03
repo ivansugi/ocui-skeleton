@@ -6,6 +6,7 @@ angular
 		var vm = this;
 		var rolesJson = localStorage.getItem("roles");
 		var roles = JSON.parse(rolesJson);
+        var index, len;
 		vm.studyOptions = [];
 		vm.studyOptions2 = [];
 		console.log("roles :", roles)

@@ -39,6 +39,7 @@ var gulpDocs = require('gulp-ngdocs');
 var jsdoc = require('gulp-jsdoc');
 var nodemon = require('gulp-nodemon');
 var browserSync = require('browser-sync');
+var plugins = require('gulp-load-plugins')();
 // var spa = require('browser-sync-spa');
 
 var browserReload = browserSync.reload;
@@ -74,9 +75,93 @@ var clone = function clone(obj) {
 };
 
 /**
+ * Functions and factories (??) used in module's gulp configuration.
+ */
+var gulpHelper = {
+	basename: function(path) {
+		return path.replace(/.*\//, '');
+	},
+
+	dirname: function(path) {
+		return path.replace(/\/[^\/]*$/, '');
+	},
+
+	createGulpTaskMocha: function(name, files) {
+		return gulp.task(name, function() {
+			return gulp.src(files)
+				.pipe(plugins.plumber(function(error) {
+					console.log(error.message);
+					this.emit('end');
+				}))
+				.pipe(plugins.mocha({reporter: 'nyan'}));
+		});
+	},
+
+	createGulpTaskJscs: function(name, files) {
+		return gulp.task(name, function() {
+			return gulp.src(files)
+				.pipe(plugins.plumber(function(error) {
+					console.log(error.message);
+					this.emit('end');
+				}))
+				.pipe(plugins.jscs());
+		});
+	},
+
+	createGulpTaskJshint: function(name, files) {
+		return gulp.task(name, function() {
+			return gulp.src(files)
+				.pipe(plugins.plumber(function(error) {
+					console.log(error.message);
+					this.emit('end');
+				}))
+				.pipe(plugins.jshint())
+				.pipe(plugins.jshint.reporter('jshint-stylish'));
+		});
+	},
+
+	createGulpTaskFlowType: function(name, files) {
+		return gulp.task(name, function() {
+			return gulp.src(files)
+				.pipe(plugins.plumber(function(error) {
+					console.log(error.message);
+					this.emit('end');
+				}))
+				.pipe(plugins.flowtype({
+					all: false,
+					weak: false,
+					declarations: './declarations',
+					killFlow: false,
+					beep: true,
+					abort: false
+				}));
+		});
+	}
+};
+
+/**
  * TASKS
  * =====
  */
+
+function getUnitTestTasks(task) {
+    var config = require('./' + task + '/gulpConfig.js');
+    if (config && config.unittest) {
+        return config.unittest(gulp, plugins, gulpHelper);
+    }
+}
+
+gulp.task('tasks-server_controllers_api_followups',
+        getUnitTestTasks('server/controllers/api/followups'));
+
+gulp.task('tasks-server_controllers_api_studies',
+        getUnitTestTasks('server/controllers/api/studies'));
+
+gulp.task('tasks-server_controllers_api_tokens',
+        getUnitTestTasks('server/controllers/api/tokens'));
+
+gulp.task('tasks-server_service',
+        getUnitTestTasks('server/service'));
 
 /**
  * js-code-style
@@ -382,7 +467,14 @@ gulp.task('min', ['js-head-min', 'js-body-min', 'css-min']);
  * dev
  * All development mode tasks in one command
  */
-gulp.task('dev', ['lint', 'test', 'browser-sync']);
+gulp.task('dev', [
+	'tasks-server_controllers_api_followups',
+	'tasks-server_controllers_api_studies',
+	'tasks-server_controllers_api_tokens',
+	'tasks-server_service',
+	'lint',
+	'test',
+	'browser-sync']);
 
 /**
  * prod
