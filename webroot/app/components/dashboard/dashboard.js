@@ -4,7 +4,12 @@ angular
 	.module('app.component.dashboard', ['gridster'])
 	.controller('DashboardController', function dashboardController($scope, $modal, $stateParams, studyService, toaster) {
 		var vm = this;
+		vm.currentStudy =  $stateParams.studyId;
+		//$scope.currentStudy = vm.currentStudy;
+		vm.ini = "hmmm";
+		console.log('hmmmmmmmmmmmmmmmmmmmmmmm');
 		console.log("studyId", $stateParams.studyId);
+		console.log("current study", vm.currentStudy);
 		var studyId =  localStorage.getItem("role_active");
 		studyService.get(studyId, function getResults(data) {
 			vm.tableData = data;

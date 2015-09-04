@@ -4,6 +4,7 @@ angular
 	.module('app.main', [])
 	.controller('MainController', function mainController($state, $modal) {
 		var vm = this;
+		//vm.currentStudy = localStorage.getItem("role_active");
 		vm.$state = $state;
 		vm.canFullscreen = Modernizr.fullscreen;
 		vm.sidenavExpanded = (document.body.clientWidth >= 768) ? true : false;
@@ -45,5 +46,5 @@ angular
 				}
 			});
 		};
-		vm.currentStudy = localStorage.getItem("role_active");
+		//vm.currentStudy = localStorage.getItem("role_active");
 	});

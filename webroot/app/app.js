@@ -176,6 +176,7 @@ angular
 					url:'/app/logout',
 					onEnter:function destroy($state) {
 						console.log('inside finally');
+						this.currentStudy = "";
 						localStorage.clear();
 						$state.go('login');
 					}

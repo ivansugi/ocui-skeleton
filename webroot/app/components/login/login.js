@@ -24,6 +24,7 @@ angular
 				authService.loginConfirmed(data);
 
 				$rootScope.user = data;
+				$rootScope.generalActiveStudy = data.roles[0].studyOID;
 				console.log('authService', authService);
 				localStorage.setItem('roles', JSON.stringify(data.roles));
 				localStorage.setItem('role_active',  data.roles[0].studyOID);

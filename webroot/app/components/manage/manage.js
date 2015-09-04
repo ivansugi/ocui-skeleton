@@ -29,6 +29,7 @@ angular
 		vm.studyOptions2 = ['S_MSCMICU', 'S_MSCONC'];*/
 		vm.studyChanged = function(newStudy) {
 			localStorage.setItem("role_active", newStudy);
+			vm.currentStudy = localStorage.getItem("role_active");
 			toaster.pop({
 				type: 'success',
 				title: 'Study changed',
