@@ -6,7 +6,7 @@ angular
 		var vm = this;
 		vm.currentStudy =  $stateParams.studyId;
 		//$scope.currentStudy = vm.currentStudy;
-		vm.ini = "hmmm";
+		//vm.ini = "hmmm";
 		console.log('hmmmmmmmmmmmmmmmmmmmmmmm');
 		console.log("studyId", $stateParams.studyId);
 		console.log("current study", vm.currentStudy);
@@ -24,11 +24,18 @@ angular
 					resolve: {
 						selectedItem: function() {
 							return $scope.selectedItems[0];
-						}
+						},studyId:studyId
 					}
 				})
 				.result.then(function() {
 					$scope.selectedItems = [];
+					console.log('result');
+					console.log(studyService);
+					console.log(vm);
+					//vm.tableData
+					studyService.get(studyId, function getResults(data) {
+						vm.tableData = data;
+					});
 				});
 			}
 		});
@@ -39,10 +46,11 @@ angular
 			bodyOutputType: 'trustedHtml'
 		});
 	})
-	.controller('RowDetailModalController', function rowDetailController($modalInstance, toaster, selectedItem, SOUNDS,$http) {
+	.controller('RowDetailModalController', function rowDetailController($modalInstance, toaster, selectedItem, studyId, SOUNDS,$http, $state) {
 		var vm = this;
 		vm.selectedItem = selectedItem;
 		//vm.selectedItem = localStorage.getItem("role_active");
+		console.log('state:', $state);
 		console.log('Selected item:', selectedItem);
 		vm.close = function close() {
 			$modalInstance.close();
@@ -64,6 +72,7 @@ angular
 						bodyOutputType: 'trustedHtml'
 					});
 					SOUNDS.success.play();
+					$modalInstance.close();
 				})
 				.error(function postAuthFail(data, status) {
 					console.log('here....');
@@ -74,7 +83,14 @@ angular
 						bodyOutputType: 'trustedHtml'
 					});
 					SOUNDS.error.play();
+					$modalInstance.close();
 				});
 		};
 		SOUNDS.popup.play();
+		console.log('redirect:', $state);
+		/*
+		studyService.get(studyId, function getResults(data) {
+			vm.tableData = data;
+		});*/
+		//$state.go('dashboard', {studyId: localStorage.getItem('role_active')});
 	});

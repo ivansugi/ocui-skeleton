@@ -2,8 +2,11 @@
 
 angular
 	.module('app.component.manage', [])
-	.controller('ManageController', function manageController(toaster, SOUNDS) {
+	.controller('ManageController', function manageController($scope,toaster, SOUNDS) {
 		var vm = this;
+		//$scope.$parent.currentStudy = localStorage.getItem("role_active");
+		
+		//main.currentStudy = localStorage.getItem("role_active");
 		var rolesJson = localStorage.getItem("roles");
 		var roles = JSON.parse(rolesJson);
 		vm.studyOptions = [];

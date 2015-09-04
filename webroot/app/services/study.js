@@ -5,7 +5,8 @@ angular
 	.factory('studyService', function studyService($http, $cacheFactory) {
 		return {
 			get: function get(studyId, cb) {
-				$http.get('/api/studies/' + studyId, {cache: true})
+				// $http.get('/api/studies/' + studyId, {cache: true})
+				$http.get('/api/studies/' + studyId)
 					.success(function getStudySuccess(data) {
 						setTimeout(function removeCache() {
 							console.log('remove:', studyId);
