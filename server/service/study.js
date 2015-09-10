@@ -22,8 +22,28 @@ var parseODM = function parseODM(body) {
 	var result = [];
 	try {
 		var studyResponse = JSON.parse(body);
-		for (var iSubject = 0; iSubject < studyResponse.ClinicalData.SubjectData.length; iSubject++) {
-			var currentSubject = studyResponse.ClinicalData.SubjectData[iSubject];
+		console.log("parseODM", studyResponse);
+		var init = [];
+		console.log("SubjectData length", objLength(studyResponse.ClinicalData.SubjectData));
+		if (typeof studyResponse.ClinicalData.SubjectData.length === "undefined") {
+			init[0] = studyResponse.ClinicalData.SubjectData;
+		} else 
+		{
+
+			init = studyResponse.ClinicalData.SubjectData;
+		}
+		console.log("init", init);
+		for (var iSubject = 0; iSubject < init.length; iSubject++) {
+
+			var currentSubject= init[iSubject];
+			/*
+			if (objLength(studyResponse.ClinicalData.SubjectData) > 1){ 
+				currentSubject= studyResponse.ClinicalData.SubjectData[iSubject];
+			} else {
+				currentSubject= studyResponse.ClinicalData.SubjectData;
+
+			}*/
+			console.log("inside for", currentSubject);
 			var date = moment(currentSubject.StudyEventData['@OpenClinica:StartDate'], 'D-MMM-YYYY').toDate();
 			var name = '';
 			var room = '';
@@ -180,6 +200,15 @@ var parseODM = function parseODM(body) {
 	}
 	return result;
 };
+function objLength(obj){
+  var i=0;
+  for (var x in obj){
+    if(obj.hasOwnProperty(x)){
+      i++;
+    }
+  } 
+  return i;
+}
 
 var getStudy = function(req,studyId, cb) {
 	//var cachedResult = studyCache.get(studyId);
@@ -202,10 +231,14 @@ var getStudy = function(req,studyId, cb) {
 			}
 		},function requestStudy(error, response, body) {
 			if (!error && response.statusCode === 200) {
+
 				var result = [];
+				console.log("raw response", body);
 				result = parseODM(body);
+				console.log('studyret',result);
 				studyCache.set(studyId, result);
 				cb(200, result);
+				
 			}
 			else {
 				console.error('Unsuccessful ODM request:', error);
